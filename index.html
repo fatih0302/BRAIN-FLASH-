@@ -3,30 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BrainRecall Trivia - Knowledge Memory Game</title>
+  <title>BrainRecall Extreme Trivia</title>
   <style>
     :root {
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
-      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
-      --card-bg: rgba(255, 255, 255, 0.08);
-      --card-border: rgba(255, 255, 255, 0.15);
+      --primary: #6366f1;
+      --bg-gradient: radial-gradient(circle at top, #1e1b4b, #0f172a, #020617);
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.12);
       --text-main: #f8fafc;
       --text-sub: #94a3b8;
-      --success: #10b981;
-      --danger: #ef4444;
       --accent: #f59e0b;
+      --danger: #ef4444;
+      --success: #10b981;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
 
     body {
       background: var(--bg-gradient);
+      background-attachment: fixed;
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
@@ -36,643 +31,332 @@
       padding: 12px;
     }
 
-    .container {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-    }
+    .container { width: 100%; max-width: 650px; margin: 0 auto; flex-grow: 1; }
 
-    header {
-      text-align: center;
-      margin-bottom: 15px;
-    }
-
-    h1 {
-      font-size: 1.6rem;
-      color: #ffffff;
-      text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
-      margin-bottom: 4px;
-    }
-
-    p.subtitle {
-      color: var(--text-sub);
-      font-size: 0.9rem;
-    }
+    header { text-align: center; margin-bottom: 15px; }
+    h1 { font-size: 1.8rem; color: #fff; text-shadow: 0 0 12px var(--primary); letter-spacing: 0.5px; }
+    p.subtitle { color: var(--text-sub); font-size: 0.85rem; }
 
     .status-bar {
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(10px);
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(12px);
       border: 1px solid var(--card-border);
       border-radius: 14px;
       padding: 12px 16px;
       margin-bottom: 15px;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
 
-    .status-flex {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .timer-box, .stat-box {
-      font-size: 0.95rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .timer-value {
-      color: var(--accent);
-      font-size: 1.2rem;
-      font-family: monospace;
-      font-weight: bold;
-    }
-
+    .status-flex { display: flex; width: 100%; justify-content: space-between; align-items: center; }
+    .timer-value { color: var(--accent); font-size: 1.3rem; font-weight: bold; font-family: monospace; }
+    
     .btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 0.9rem;
-      white-space: nowrap;
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
-    }
-
-    .btn:active {
-      transform: scale(0.98);
+      background: var(--primary); color: white; border: none; padding: 10px 18px;
+      border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.9rem;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
     }
 
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 12px;
-      max-height: 60vh;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      max-height: 58vh;
       overflow-y: auto;
       padding-right: 4px;
-      margin-bottom: 10px;
-    }
-
-    .cards-grid::-webkit-scrollbar {
-      width: 5px;
-    }
-    .cards-grid::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 4px;
     }
 
     .card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 12px 10px;
+      padding: 10px;
+      text-align: center;
       position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 120px;
-      text-align: center;
-      backdrop-filter: blur(5px);
     }
 
-    .card-number {
-      position: absolute;
-      top: 6px;
-      left: 8px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--accent);
-      background: rgba(245, 158, 11, 0.15);
-      padding: 1px 6px;
-      border-radius: 4px;
+    .card-num {
+      position: absolute; top: 5px; left: 8px; font-size: 0.7rem; font-weight: bold; color: var(--accent);
     }
 
-    .card-img {
-      width: 42px;
-      height: 42px;
-      object-fit: contain;
-      margin-top: 10px;
-      margin-bottom: 6px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-    }
+    .card-img { width: 45px; height: 45px; object-fit: contain; margin: 6px 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+    .card-title { font-weight: 700; color: #818cf8; font-size: 0.85rem; margin-bottom: 2px; }
+    .card-ans { font-size: 0.8rem; color: #f1f5f9; font-weight: 600; }
 
-    .card-content {
-      font-size: 0.85rem;
-      line-height: 1.3;
-    }
-
-    .card-title {
-      font-weight: 700;
-      color: #60a5fa;
-      margin-bottom: 3px;
-    }
-
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(8px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      padding: 20px;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .modal-card {
-      background: #1e293b;
-      border: 1px solid var(--card-border);
-      padding: 25px 20px;
-      border-radius: 18px;
-      text-align: center;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-    }
-
-    .modal-title {
-      font-size: 1.15rem;
-      margin-bottom: 18px;
-      line-height: 1.4;
-    }
-
-    .modal-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .btn-option {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--card-border);
-      color: white;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-option:active {
-      background: var(--primary);
-    }
-
-    .quiz-container {
+    .quiz-box {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
       padding: 20px 16px;
+      border-radius: 16px;
       backdrop-filter: blur(10px);
-      width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
+      text-align: center;
     }
 
-    .question-header {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      color: var(--text-sub);
-      margin-bottom: 12px;
-    }
+    .q-img-large { width: 70px; height: 70px; object-fit: contain; margin: 0 auto 12px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
+    .q-text { font-size: 1rem; font-weight: 700; margin-bottom: 15px; line-height: 1.4; color: #f1f5f9; }
 
-    .question-text {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 20px;
-      line-height: 1.4;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .question-img {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-    }
-
-    .options-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
+    .options-grid { display: flex; flex-direction: column; gap: 8px; }
     .opt-btn {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--card-border);
-      color: var(--text-main);
-      padding: 12px 14px;
-      border-radius: 10px;
-      text-align: left;
-      font-size: 0.9rem;
-      cursor: pointer;
-      line-height: 1.3;
+      color: white; padding: 12px; border-radius: 10px; font-size: 0.9rem;
+      text-align: left; cursor: pointer; font-weight: 500;
     }
 
-    .opt-btn.correct {
-      background: rgba(16, 185, 129, 0.25) !important;
-      border-color: var(--success) !important;
-      color: #6ee7b7;
-    }
-
-    .opt-btn.wrong {
-      background: rgba(239, 68, 68, 0.25) !important;
-      border-color: var(--danger) !important;
-      color: #fca5a5;
-    }
-
-    .feedback-message {
-      min-height: 20px;
-      margin-top: 10px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-align: center;
-    }
+    .opt-btn.correct { background: rgba(16, 185, 129, 0.3) !important; border-color: var(--success) !important; color: #6ee7b7; }
+    .opt-btn.wrong { background: rgba(239, 68, 68, 0.3) !important; border-color: var(--danger) !important; color: #fca5a5; }
 
     .end-screen {
-      text-align: center;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      padding: 30px 20px;
-      border-radius: 18px;
-      backdrop-filter: blur(10px);
-      width: 100%;
-      max-width: 450px;
-      margin: 0 auto;
+      text-align: center; background: var(--card-bg); border: 1px solid var(--card-border);
+      padding: 30px 20px; border-radius: 18px; backdrop-filter: blur(10px);
     }
 
-    .score-display {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: var(--accent);
-      margin: 10px 0;
-    }
-
-    .quote-box {
-      font-style: italic;
-      color: #cbd5e1;
-      margin: 15px 0 25px 0;
-      font-size: 0.9rem;
-      line-height: 1.5;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 12px;
-      border-radius: 8px;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 20px;
-      padding: 10px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      width: 100%;
-    }
-
-    .author-info {
-      font-size: 0.85rem;
-      color: var(--text-sub);
-      letter-spacing: 0.5px;
-      font-weight: 600;
-    }
-
-    .hidden {
-      display: none !important;
-    }
+    footer { text-align: center; margin-top: 15px; font-size: 0.8rem; color: var(--text-sub); }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
   <div class="container">
     <header>
-      <h1>BrainRecall Trivia</h1>
-      <p class="subtitle" id="phase-title">Fase Memorize: Hafalkan Kartu Berikut!</p>
+      <h1>BrainRecall Extreme</h1>
+      <p class="subtitle" id="phase-title">Fase Memorize: Hafalkan Gambar & Fakta!</p>
     </header>
 
-    <div class="status-bar" id="status-bar">
-      <div id="memorize-status" class="status-flex">
-        <div class="timer-box">
-          <span>⏱️ Sisa:</span>
-          <span class="timer-value" id="timer">10:00</span>
-        </div>
-        <button class="btn" id="btn-ready">Saya Siap!</button>
+    <div class="status-bar">
+      <div id="memorize-ui" class="status-flex">
+        <div>⏱️ Sisa Waktu: <span class="timer-value" id="timer">05:00</span></div>
+        <button class="btn" id="btn-ready">SAYA SIAP!</button>
       </div>
-
-      <div id="recall-status" class="status-flex hidden">
-        <div class="stat-box">❤️ Nyawa: <span id="lives-display" style="color: var(--danger);">10</span></div>
-        <div class="stat-box">⭐ Poin: <span id="score-display" style="color: var(--accent);">0</span></div>
+      <div id="recall-ui" class="status-flex hidden">
+        <div>❤️ Nyawa: <span id="lives" style="color: var(--danger); font-weight: bold;">6</span></div>
+        <div>⭐ Skor: <span id="score" style="color: var(--accent); font-weight: bold;">0</span></div>
       </div>
     </div>
 
-    <div id="memorize-phase">
-      <div class="cards-grid" id="cards-container"></div>
+    <!-- FASE MEMORIZE -->
+    <div id="memorize-phase" class="cards-grid"></div>
+
+    <!-- FASE RECALL -->
+    <div id="recall-phase" class="hidden quiz-box">
+      <div id="q-number" style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 8px;">Soal 1/20</div>
+      <img id="q-img" class="q-img-large" src="" alt="Soal">
+      <div class="q-text" id="q-txt">Pertanyaan...</div>
+      <div class="options-grid" id="options-container"></div>
+      <div id="feedback" style="margin-top: 10px; font-size: 0.85rem; font-weight: bold; min-height: 20px;"></div>
     </div>
 
-    <div id="recall-phase" class="hidden">
-      <div class="quiz-container">
-        <div class="question-header">
-          <span id="question-number">Pertanyaan 1/20</span>
-        </div>
-        <div class="question-text" id="question-text">
-          <img id="q-img" class="question-img" src="" alt="Icon">
-          <span id="q-txt">Teks Pertanyaan...</span>
-        </div>
-        <div class="options-grid" id="options-container"></div>
-        <div class="feedback-message" id="feedback"></div>
-      </div>
-    </div>
-
-    <div id="end-phase" class="hidden">
-      <div class="end-screen">
-        <h2 id="end-title">Game Selesai!</h2>
-        <p style="margin-top: 8px; color: var(--text-sub); font-size: 0.9rem;">Poin Akhir Anda:</p>
-        <div class="score-display" id="final-score">0</div>
-        
-        <div class="quote-box" id="quote-text">"Kata-kata motivasi..."</div>
-
-        <button class="btn" id="btn-restart" style="padding: 12px 24px; font-size: 1rem;">
-          🔄 Ulang Game
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="ready-modal">
-    <div class="modal-card">
-      <h3 class="modal-title">Apakah kalian siap lanjut ke fase recall?</h3>
-      <div class="modal-buttons">
-        <button class="btn-option" onclick="startRecallPhase()">A. SIAPPPP BANGETT</button>
-        <button class="btn-option" onclick="startRecallPhase()">B. SIAP</button>
-      </div>
+    <!-- FASE SELESAI -->
+    <div id="end-phase" class="hidden end-screen">
+      <h2 id="end-title">Game Selesai!</h2>
+      <p style="color: var(--text-sub); margin-top: 5px;">Skor Akhir Anda:</p>
+      <div style="font-size: 2.8rem; font-weight: 800; color: var(--accent); margin: 10px 0;" id="final-score">0</div>
+      <button class="btn" onclick="location.reload()" style="padding: 12px 24px; font-size: 1rem;">🔄 Coba Lagi</button>
     </div>
   </div>
 
   <footer>
-    <div class="author-info">
-      Muhamad Fatih Sopwanudin<br>
-      <span style="font-size: 0.75rem; color: #64748b;">SMAN 1 CIJERUK</span>
-    </div>
+    Muhamad Fatih Sopwanudin - SMAN 1 CIJERUK
   </footer>
 
   <script>
+    // DATA DENGAN ICON VECTOR SESUAI TOPIK LENGKAP
     const knowledgeData = [
-      { id: 1, title: "Ibu Kota Indonesia", ans: "Nusantara (IKN)", img: "https://cdn-icons-png.flaticon.com/512/330/330528.png", opts: ["Jakarta", "Nusantara (IKN)", "Bandung", "Surabaya"] },
-      { id: 2, title: "Planet Terbesar", ans: "Yupiter", img: "https://cdn-icons-png.flaticon.com/512/3594/3594270.png", opts: ["Mars", "Saturnus", "Yupiter", "Bumi"] },
-      { id: 3, title: "Penemu Arus/Listrik (Lampu)", ans: "Thomas Edison", img: "https://cdn-icons-png.flaticon.com/512/702/702797.png", opts: ["Nikola Tesla", "Thomas Edison", "Albert Einstein", "Graham Bell"] },
-      { id: 4, title: "Lagu Bangsa Indonesia", ans: "Indonesia Raya", img: "https://cdn-icons-png.flaticon.com/512/3074/3074058.png", opts: ["Garuda Pancasila", "Indonesia Raya", "Bagimu Negeri", "Satu Nusa Satu Bangsa"] },
-      { id: 5, title: "Gas Oksigen Kimia", ans: "O2", img: "https://cdn-icons-png.flaticon.com/512/1043/1043431.png", opts: ["CO2", "H2O", "O2", "N2"] },
-      { id: 6, title: "Benua Terluas", ans: "Asia", img: "https://cdn-icons-png.flaticon.com/512/814/814587.png", opts: ["Afrika", "Amerika", "Asia", "Eropa"] },
-      { id: 7, title: "Mata Uang Jepang", ans: "Yen", img: "https://cdn-icons-png.flaticon.com/512/330/330622.png", opts: ["Won", "Yen", "Yuan", "Ringgit"] },
-      { id: 8, title: "Hewan Darat Tercepat", ans: "Cheetah", img: "https://cdn-icons-png.flaticon.com/512/3069/3069172.png", opts: ["Singa", "Kuda", "Cheetah", "Serigala"] },
-      { id: 9, title: "Mamalia Terbesar", ans: "Paus Biru", img: "https://cdn-icons-png.flaticon.com/512/2042/2042861.png", opts: ["Gajah", "Paus Biru", "Jerapah", "Hiu Paus"] },
-      { id: 10, title: "Candi Terbesar di RI", ans: "Borobudur", img: "https://cdn-icons-png.flaticon.com/512/1000/1000868.png", opts: ["Prambanan", "Borobudur", "Mendut", "Candi Cetho"] },
-      { id: 11, title: "Monumen di Jakarta", ans: "Monas", img: "https://cdn-icons-png.flaticon.com/512/2162/2162060.png", opts: ["Tugu Muda", "Monas", "Patung Dirgantara", "Patung Pahlawan"] },
-      { id: 12, title: "Sungai Terpanjang Dunia", ans: "Sungai Nil", img: "https://cdn-icons-png.flaticon.com/512/2913/2913520.png", opts: ["Sungai Amazon", "Sungai Nil", "Sungai Yangtze", "Sungai Kapuas"] },
-      { id: 13, title: "Pancasila Sila Ke-1", ans: "Ketuhanan Yang Maha Esa", img: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png", opts: ["Keadilan Sosial", "Ketuhanan Yang Maha Esa", "Kemanusiaan Beradab", "Persatuan Indonesia"] },
-      { id: 14, title: "Alat Ukur Suhu", ans: "Termometer", img: "https://cdn-icons-png.flaticon.com/512/1959/1959311.png", opts: ["Barometer", "Termometer", "Higrometer", "Speedometer"] },
-      { id: 15, title: "Gunung Tertinggi Dunia", ans: "Mount Everest", img: "https://cdn-icons-png.flaticon.com/512/2913/2913008.png", opts: ["Gunung K2", "Mount Everest", "Gunung Kilimanjaro", "Gunung Fuji"] },
-      { id: 16, title: "Organ Pemompa Darah", ans: "Jantung", img: "https://cdn-icons-png.flaticon.com/512/2545/2545191.png", opts: ["Paru-Paru", "Hati", "Jantung", "Ginjal"] },
-      { id: 17, title: "Warna Bunga Bangkai", ans: "Merah Keunguan", img: "https://cdn-icons-png.flaticon.com/512/346/346195.png", opts: ["Kuning", "Merah Keunguan", "Putih", "Hijau"] },
-      { id: 18, title: "Proklamator Indonesia", ans: "Soekarno - Hatta", img: "https://cdn-icons-png.flaticon.com/512/2910/2910791.png", opts: ["Sjahrir - Hatta", "Soekarno - Hatta", "Suharto - Habibie", "Ki Hajar Dewantara"] },
-      { id: 19, title: "Bahasa Resmi Inggris", ans: "Bahasa Inggris", img: "https://cdn-icons-png.flaticon.com/512/330/330425.png", opts: ["Bahasa Prancis", "Bahasa Inggris", "Bahasa Jerman", "Bahasa Spanyol"] },
-      { id: 20, title: "Rumus Luas Persegi", ans: "Sisi x Sisi", img: "https://cdn-icons-png.flaticon.com/512/3721/3721818.png", opts: ["Panjang x Lebar", "Sisi x Sisi", "1/2 x Alas x Tinggi", "2 x Pi x r"] },
-      { id: 21, title: "Jumlah Provinsi Indonesia", ans: "38 Provinsi", img: "https://cdn-icons-png.flaticon.com/512/854/854878.png", opts: ["34 Provinsi", "38 Provinsi", "33 Provinsi", "36 Provinsi"] },
-      { id: 22, title: "Samudra Terluas", ans: "Samudra Pasifik", img: "https://cdn-icons-png.flaticon.com/512/414/414927.png", opts: ["Samudra Atlantik", "Samudra Pasifik", "Samudra Hindia", "Samudra Arktik"] },
-      { id: 23, title: "Unsur Kimia Emas", ans: "Au", img: "https://cdn-icons-png.flaticon.com/512/2058/2058220.png", opts: ["Ag", "Fe", "Au", "Cu"] },
-      { id: 24, title: "Satuan Arus Listrik", ans: "Ampere", img: "https://cdn-icons-png.flaticon.com/512/616/616490.png", opts: ["Volt", "Watt", "Ampere", "Joule"] },
-      { id: 25, title: "Penemu Gravitasi", ans: "Isaac Newton", img: "https://cdn-icons-png.flaticon.com/512/2558/2558334.png", opts: ["Galileo Galilei", "Isaac Newton", "Albert Einstein", "Stephen Hawking"] },
-      { id: 26, title: "Tumbuhan Pembuat Makanan", ans: "Fotosintesis", img: "https://cdn-icons-png.flaticon.com/512/628/628283.png", opts: ["Respirasi", "Fotosintesis", "Transpirasi", "Osmosis"] },
-      { id: 27, title: "Hewan Amfibi", ans: "Katak", img: "https://cdn-icons-png.flaticon.com/512/3069/3069224.png", opts: ["Kura-kura", "Katak", "Ular", "Buaya"] },
-      { id: 28, title: "Negara Kincir Angin", ans: "Belanda", img: "https://cdn-icons-png.flaticon.com/512/330/330571.png", opts: ["Jerman", "Belanda", "Prancis", "Swiss"] },
-      { id: 29, title: "Mata Uang Eropa", ans: "Euro", img: "https://cdn-icons-png.flaticon.com/512/893/893081.png", opts: ["Poundsterling", "Euro", "Dollar", "Franc"] },
-      { id: 30, title: "Senjata Tradisional Jawa", ans: "Keris", img: "https://cdn-icons-png.flaticon.com/512/1037/1037855.png", opts: ["Rencong", "Keris", "Mandau", "Kujang"] },
-      { id: 31, title: "Pahlawan Wanita Jepara", ans: "R.A. Kartini", img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", opts: ["Cut Nyak Dien", "R.A. Kartini", "Dewi Sartika", "Martha Christina"] },
-      { id: 32, title: "Ibu Kota Prancis", ans: "Paris", img: "https://cdn-icons-png.flaticon.com/512/330/330490.png", opts: ["London", "Paris", "Berlin", "Roma"] },
-      { id: 33, title: "Batas Benua Asia-Eropa", ans: "Pegunungan Ural", img: "https://cdn-icons-png.flaticon.com/512/2913/2913008.png", opts: ["Pegunungan Himalaya", "Pegunungan Ural", "Pegunungan Alps", "Pegunungan Andes"] },
-      { id: 34, title: "Bahan Pembuat Kaca", ans: "Pasir Kuarsa", img: "https://cdn-icons-png.flaticon.com/512/2913/2913520.png", opts: ["Tanah Liat", "Pasir Kuarsa", "Semen", "Kapur"] },
-      { id: 35, title: "Satuan Frekuensi", ans: "Hertz", img: "https://cdn-icons-png.flaticon.com/512/3100/3100363.png", opts: ["Watt", "Hertz", "Decibel", "Ohm"] },
-      { id: 36, title: "Penulis Novel Laskar Pelangi", ans: "Andrea Hirata", img: "https://cdn-icons-png.flaticon.com/512/3389/3389011.png", opts: ["Pramoedya A.T.", "Andrea Hirata", "Tere Liye", "Dee Lestari"] },
-      { id: 37, title: "Senyawa H2O Adalah", ans: "Air", img: "https://cdn-icons-png.flaticon.com/512/3105/3105807.png", opts: ["Udara", "Air", "Minyak", "Garam"] },
-      { id: 38, title: "Alat Pengukur Gempa", ans: "Seismograf", img: "https://cdn-icons-png.flaticon.com/512/3135/3135789.png", opts: ["Stetoskop", "Seismograf", "Teleskop", "Mikroskop"] },
-      { id: 39, title: "Tahun Kemerdekaan RI", ans: "1945", img: "https://cdn-icons-png.flaticon.com/512/3074/3074058.png", opts: ["1928", "1945", "1950", "1998"] },
-      { id: 40, title: "Burung Lambang Negara RI", ans: "Garuda", img: "https://cdn-icons-png.flaticon.com/512/330/330528.png", opts: ["Rajawali", "Garuda", "Merpati", "Elang"] }
+      { id: 1, title: "Ibu Kota Indonesia", ans: "Nusantara (IKN)", img: "https://cdn-icons-png.flaticon.com/512/330/330528.png" },
+      { id: 2, title: "Planet Terbesar", ans: "Yupiter", img: "https://cdn-icons-png.flaticon.com/512/3594/3594270.png" },
+      { id: 3, title: "Penemu Arus Listrik / Lampu", ans: "Thomas Edison", img: "https://cdn-icons-png.flaticon.com/512/702/702797.png" },
+      { id: 4, title: "Lagu Kebangsaan RI", ans: "Indonesia Raya", img: "https://cdn-icons-png.flaticon.com/512/3074/3074058.png" },
+      { id: 5, title: "Simbol Gas Oksigen", ans: "O2", img: "https://cdn-icons-png.flaticon.com/512/1043/1043431.png" },
+      { id: 6, title: "Benua Terluas di Dunia", ans: "Asia", img: "https://cdn-icons-png.flaticon.com/512/814/814587.png" },
+      { id: 7, title: "Mata Uang Negara Jepang", ans: "Yen", img: "https://cdn-icons-png.flaticon.com/512/330/330622.png" },
+      { id: 8, title: "Hewan Darat Tercepat", ans: "Cheetah", img: "https://cdn-icons-png.flaticon.com/512/3069/3069172.png" },
+      { id: 9, title: "Mamalia Terbesar di Bumi", ans: "Paus Biru", img: "https://cdn-icons-png.flaticon.com/512/2042/2042861.png" },
+      { id: 10, title: "Candi Buddha Terbesar", ans: "Borobudur", img: "https://cdn-icons-png.flaticon.com/512/1000/1000868.png" },
+      { id: 11, title: "Monumen Nasional di Jakarta", ans: "Monas", img: "https://cdn-icons-png.flaticon.com/512/2162/2162060.png" },
+      { id: 12, title: "Sungai Terpanjang Dunia", ans: "Sungai Nil", img: "https://cdn-icons-png.flaticon.com/512/2913/2913520.png" },
+      { id: 13, title: "Organ Pemompa Darah Utama", ans: "Jantung", img: "https://cdn-icons-png.flaticon.com/512/2545/2545191.png" },
+      { id: 14, title: "Alat Pengukur Suhu Udara", ans: "Termometer", img: "https://cdn-icons-png.flaticon.com/512/1959/1959311.png" },
+      { id: 15, title: "Gunung Tertinggi di Dunia", ans: "Mount Everest", img: "https://cdn-icons-png.flaticon.com/512/2913/2913008.png" },
+      { id: 16, title: "Simbol Unsur Kimia Emas", ans: "Au", img: "https://cdn-icons-png.flaticon.com/512/2058/2058220.png" },
+      { id: 17, title: "Satuan untuk Arus Listrik", ans: "Ampere", img: "https://cdn-icons-png.flaticon.com/512/616/616490.png" },
+      { id: 18, title: "Proklamator Kemerdekaan RI", ans: "Soekarno - Hatta", img: "https://cdn-icons-png.flaticon.com/512/2910/2910791.png" },
+      { id: 19, title: "Proses Tumbuhan Buat Makanan", ans: "Fotosintesis", img: "https://cdn-icons-png.flaticon.com/512/628/628283.png" },
+      { id: 20, title: "Senyawa Kimia Air", ans: "H2O", img: "https://cdn-icons-png.flaticon.com/512/3105/3105807.png" }
     ];
 
-    const quotes = [
-      "\"Kegagalan adalah kesuksesan yang tertunda. Jangan menyerah, terus latih daya ingatmu!\"",
-      "\"Daya ingat seperti otot, semakin sering dilatih akan semakin kuat. Bagus sekali usahamu!\"",
-      "\"Luar biasa! Pengetahuan adalah kekuatan, dan kamu telah membuktikannya hari ini.\"",
-      "\"Setiap kesalahan adalah langkah menuju pemahaman yang lebih baik. Coba lagi dan raih skor sempurna!\""
-    ];
-
-    let memorizeTime = 10 * 60;
+    let memorizeTime = 5 * 60; // 5 Menit
     let timerInterval = null;
     let score = 0;
-    let lives = 10;
-    let currentQuestionIndex = 0;
-    let recallQuestions = [];
-
-    const memorizePhaseEl = document.getElementById('memorize-phase');
-    const recallPhaseEl = document.getElementById('recall-phase');
-    const endPhaseEl = document.getElementById('end-phase');
-    const memorizeStatusEl = document.getElementById('memorize-status');
-    const recallStatusEl = document.getElementById('recall-status');
-    const phaseTitleEl = document.getElementById('phase-title');
-    
-    const timerEl = document.getElementById('timer');
-    const cardsContainer = document.getElementById('cards-container');
-    const readyModal = document.getElementById('ready-modal');
-    const btnReady = document.getElementById('btn-ready');
-
-    const livesDisplay = document.getElementById('lives-display');
-    const scoreDisplay = document.getElementById('score-display');
-    const questionNumberEl = document.getElementById('question-number');
-    const qImgEl = document.getElementById('q-img');
-    const qTxtEl = document.getElementById('q-txt');
-    const optionsContainer = document.getElementById('options-container');
-    const feedbackEl = document.getElementById('feedback');
-
-    const finalScoreEl = document.getElementById('final-score');
-    const quoteTextEl = document.getElementById('quote-text');
-    const btnRestart = document.getElementById('btn-restart');
+    let lives = 6;
+    let currentQIndex = 0;
+    let questions = [];
 
     function initGame() {
-      score = 0;
-      lives = 10;
-      currentQuestionIndex = 0;
-    memorizeTime = 10 * 60;
-
-      memorizePhaseEl.classList.remove('hidden');
-      recallPhaseEl.classList.add('hidden');
-      endPhaseEl.classList.add('hidden');
-      memorizeStatusEl.classList.remove('hidden');
-      recallStatusEl.classList.add('hidden');
-      phaseTitleEl.textContent = "Fase Memorize: Hafalkan Kartu Berikut!";
-
-      livesDisplay.textContent = lives;
-      scoreDisplay.textContent = score;
-
-      renderCards();
-      startTimer();
-    }
-
-    function renderCards() {
-      cardsContainer.innerHTML = '';
-      knowledgeData.forEach(item => {
+      // ACAK POSISI KARTU SETIAP KALI START
+      const shuffledData = [...knowledgeData].sort(() => 0.5 - Math.random());
+      
+      const container = document.getElementById('memorize-phase');
+      container.innerHTML = '';
+      
+      shuffledData.forEach((item, idx) => {
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-          <div class="card-number">#${item.id}</div>
+          <div class="card-num">#${idx + 1}</div>
           <img src="${item.img}" class="card-img" alt="icon">
-          <div class="card-content">
-            <div class="card-title">${item.title}</div>
-            <div>${item.ans}</div>
-          </div>
+          <div class="card-title">${item.title}</div>
+          <div class="card-ans">${item.ans}</div>
         `;
-        cardsContainer.appendChild(card);
+        container.appendChild(card);
       });
+
+      startTimer();
     }
 
     function startTimer() {
       clearInterval(timerInterval);
-      updateTimerDisplay();
-      
       timerInterval = setInterval(() => {
         memorizeTime--;
-        updateTimerDisplay();
+        const m = Math.floor(memorizeTime / 60);
+        const s = memorizeTime % 60;
+        document.getElementById('timer').textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 
         if (memorizeTime <= 0) {
           clearInterval(timerInterval);
-          showReadyModal();
+          startRecallPhase();
         }
       }, 1000);
     }
 
-    function updateTimerDisplay() {
-      const minutes = Math.floor(memorizeTime / 60);
-      const seconds = memorizeTime % 60;
-      timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-
-    btnReady.addEventListener('click', showReadyModal);
-
-    function showReadyModal() {
-      readyModal.classList.add('active');
-    }
+    document.getElementById('btn-ready').onclick = startRecallPhase;
 
     function startRecallPhase() {
-      readyModal.classList.remove('active');
       clearInterval(timerInterval);
+      document.getElementById('memorize-phase').classList.add('hidden');
+      document.getElementById('memorize-ui').classList.add('hidden');
+      document.getElementById('recall-phase').classList.remove('hidden');
+      document.getElementById('recall-ui').classList.remove('hidden');
+      document.getElementById('phase-title').textContent = "Fase Recall: Jawab dengan Cepat & Tepat!";
 
-      const shuffledData = [...knowledgeData].sort(() => 0.5 - Math.random());
-      recallQuestions = shuffledData.slice(0, 20);
-
-      memorizePhaseEl.classList.add('hidden');
-      memorizeStatusEl.classList.add('hidden');
-      recallPhaseEl.classList.remove('hidden');
-      recallStatusEl.classList.remove('hidden');
-      phaseTitleEl.textContent = "Fase Recall: Uji Daya Ingatmu!";
-
+      generateHardQuestions();
       loadQuestion();
     }
 
-    function loadQuestion() {
-      feedbackEl.textContent = "";
-      const currentQ = recallQuestions[currentQuestionIndex];
+    // MEMBUAT SOAL-SOAL VARIASI DAN TINGKAT KESULITAN TINGGI
+    function generateHardQuestions() {
+      const copy = [...knowledgeData].sort(() => 0.5 - Math.random());
+      
+      questions = copy.map(item => {
+        // Acak jenis tipe pertanyaan
+        const type = Math.floor(Math.random() * 3); 
+        let qText = "";
+        let correctOption = "";
+        let showImg = true;
 
-      questionNumberEl.textContent = `Pertanyaan ${currentQuestionIndex + 1}/20`;
-      qImgEl.src = currentQ.img;
-      qTxtEl.textContent = `Nomor #${currentQ.id}: Apa jawaban/fakta tentang "${currentQ.title}"?`;
+        if (type === 0) {
+          // Tipe 1: Tanya Jawaban dari Judul
+          qText = `Apa jawaban/fakta dari: "${item.title}"?`;
+          correctOption = item.ans;
+        } else if (type === 1) {
+          // Tipe 2: Tanya Judul dari Jawaban
+          qText = `Pertanyaan mana yang menghasilkan jawaban: "${item.ans}"?`;
+          correctOption = item.title;
+        } else {
+          // Tipe 3: Visual Memory Test (Tanpa sebut judul)
+          qText = `Berdasarkan ikon gambar di atas, fakta/jawaban apa yang tepat?`;
+          correctOption = item.ans;
+        }
 
-      optionsContainer.innerHTML = '';
-      const shuffledOpts = [...currentQ.opts].sort(() => 0.5 - Math.random());
+        // Pilihan Jawaban Pengecoh (Distractors)
+        let options = [correctOption];
+        while (options.length < 4) {
+          const randItem = knowledgeData[Math.floor(Math.random() * knowledgeData.length)];
+          const targetOpt = (type === 1) ? randItem.title : randItem.ans;
+          if (!options.includes(targetOpt)) {
+            options.push(targetOpt);
+          }
+        }
 
-      shuffledOpts.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'opt-btn';
-        btn.textContent = opt;
-        btn.onclick = () => handleAnswer(opt, currentQ.ans, btn);
-        optionsContainer.appendChild(btn);
+        options.sort(() => 0.5 - Math.random());
+
+        return {
+          img: item.img,
+          text: qText,
+          correct: correctOption,
+          opts: options
+        };
       });
     }
 
-    function handleAnswer(selectedOpt, correctAns, selectedBtn) {
-      const allBtns = optionsContainer.querySelectorAll('.opt-btn');
-      allBtns.forEach(btn => btn.disabled = true);
+    function loadQuestion() {
+      document.getElementById('feedback').textContent = '';
+      const q = questions[currentQIndex];
 
-      if (selectedOpt === correctAns) {
-        selectedBtn.classList.add('correct');
+      document.getElementById('q-number').textContent = `Soal ${currentQIndex + 1} dari ${questions.length}`;
+      document.getElementById('q-img').src = q.img;
+      document.getElementById('q-txt').textContent = q.text;
+
+      const optsContainer = document.getElementById('options-container');
+      optsContainer.innerHTML = '';
+
+      q.opts.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(opt, q.correct, btn);
+        optsContainer.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selectedOpt, correctOpt, btn) {
+      const allBtns = document.querySelectorAll('.opt-btn');
+      allBtns.forEach(b => b.disabled = true);
+
+      const feedback = document.getElementById('feedback');
+
+      if (selectedOpt === correctOpt) {
+        btn.classList.add('correct');
         score += 10;
-        scoreDisplay.textContent = score;
-        feedbackEl.style.color = "var(--success)";
-        feedbackEl.textContent = "✨ Jawaban Benar! (+10 Poin)";
+        document.getElementById('score').textContent = score;
+        feedback.style.color = 'var(--success)';
+        feedback.textContent = '✨ BENAR! (+10 Poin)';
       } else {
-        selectedBtn.classList.add('wrong');
+        btn.classList.add('wrong');
         lives--;
-        livesDisplay.textContent = lives;
+        document.getElementById('lives').textContent = lives;
         
-        allBtns.forEach(btn => {
-          if (btn.textContent === correctAns) {
-            btn.classList.add('correct');
-          }
+        allBtns.forEach(b => {
+          if (b.textContent === correctOpt) b.classList.add('correct');
         });
 
-        feedbackEl.style.color = "var(--danger)";
-        feedbackEl.textContent = `❌ Salah! Jawaban benar: ${correctAns}`;
+        feedback.style.color = 'var(--danger)';
+        feedback.textContent = `❌ SALAH! Jawaban: ${correctOpt}`;
       }
 
       setTimeout(() => {
         if (lives <= 0) {
           endGame(false);
         } else {
-          currentQuestionIndex++;
-          if (currentQuestionIndex < recallQuestions.length) {
+          currentQIndex++;
+          if (currentQIndex < questions.length) {
             loadQuestion();
           } else {
             endGame(true);
           }
         }
-      }, 2000);
+      }, 1500);
     }
 
-    function endGame(isCompleted) {
-      recallPhaseEl.classList.add('hidden');
-      recallStatusEl.classList.add('hidden');
-      endPhaseEl.classList.remove('hidden');
-      phaseTitleEl.textContent = "Hasil Akhir Permainan";
+    function endGame(isWin) {
+      document.getElementById('recall-phase').classList.add('hidden');
+      document.getElementById('recall-ui').classList.add('hidden');
+      document.getElementById('end-phase').classList.remove('hidden');
 
-      document.getElementById('end-title').textContent = isCompleted ? "🎉 Selamat! Permainan Selesai" : "💥 Game Over (Nyawa Habis)";
-      finalScoreEl.textContent = score;
-
-      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-      quoteTextEl.textContent = randomQuote;
+      document.getElementById('end-title').textContent = isWin ? "🎉 HEBAT! Kamu Menyelesaikan Semua Soal" : "💥 GAME OVER (Nyawa Habis)";
+      document.getElementById('final-score').textContent = score;
     }
-
-    btnRestart.addEventListener('click', initGame);
 
     initGame();
   </script>
 </body>
-</html>
+  </html>
+  
