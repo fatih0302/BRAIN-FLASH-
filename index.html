@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Memory Recall - Muhamad Fatih Sopwanudin</title>
+    <title>Game Memory Recall - SMAN 1 Cijeruk</title>
     <style>
         * {
             box-sizing: border-box;
@@ -19,7 +19,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: space-between;
             padding: 20px;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 950px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .header-section {
@@ -34,36 +43,9 @@
             margin-bottom: 5px;
         }
 
-        .school-badge {
-            font-size: 1rem;
-            color: #f59e0b;
-            font-weight: 600;
-        }
-
-        .identity-bar {
-            background: #1e293b;
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: 1px solid #334155;
-            margin-top: 10px;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            font-size: 0.9rem;
-        }
-
-        .identity-bar input {
-            background: #0f172a;
-            border: 1px solid #38bdf8;
-            color: #fff;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        /* Running Clue Ticker */
+        /* Running Clue Ticker (Lebih Lambat -> 60s) */
         .ticker-wrap {
             width: 100%;
-            max-width: 950px;
             background: rgba(30, 41, 59, 0.8);
             border: 1px solid #3b82f6;
             border-radius: 8px;
@@ -85,7 +67,7 @@
         .ticker-content {
             display: flex;
             white-space: nowrap;
-            animation: ticker 30s linear infinite;
+            animation: ticker 60s linear infinite; /* Diperlambat dari 30s ke 60s */
         }
 
         @keyframes ticker {
@@ -108,7 +90,7 @@
             font-weight: 600;
         }
 
-        /* Screen 1: Start Screen */
+        /* Start Screen */
         .start-screen {
             display: flex;
             flex-direction: column;
@@ -118,25 +100,24 @@
             border: 2px solid #38bdf8;
             border-radius: 16px;
             padding: 40px 20px;
-            max-width: 500px;
+            max-width: 450px;
             width: 100%;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             margin-top: 30px;
         }
 
-        /* Grid Layouts */
+        /* Grid Layouts (5 kolom untuk 20 kartu) */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 10px;
-            max-width: 950px;
             width: 100%;
             margin-bottom: 15px;
         }
 
         @media (max-width: 768px) {
-            .grid-container { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .grid-container { grid-template-columns: repeat(2, 1fr); gap: 6px; }
         }
 
         /* Card Styles */
@@ -146,7 +127,7 @@
             border-radius: 8px;
             padding: 8px;
             position: relative;
-            min-height: 85px;
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -186,11 +167,10 @@
         .recall-section {
             display: none;
             width: 100%;
-            max-width: 950px;
         }
 
         .pool-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #f59e0b;
             margin-bottom: 8px;
             font-weight: bold;
@@ -202,9 +182,9 @@
             border-radius: 12px;
             padding: 12px;
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 8px;
-            max-height: 220px;
+            max-height: 240px;
             overflow-y: auto;
             margin-bottom: 20px;
         }
@@ -212,7 +192,7 @@
         /* Drop Slots */
         .slot-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 10px;
         }
 
@@ -220,7 +200,7 @@
             background: #334155; /* Neutral Grey */
             border: 2px solid #64748b;
             border-radius: 8px;
-            min-height: 85px;
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -291,7 +271,7 @@
             border-radius: 16px;
             padding: 30px;
             text-align: center;
-            max-width: 480px;
+            max-width: 450px;
             width: 90%;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
@@ -308,54 +288,65 @@
             color: #10b981;
             margin: 15px 0;
         }
+
+        /* Footer Credit */
+        .footer-credit {
+            margin-top: 30px;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            border-top: 1px solid #334155;
+            width: 100%;
+        }
+
+        .footer-credit b {
+            color: #38bdf8;
+        }
     </style>
 </head>
 <body>
 
-    <div class="header-section">
-        <h1>🧠 Game Memory Recall (Urutan Kartu)</h1>
-        <div class="school-badge">📍 SMAN 1 CIJERUK</div>
-        
-        <div class="identity-bar">
-            <label>Nama: <input type="text" id="studentName" value="Fatih"></label>
-            <label>Sekolah: <input type="text" id="schoolName" value="SMAN 1 Cijeruk"></label>
+    <div class="main-wrapper">
+        <div class="header-section">
+            <h1>🧠 Game Memory Recall</h1>
         </div>
-    </div>
 
-    <!-- Running Clue Ticker -->
-    <div class="ticker-wrap" id="tickerWrap" style="display: none;">
-        <div class="ticker-title">💡 RUNNING CLUE</div>
-        <div class="ticker-content" id="tickerContent"></div>
-    </div>
+        <!-- Running Clue Ticker -->
+        <div class="ticker-wrap" id="tickerWrap" style="display: none;">
+            <div class="ticker-title">💡 RUNNING CLUE</div>
+            <div class="ticker-content" id="tickerContent"></div>
+        </div>
 
-    <div class="dashboard" id="dashboardBox" style="display: none;">
-        <div class="stat-box">⏱️ Waktu: <span id="timer-display" style="color: #f59e0b;">120s</span></div>
-        <div class="stat-box">📌 Fase: <span id="phase-display" style="color: #38bdf8;">Menghafal Urutan</span></div>
-    </div>
+        <div class="dashboard" id="dashboardBox" style="display: none;">
+            <div class="stat-box">⏱️ Waktu: <span id="timer-display" style="color: #f59e0b;">120s</span></div>
+            <div class="stat-box">📌 Fase: <span id="phase-display" style="color: #38bdf8;">Menghafal Urutan</span></div>
+        </div>
 
-    <!-- Screen 1: Start Button -->
-    <div class="start-screen" id="startScreen">
-        <h2 style="color: #38bdf8; margin-bottom: 15px;">Selamat Datang!</h2>
-        <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 25px; line-height: 1.5;">
-            Uji daya ingat kognitifmu! Hafalkan posisi <b>30 Kartu Informasi Sains</b> beserta nomor urutnya selama 2 menit. Setelah itu, susun kembali urutannya dari 1 sampai 30.
-        </p>
-        <button class="btn-action" style="font-size: 1.2rem; padding: 15px 40px;" onclick="startGame()">🚀 START GAME</button>
-    </div>
+        <!-- Screen 1: Start Button -->
+        <div class="start-screen" id="startScreen">
+            <h2 style="color: #38bdf8; margin-bottom: 15px;">Game Memory Recall</h2>
+            <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5;">
+                Hafalkan posisi <b>20 Kartu Informasi Sains</b> beserta nomor urutnya selama 2 menit. Setelah itu, susun kembali urutannya dari 1 sampai 20.
+            </p>
+            <button class="btn-action" style="font-size: 1.3rem; padding: 14px 45px;" onclick="startGame()">START</button>
+        </div>
 
-    <!-- Screen 2: Fase Menghafal (Memorize) -->
-    <div class="grid-container" id="memoGrid" style="display: none;"></div>
-    <button id="btnSkip" class="btn-action" style="display: none; margin-bottom: 20px;" onclick="startRecallPhase()">🚀 Selesai Menghafal & Mulai Susun</button>
+        <!-- Screen 2: Fase Menghafal (Memorize) -->
+        <div class="grid-container" id="memoGrid" style="display: none;"></div>
+        <button id="btnSkip" class="btn-action" style="display: none; margin-bottom: 20px;" onclick="startRecallPhase()">🚀 Selesai Menghafal & Mulai Susun</button>
 
-    <!-- Screen 3: Fase Recall (Mengurutkan Kartu) -->
-    <div class="recall-section" id="recallSection">
-        <div class="pool-title">📦 Bank Kartu (Klik kartu untuk memasukkan ke slot urutan selanjutnya):</div>
-        <div class="card-pool" id="cardPool"></div>
+        <!-- Screen 3: Fase Recall (Mengurutkan Kartu) -->
+        <div class="recall-section" id="recallSection">
+            <div class="pool-title">📦 Bank Kartu (Klik kartu untuk memasukkan ke slot selanjutnya):</div>
+            <div class="card-pool" id="cardPool"></div>
 
-        <div class="pool-title" style="color: #38bdf8; margin-top: 10px;">📋 Slot Urutan Kartu (1 - 30):</div>
-        <div class="slot-grid" id="slotGrid"></div>
-        
-        <div style="text-align: center; margin-top: 20px;">
-            <button class="btn-action" onclick="finishGame()">VERIFIKASI & SELESAI</button>
+            <div class="pool-title" style="color: #38bdf8; margin-top: 10px;">📋 Slot Urutan Kartu (1 - 20):</div>
+            <div class="slot-grid" id="slotGrid"></div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-action" onclick="finishGame()">VERIFIKASI & SELESAI</button>
+            </div>
         </div>
     </div>
 
@@ -363,15 +354,19 @@
     <div class="modal" id="resultModal">
         <div class="modal-content">
             <h2 class="modal-title" id="modalTitle">🎉 Hasil Akhir Game</h2>
-            <p id="modalUserDetail" style="color: #94a3b8; font-size: 0.9rem;"></p>
-            <div class="score-display" id="modalScore">0 / 30 Kartu Benar</div>
+            <div class="score-display" id="modalScore">0 / 20 Kartu Benar</div>
             <p id="modalMessage" style="color: #cbd5e1; margin-bottom: 25px; line-height: 1.4;"></p>
             <button class="btn-action" onclick="resetGame()">🔄 Main Lagi</button>
         </div>
     </div>
 
+    <!-- Footer Credit -->
+    <div class="footer-credit">
+        Dibuat oleh: <b>Muhamad Fatih Sopwanudin - SMAN 1 CIJERUK</b>
+    </div>
+
     <script>
-        // Data 30 Kartu Konseptual
+        // Data 20 Kartu Konseptual
         const memoryDatabase = [
             { id: 1, topic: "Prinsip Kimia Hijau 1", fact: "Mencegah limbah lebih diutamakan daripada mengolahnya." },
             { id: 2, topic: "Pelarut Hijau Ideal", fact: "Air dan scCO2 adalah pelarut ramah lingkungan." },
@@ -392,22 +387,12 @@
             { id: 17, topic: "Kimia Hijau & Energi", fact: "Sintesis dirancang pada suhu dan tekanan ruang." },
             { id: 18, topic: "Isomer Geometri", fact: "Terjadi karena keterbatasan rotasi ikatan rangkap dua." },
             { id: 19, topic: "Reaksi Eksoterm", fact: "Melepaskan kalor ke lingkungan, ΔH bernilai negatif." },
-            { id: 20, topic: "Efek Fotolistrik", fact: "Cahaya bersifat sebagai partikel (foton)." },
-            { id: 21, topic: "Prinsip Pembiasan", fact: "Membias mendekati normal saat masuk medium rapat." },
-            { id: 22, topic: "Dualisme Gelombang", fact: "De Broglie: partikel bergerak memiliki sifat gelombang." },
-            { id: 23, topic: "Dekomposisi Biologi", fact: "Bahan kimia dirancang mudah terurai tak beracun." },
-            { id: 24, topic: "Deret Homolog Alkena", fact: "Hidrokarbon tak jenuh dengan ikatan C=C." },
-            { id: 25, topic: "Kondisi Kesetimbangan", fact: "Laju reaksi maju sama dengan laju reaksi balik." },
-            { id: 26, topic: "Hukum Lenz", fact: "Arah arus induksi menentang perubahan medan magnet." },
-            { id: 27, topic: "Radiasi Benda Hitam", fact: "Pancaran energi berbanding suhu mutlak pangkat empat." },
-            { id: 28, topic: "Limit Tak Hingga", fact: "Asimtot horizontal ditentukan dari limit x tak hingga." },
-            { id: 29, topic: "Bahan Terbarukan", fact: "Penggunaan bahan baku dari biomassa terbarukan." },
-            { id: 30, topic: "Resonansi Gelombang", fact: "Frekuensi alami sama dengan frekuensi sumber." }
+            { id: 20, topic: "Efek Fotolistrik", fact: "Cahaya bersifat sebagai partikel (foton)." }
         ];
 
         let timer = 120;
         let timerInterval = null;
-        let placedCards = []; // Menampung kartu yang ditempatkan di slot
+        let placedCards = []; 
         let currentNextSlot = 0;
 
         function startGame() {
@@ -417,14 +402,14 @@
             document.getElementById('memoGrid').style.display = 'grid';
             document.getElementById('btnSkip').style.display = 'inline-block';
 
-            // Running Clue
+            // Running Clue Ticker
             let clueText = "";
             memoryDatabase.forEach((item) => {
                 clueText += `🔹 [${item.topic}]: ${item.fact} &nbsp;&nbsp;&nbsp;&nbsp; `;
             });
             document.getElementById('tickerContent').innerHTML = clueText + clueText;
 
-            // Render 30 Cards dengan Angka di Kiri Atas
+            // Render 20 Cards (Ada Angka)
             const grid = document.getElementById('memoGrid');
             grid.innerHTML = '';
             memoryDatabase.forEach((item) => {
@@ -467,10 +452,10 @@
             document.getElementById('phase-display').style.color = '#10b981';
 
             // Reset Slot dan Placed Cards
-            placedCards = new Array(30).fill(null);
+            placedCards = new Array(20).fill(null);
             currentNextSlot = 0;
 
-            // Acak Kartu untuk Bank Kartu (TANPA ANGKA DI KIRI ATAS)
+            // Acak Kartu untuk Bank Kartu (TANPA ANGKA)
             const shuffled = [...memoryDatabase].sort(() => Math.random() - 0.5);
             const pool = document.getElementById('cardPool');
             pool.innerHTML = '';
@@ -487,10 +472,10 @@
                 pool.appendChild(card);
             });
 
-            // Render 30 Slot Kosong (Warna Abu-Abu)
+            // Render 20 Slot Kosong (Warna Abu-Abu)
             const slotGrid = document.getElementById('slotGrid');
             slotGrid.innerHTML = '';
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 20; i++) {
                 const slot = document.createElement('div');
                 slot.className = 'slot-box';
                 slot.id = `slot-${i}`;
@@ -511,15 +496,13 @@
         }
 
         function selectCardFromPool(item) {
-            if (currentNextSlot >= 30) return; // Sudah penuh
+            if (currentNextSlot >= 20) return;
 
-            // Tandai Kartu di Pool Agar Tidak Bisa Dipilih Lagi
             const poolCard = document.getElementById(`pool-card-${item.id}`);
             if (poolCard.classList.contains('card-disabled')) return;
 
             poolCard.classList.add('card-disabled');
 
-            // Masukkan Kartu ke Slot Selanjutnya
             placedCards[currentNextSlot] = item;
             const targetSlot = document.getElementById(`slot-${currentNextSlot}`);
             targetSlot.querySelector('.slot-content').innerHTML = `
@@ -532,39 +515,31 @@
         function finishGame() {
             clearInterval(timerInterval);
 
-            // Verifikasi Hasil & Ubah Warna Kotak Kartu
             let correctCount = 0;
 
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 20; i++) {
                 const slotBox = document.getElementById(`slot-${i}`);
-      const placedItem = placedCards[i];
+                const placedItem = placedCards[i];
 
                 if (placedItem && placedItem.id === (i + 1)) {
-                    // Benar -> Warna Hijau
                     slotBox.classList.add('correct');
                     correctCount++;
                 } else {
-                    // Salah / Kosong -> Warna Merah
                     slotBox.classList.add('wrong');
                 }
             }
 
-            // Tampilkan Modal Hasil
-            const student = document.getElementById('studentName').value || "Siswa";
-            const school = document.getElementById('schoolName').value || "SMAN 1 Cijeruk";
-
-            document.getElementById('modalUserDetail').innerText = `👤 ${student} | 🏫 ${school}`;
-            document.getElementById('modalScore').innerText = `${correctCount} / 30 Kartu Benar`;
+            document.getElementById('modalScore').innerText = `${correctCount} / 20 Kartu Benar`;
 
             let msg = "";
-            if (correctCount === 30) {
-                msg = "🌟 LUAR BIASA PERFECT! Kamu berhasil mengingat seluruh 30 posisi urutan kartu dengan sempurna!";
-            } else if (correctCount >= 20) {
+            if (correctCount === 20) {
+                msg = "🌟 LUAR BIASA PERFECT! Kamu berhasil mengingat seluruh 20 posisi urutan kartu dengan sempurna!";
+            } else if (correctCount >= 14) {
                 msg = "👏 HEBAT SEKALI! Daya ingat kognitif kamu sangat tajam dalam mengurutkan kartu materi!";
-            } else if (correctCount >= 10) {
-                msg = "👍 BAGUS! Kamu berhasil mengurutkan sebagian besar kartu dengan tepat. Tingkatkan lagi!";
+            } else if (correctCount >= 7) {
+                msg = "👍 BAGUS! Kamu berhasil mengurutkan sebagian kartu dengan tepat. Tingkatkan lagi!";
             } else {
-                msg = "💪 TETAP SEMANGAAT! Cobalah untuk fokus melihat pola angka pada kartu di kesempatan berikutnya!";
+                msg = "💪 TETAP SEMANGAT! Cobalah untuk lebih fokus mengingat urutan nomor kartu di kesempatan berikutnya!";
             }
 
             document.getElementById('modalMessage').innerText = msg;
@@ -576,8 +551,7 @@
             document.getElementById('recallSection').style.display = 'none';
             document.getElementById('startScreen').style.display = 'flex';
             document.getElementById('tickerWrap').style.display = 'none';
-            document.getElementById('dashboardBox').style.display = 'none';
-            document.getElementById('phase-display').innerText = 'Menghafal Urutan';
+          document.getElementById('phase-display').innerText = 'Menghafal Urutan';
             document.getElementById('phase-display').style.color = '#38bdf8';
         }
     </script>
