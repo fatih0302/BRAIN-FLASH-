@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Memori Pengetahuan Umum</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 255, 255, 0.15);
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --success: #10b981;
+      --danger: #ef4444;
+      --accent: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      color: var(--text-sub);
+      font-size: 1rem;
+    }
+
+    /* Timer & Info Bar */
+    .status-bar {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .timer-box, .stat-box {
+      font-size: 1.2rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .timer-value {
+      color: var(--accent);
+      font-size: 1.5rem;
+      font-family: monospace;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    /* Fase Memorize Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      max-height: 65vh;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .cards-grid::-webkit-scrollbar {
+      width: 8px;
+    }
+    .cards-grid::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 110px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      border-color: rgba(99, 102, 241, 0.5);
+    }
+
+    .card-number {
+      position: absolute;
+      top: 8px;
+      left: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(245, 158, 11, 0.15);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .card-content {
+      margin-top: 15px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .card-title {
+      font-weight: 700;
+      color: #60a5fa;
+      margin-bottom: 4px;
+    }
+
+    /* Modal / Pop-up */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-card {
+      background: #1e293b;
+      border: 1px solid var(--card-border);
+      padding: 35px;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-title {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-option {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: white;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-option:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* Fase Recall */
+    .quiz-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1rem;
+      color: var(--text-sub);
+      margin-bottom: 15px;
+    }
+
+    .question-text {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 16px;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .opt-btn:hover:not([disabled]) {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .opt-btn.correct {
+      background: rgba(16, 185, 129, 0.2) !important;
+      border-color: var(--success) !important;
+      color: #6ee7b7;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: var(--danger) !important;
+      color: #fca5a5;
+    }
+
+    .feedback-message {
+      min-height: 24px;
+      margin-top: 15px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* Game Over / Finish Screen */
+    .end-screen {
+      text-align: center;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 40px 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .score-display {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 15px 0;
+    }
+
+    .quote-box {
+      font-style: italic;
+      color: #cbd5e1;
+      margin: 20px 0 30px 0;
+      line-height: 1.6;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .btn-restart {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--primary);
+      padding: 14px 28px;
+      font-size: 1.1rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      width: 100%;
+    }
+
+    .author-info {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>BrainRecall Trivia</h1>
+      <p class="subtitle" id="phase-title">Fase Memorize: Hafalkan Kartu Berikut!</p>
+    </header>
+
+    <!-- STATUS BAR (TIMER / HP & POIN) -->
+    <div class="status-bar" id="status-bar">
+      <!-- DITAMPILKAN PADA FASE MEMORIZE -->
+      <div id="memorize-status" style="display: flex; width: 100%; justify-content: space-between; align-items: center;">
+        <div class="timer-box">
+          <span>⏱️ Sisa Waktu:</span>
+          <span class="timer-value" id="timer">10:00</span>
+        </div>
+        <button class="btn" id="btn-ready">Saya Siap!</button>
+      </div>
+
+      <!-- DITAMPILKAN PADA FASE RECALL -->
+      <div id="recall-status" class="hidden" style="display: flex; width: 100%; justify-content: space-between; align-items: center;">
+        <div class="stat-box">❤️ Nyawa: <span id="lives-display" style="color: var(--danger);">10</span></div>
+        <div class="stat-box">⭐ Poin: <span id="score-display" style="color: var(--accent);">0</span></div>
+      </div>
+    </div>
+
+    <!-- MAIN GAME AREA -->
+    <!-- 1. FASE MEMORIZE -->
+    <div id="memorize-phase">
+      <div class="cards-grid" id="cards-container">
+        <!-- 40 Kartu di-generate via JavaScript -->
+      </div>
+    </div>
+
+    <!-- 2. FASE RECALL -->
+    <div id="recall-phase" class="hidden">
+      <div class="quiz-container">
+        <div class="question-header">
+          <span id="question-number">Pertanyaan 1/20</span>
+        </div>
+        <div class="question-text" id="question-text">Teks Pertanyaan...</div>
+        <div class="options-grid" id="options-container">
+          <!-- Opsi Jawaban -->
+        </div>
+        <div class="feedback-message" id="feedback"></div>
+      </div>
+    </div>
+
+    <!-- 3. FASE END GAME -->
+    <div id="end-phase" class="hidden">
+      <div class="end-screen">
+        <h2 id="end-title">Game Selesai!</h2>
+        <p style="margin-top: 10px; color: var(--text-sub);">Poin Akhir Anda:</p>
+        <div class="score-display" id="final-score">0</div>
+        
+        <div class="quote-box" id="quote-text">
+          "Kata-kata motivasi..."
+        </div>
+
+        <button class="btn btn-restart" id="btn-restart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path>
+          </svg>
+          Ulang Game
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL KONFIRMASI -->
+  <div class="modal-overlay" id="ready-modal">
+    <div class="modal-card">
+      <h3 class="modal-title">Apakah kalian siap lanjut ke fase recall?</h3>
+      <div class="modal-buttons">
+        <button class="btn-option" onclick="startRecallPhase()">A. SIAPPPP BANGETT</button>
+        <button class="btn-option" onclick="startRecallPhase()">B. SIAP</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER IDENTITAS -->
+  <footer>
+    <div class="author-info">
+      Muhamad Fatih Sopwanudin<br>
+      <span style="font-size: 0.85rem; color: #64748b;">SMAN 1 CIJERUK</span>
+    </div>
+  </footer>
+
+  <script>
+    // DATA KNOWLEDGE (40 ITEM)
+    const knowledgeData = [
+      { id: 1, title: "Ibu Kota Indonesia", ans: "Nusantara (IKN)", opts: ["Jakarta", "Nusantara (IKN)", "Bandung", "Surabaya"] },
+      { id: 2, title: "Planet Terbesar", ans: "Yupiter", opts: ["Mars", "Saturnus", "Yupiter", "Bumi"] },
+      { id: 3, title: "Penemu Anus/Listrik (Lampu)", ans: "Thomas Edison", opts: ["Nikola Tesla", "Thomas Edison", "Albert Einstein", "Graham Bell"] },
+      { id: 4, title: "Lagu Bangsa Indonesia", ans: "Indonesia Raya", opts: ["Garuda Pancasila", "Indonesia Raya", "Bagimu Negeri", "Satu Nusa Satu Bangsa"] },
+      { id: 5, title: "Gas Oksigen Kimia", ans: "O2", opts: ["CO2", "H2O", "O2", "N2"] },
+      { id: 6, title: "Benua Terluas", ans: "Asia", opts: ["Afrika", "Amerika", "Asia", "Eropa"] },
+      { id: 7, title: "Mata Uang Jepang", ans: "Yen", opts: ["Won", "Yen", "Yuan", "Ringgit"] },
+      { id: 8, title: "Hewan Darat Tercepat", ans: "Cheetah", opts: ["Singa", "Kuda", "Cheetah", "Serigala"] },
+      { id: 9, title: "Mamalia Terbesar", ans: "Paus Biru", opts: ["Gajah", "Paus Biru", "Jerapah", "Hiu Paus"] },
+      { id: 10, title: "Candi Terbesar di RI", ans: "Borobudur", opts: ["Prambanan", "Borobudur", "Mendut", "Candi Cetho"] },
+      { id: 11, title: "Monumen di Jakarta", ans: "Monas", opts: ["Tugu Muda", "Monas", "Patung Dirgantara", "Patung Pahlawan"] },
+      { id: 12, title: "Sungai Terpanjang Dunia", ans: "Sungai Nil", opts: ["Sungai Amazon", "Sungai Nil", "Sungai Yangtze", "Sungai Kapuas"] },
+      { id: 13, title: "Pancasila Sila Ke-1", ans: "Ketuhanan Yang Maha Esa", opts: ["Keadilan Sosial", "Ketuhanan Yang Maha Esa", "Kemanusiaan Beradab", "Persatuan Indonesia"] },
+      { id: 14, title: "Alat Ukur Suhu", ans: "Termometer", opts: ["Barometer", "Termometer", "Higrometer", "Speedometer"] },
+      { id: 15, title: "Gunung Tertinggi Dunia", ans: "Mount Everest", opts: ["Gunung K2", "Mount Everest", "Gunung Kilimanjaro", "Gunung Fuji"] },
+      { id: 16, title: "Organ Pemompa Darah", ans: "Jantung", opts: ["Paru-Paru", "Hati", "Jantung", "Ginjal"] },
+      { id: 17, title: "Warna Bunga Bangkai", ans: "Merah Keunguan", opts: ["Kuning", "Merah Keunguan", "Putih", "Hijau"] },
+      { id: 18, title: "Proklamator Indonesia", ans: "Soekarno - Hatta", opts: ["Sjahrir - Hatta", "Soekarno - Hatta", "Suharto - Habibie", "Ki Hajar Dewantara"] },
+      { id: 19, title: "Bahasa Resmi Inggris", ans: "Bahasa Inggris", opts: ["Bahasa Prancis", "Bahasa Inggris", "Bahasa Jerman", "Bahasa Spanyol"] },
+      { id: 20, title: "Rumus Luas Persegi", ans: "Sisi x Sisi", opts: ["Panjang x Lebar", "Sisi x Sisi", "1/2 x Alas x Tinggi", "2 x Pi x r"] },
+      { id: 21, title: "Jumlah Provinsi Indonesia (2023+)", ans: "38 Provinsi", opts: ["34 Provinsi", "38 Provinsi", "33 Provinsi", "36 Provinsi"] },
+      { id: 22, title: "Samudra Terluas", ans: "Samudra Pasifik", opts: ["Samudra Atlantik", "Samudra Pasifik", "Samudra Hindia", "Samudra Arktik"] },
+      { id: 23, title: "Unsur Kimia Emas", ans: "Au", opts: ["Ag", "Fe", "Au", "Cu"] },
+      { id: 24, title: "Satuan Arus Listrik", ans: "Ampere", opts: ["Volt", "Watt", "Ampere", "Joule"] },
+      { id: 25, title: "Penemu Gravitasi", ans: "Isaac Newton", opts: ["Galileo Galilei", "Isaac Newton", "Albert Einstein", "Stephen Hawking"] },
+      { id: 26, title: "Tumbuhan Pembuat Makanan", ans: "Photosynthesis", opts: ["Respirasi", "Photosynthesis", "Transpirasi", "Osmosis"] },
+      { id: 27, title: "Hewan Amfibi", ans: "Katak", opts: ["Kura-kura", "Katak", "Ular", "Buaya"] },
+      { id: 28, title: "Negara Kincir Angin", ans: "Belanda", opts: ["Jerman", "Belanda", "Prancis", "Swiss"] },
+      { id: 29, title: "Mata Uang Eropa", ans: "Euro", opts: ["Poundsterling", "Euro", "Dollar", "Franc"] },
+      { id: 30, title: "Senjata Tradisional Jawa", ans: "Keris", opts: ["Rencong", "Keris", "Mandau", "Kujang"] },
+      { id: 31, title: "Pahlawan Wanita Jepara", ans: "R.A. Kartini", opts: ["Cut Nyak Dien", "R.A. Kartini", "Dewi Sartika", "Martha Christina"] },
+      { id: 32, title: "Ibu Kota Prancis", ans: "Paris", opts: ["London", "Paris", "Berlin", "Roma"] },
+      { id: 33, title: "Batas Benua Asia-Eropa", ans: "Pegunungan Ural", opts: ["Pegunungan Himalaya", "Pegunungan Ural", "Pegunungan Alps", "Pegunungan Andes"] },
+      { id: 34, title: "Bahan Pembuat Kaca", ans: "Pasir Kuarsa", opts: ["Tanah Liat", "Pasir Kuarsa", "Semen", "Kapur"] },
+      { id: 35, title: "Satuan Frekuensi", ans: "Hertz", opts: ["Watt", "Hertz", "Decibel", "Ohm"] },
+      { id: 36, title: "Penulis Novel Laskar Pelangi", ans: "Andrea Hirata", opts: ["Pramoedya A.T.", "Andrea Hirata", "Tere Liye", "Dee Lestari"] },
+      { id: 37, title: "Senyawa H2O Adalah", ans: "Air", opts: ["Udara", "Air", "Minyak", "Garam"] },
+      { id: 38, title: "Alat Pengukur Gempa", ans: "Seismograf", opts: ["Stetoskop", "Seismograf", "Teleskop", "Mikroskop"] },
+      { id: 39, title: "Tahun Kemerdekaan RI", ans: "1945", opts: ["1928", "1945", "1950", "1998"] },
+      { id: 40, title: "Burung Lambang Negara RI", ans: "Garuda", opts: ["Rajawali", "Garuda", "Merpati", "Elang"] }
+    ];
+
+    const quotes = [
+      "\"Kegagalan adalah kesuksesan yang tertunda. Jangan menyerah, terus latih daya ingatmu!\"",
+      "\"Daya ingat seperti otot, semakin sering dilatih akan semakin kuat. Bagus sekali usahamu!\"",
+      "\"Luar biasa! Pengetahuan adalah kekuatan, dan kamu telah membuktikannya hari ini.\"",
+      "\"Setiap kesalahan adalah langkah menuju pemahaman yang lebih baik. Coba lagi dan raih skor sempurna!\""
+    ];
+
+    // STATE GAME
+    let memorizeTime = 10 * 60; // 10 menit dalam detik
+    let timerInterval = null;
+    let score = 0;
+    let lives = 10;
+    let currentQuestionIndex = 0;
+    let recallQuestions = [];
+
+    // DOM ELEMENTS
+    const memorizePhaseEl = document.getElementById('memorize-phase');
+    const recallPhaseEl = document.getElementById('recall-phase');
+    const endPhaseEl = document.getElementById('end-phase');
+    const memorizeStatusEl = document.getElementById('memorize-status');
+    const recallStatusEl = document.getElementById('recall-status');
+    const phaseTitleEl = document.getElementById('phase-title');
+    
+    const timerEl = document.getElementById('timer');
+    const cardsContainer = document.getElementById('cards-container');
+    const readyModal = document.getElementById('ready-modal');
+    const btnReady = document.getElementById('btn-ready');
+
+    const livesDisplay = document.getElementById('lives-display');
+    const scoreDisplay = document.getElementById('score-display');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const feedbackEl = document.getElementById('feedback');
+
+    const finalScoreEl = document.getElementById('final-score');
+    const quoteTextEl = document.getElementById('quote-text');
+    const btnRestart = document.getElementById('btn-restart');
+
+    // INISIALISASI GAME
+    function initGame() {
+      score = 0;
+      lives = 10;
+      currentQuestionIndex = 0;
+      memorizeTime = 10 * 60; // Reset ke 10 menit
+
+      // UI Reset
+      memorizePhaseEl.classList.remove('hidden');
+      recallPhaseEl.classList.add('hidden');
+      endPhaseEl.classList.add('hidden');
+      memorizeStatusEl.classList.remove('hidden');
+      recallStatusEl.classList.add('hidden');
+      phaseTitleEl.textContent = "Fase Memorize: Hafalkan 40 Kartu Berikut!";
+
+      livesDisplay.textContent = lives;
+      scoreDisplay.textContent = score;
+
+      renderCards();
+      startTimer();
+    }
+
+    // RENDER KARTU MEMORIZE
+    function renderCards() {
+      cardsContainer.innerHTML = '';
+      knowledgeData.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-number">#${item.id}</div>
+          <div class="card-content">
+            <div class="card-title">${item.title}</div>
+            <div>${item.ans}</div>
+          </div>
+        `;
+        cardsContainer.appendChild(card);
+      });
+    }
+
+    // TIMER MEMORIZE
+    function startTimer() {
+      clearInterval(timerInterval);
+      updateTimerDisplay();
+      
+      timerInterval = setInterval(() => {
+        memorizeTime--;
+        updateTimerDisplay();
+
+        if (memorizeTime <= 0) {
+          clearInterval(timerInterval);
+          showReadyModal();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(memorizeTime / 60);
+      const seconds = memorizeTime % 60;
+      timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    // MODAL HANDLER
+    btnReady.addEventListener('click', () => {
+      showReadyModal();
+    });
+
+    function showReadyModal() {
+     
