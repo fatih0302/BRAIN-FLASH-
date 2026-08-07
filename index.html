@@ -333,7 +333,7 @@
         </div>
 
         <div class="dashboard" id="dashboardBox" style="display: none;">
-            <div class="stat-box">⏱️ Waktu: <span id="timer-display" style="color: #f59e0b;">120s</span></div>
+            <div class="stat-box">⏱️ Waktu: <span id="timer-display" style="color: #f59e0b;">5:00</span></div>
             <div class="stat-box">📌 Fase: <span id="phase-display" style="color: #38bdf8;">Menghafal Urutan</span></div>
         </div>
 
@@ -341,7 +341,7 @@
         <div class="start-screen" id="startScreen">
             <h2 style="color: #38bdf8; margin-bottom: 15px;">⚡ BRAIN FLASH</h2>
             <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5;">
-                Hafalkan posisi <b>10 Pengetahuan Umum & 10 Simbol Visual</b> beserta nomor urutnya selama 2 menit. Setelah itu, susun kembali dari urutan 1 sampai 20!
+                Hafalkan posisi <b>10 Pengetahuan Umum & 10 Simbol Visual</b> beserta nomor urutnya selama 5 menit. Setelah itu, susun kembali dari urutan 1 sampai 20!
             </p>
             <button class="btn-action" style="font-size: 1.3rem; padding: 14px 45px;" onclick="startGame()">START</button>
         </div>
@@ -407,7 +407,8 @@
             { id: 20, type: "symbol", icon: "🛰️", topic: "Satelit Antariksa", fact: "Komunikasi Observasi Bumi" }
         ];
 
-        let timer = 120;
+        const TIME_LIMIT = 300; // 5 Menit = 300 Detik
+        let timer = TIME_LIMIT;
         let timerInterval = null;
         let placedCards = []; 
         let currentNextSlot = 0;
@@ -437,8 +438,8 @@
                 grid.appendChild(card);
             });
 
-            // Start Timer 2 Menit (Fase Menghafal)
-            timer = 120;
+            // Start Timer 5 Menit (Fase Menghafal)
+            timer = TIME_LIMIT;
             updateTimerDisplay();
             timerInterval = setInterval(() => {
                 timer--;
@@ -502,8 +503,8 @@
                 slotGrid.appendChild(slot);
             }
 
-            // Start Timer 2 Menit (Fase Recall)
-            timer = 120;
+            // Start Timer 5 Menit (Fase Recall)
+            timer = TIME_LIMIT;
             updateTimerDisplay();
             timerInterval = setInterval(() => {
                 timer--;
@@ -548,9 +549,9 @@
                 if (placedItem && placedItem.id === (i + 1)) {
                     slotBox.classList.add('correct');
                     correctCount++;
-                } else {
+                 } else {
                     slotBox.classList.add('wrong');
-              }
+                }
             }
 
             document.getElementById('modalScore').innerText = `${correctCount} / 20 Kartu Benar`;
