@@ -12,15 +12,45 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        /* Latar Belakang Biru Laut dengan Animasi Gradasi Glow */
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #f8fafc;
+            background: radial-gradient(circle at 50% 20%, #0284c7 0%, #0f172a 75%, #02122c 100%);
+            color: #f0f9ff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Hiasan Cahaya Gelombang Laut Background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(56, 189, 248, 0.15);
+            filter: blur(100px);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 450px;
+            height: 450px;
+            background: rgba(14, 165, 233, 0.12);
+            filter: blur(120px);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
         .main-wrapper {
@@ -29,6 +59,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            z-index: 2;
         }
 
         .header-section {
@@ -37,30 +68,31 @@
         }
 
         h1 {
-            font-size: 2.2rem;
-            color: #38bdf8;
-            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-            letter-spacing: 1px;
+            font-size: 2.4rem;
+            color: #7dd3fc;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+            letter-spacing: 2px;
             margin-bottom: 5px;
         }
 
-        /* Running Clue Ticker */
+        /* Running Clue Ticker Tema Laut */
         .ticker-wrap {
             width: 100%;
-            background: rgba(30, 41, 59, 0.9);
-            border: 1px solid #3b82f6;
-            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid #38bdf8;
+            border-radius: 12px;
             overflow: hidden;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(2, 132, 199, 0.25);
         }
 
         .ticker-title {
-            background: #2563eb;
+            background: linear-gradient(135deg, #0284c7, #2563eb);
             color: white;
-            padding: 8px 14px;
+            padding: 8px 16px;
             font-weight: bold;
             font-size: 0.85rem;
             white-space: nowrap;
@@ -71,7 +103,7 @@
             white-space: nowrap;
             animation: ticker 25s linear infinite;
             font-weight: 600;
-            color: #f59e0b;
+            color: #fde047;
             font-size: 0.95rem;
         }
 
@@ -83,11 +115,13 @@
         .dashboard {
             display: flex;
             gap: 20px;
-            background: #1e293b;
-            padding: 10px 20px;
-            border-radius: 12px;
-            border: 1px solid #334155;
+            background: rgba(15, 23, 42, 0.7);
+            padding: 10px 24px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            backdrop-filter: blur(10px);
             margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         }
 
         .stat-box {
@@ -95,53 +129,55 @@
             font-weight: 600;
         }
 
-        /* Start Screen */
+        /* Start Screen Glassmorphism */
         .start-screen {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #1e293b;
+            background: rgba(15, 23, 42, 0.75);
             border: 2px solid #38bdf8;
-            border-radius: 16px;
-            padding: 35px 20px;
+            border-radius: 20px;
+            padding: 35px 25px;
             max-width: 480px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 12px 35px rgba(2, 132, 199, 0.3);
+            backdrop-filter: blur(12px);
             margin-top: 20px;
         }
 
         .rule-box {
             background: rgba(239, 68, 68, 0.15);
-            border: 1px solid #ef4444;
+            border: 1px solid #f87171;
             color: #fca5a5;
             padding: 12px;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 0.85rem;
             margin-bottom: 25px;
             line-height: 1.4;
             width: 100%;
+            backdrop-filter: blur(5px);
         }
 
         /* Grid Layouts (5 kolom untuk 20 kartu) */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
+            gap: 12px;
             width: 100%;
             margin-bottom: 15px;
         }
 
         @media (max-width: 768px) {
-            .grid-container { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .grid-container { grid-template-columns: repeat(2, 1fr); gap: 8px; }
         }
 
-        /* Card Styles */
+        /* Card Styles Glass Blue */
         .memo-card {
-            background: #1e293b;
+            background: rgba(15, 23, 42, 0.85);
             border: 2px solid #38bdf8;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 8px;
             position: relative;
             min-height: 105px;
@@ -151,20 +187,28 @@
             align-items: center;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .memo-card:hover {
+            transform: translateY(-4px);
+            border-color: #7dd3fc;
+            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.4);
         }
 
         .memo-card .card-badge {
             position: absolute;
-            top: 4px;
+            top: 5px;
             left: 6px;
-            background: #2563eb;
+            background: linear-gradient(135deg, #0284c7, #2563eb);
             color: #fff;
             font-size: 0.7rem;
             font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 4px;
+            padding: 2px 7px;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
         .memo-card .card-icon {
@@ -181,7 +225,7 @@
 
         .memo-card .card-text {
             font-size: 0.68rem;
-            color: #cbd5e1;
+            color: #e0f2fe;
             line-height: 1.15;
         }
 
@@ -193,35 +237,36 @@
 
         .pool-title {
             font-size: 0.95rem;
-            color: #f59e0b;
+            color: #fde047;
             margin-bottom: 8px;
             font-weight: bold;
         }
 
         .card-pool {
             background: rgba(15, 23, 42, 0.8);
-            border: 2px dashed #475569;
-            border-radius: 12px;
+            border: 2px dashed #0284c7;
+            border-radius: 16px;
             padding: 12px;
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
+            gap: 10px;
             max-height: 250px;
             overflow-y: auto;
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
         }
 
         /* Drop Slots */
         .slot-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
+            gap: 12px;
         }
 
         .slot-box {
-            background: #334155;
-            border: 2px solid #64748b;
-            border-radius: 8px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid #0284c7;
+            border-radius: 12px;
             min-height: 105px;
             display: flex;
             flex-direction: column;
@@ -229,12 +274,13 @@
             justify-content: center;
             position: relative;
             padding: 6px;
-            transition: background 0.3s, border-color 0.3s;
+            transition: all 0.3s;
+            backdrop-filter: blur(8px);
         }
 
         .slot-box .slot-number {
             position: absolute;
-            top: 4px;
+            top: 5px;
             left: 6px;
             font-size: 0.65rem;
             color: #94a3b8;
@@ -243,37 +289,40 @@
 
         /* Result States */
         .slot-box.correct {
-            background: #064e3b !important;
+            background: rgba(6, 78, 59, 0.9) !important;
             border-color: #10b981 !important;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
         }
 
         .slot-box.wrong {
-            background: #881337 !important;
+            background: rgba(136, 19, 55, 0.9) !important;
             border-color: #f43f5e !important;
+            box-shadow: 0 0 15px rgba(244, 63, 94, 0.5);
         }
 
         .card-disabled {
-            opacity: 0.3;
+            opacity: 0.25;
             pointer-events: none;
             filter: grayscale(100%);
         }
 
         .btn-action {
-            background: #2563eb;
+            background: linear-gradient(135deg, #0284c7, #2563eb);
             color: white;
             border: none;
-            padding: 12px 28px;
+            padding: 12px 30px;
             font-size: 1rem;
             font-weight: bold;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.5);
         }
 
         .btn-action:hover {
-            background: #1d4ed8;
+            background: linear-gradient(135deg, #0369a1, #1d4ed8);
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.7);
         }
 
         /* Modal Result */
@@ -281,21 +330,22 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(2, 18, 44, 0.88);
+            backdrop-filter: blur(12px);
             justify-content: center;
             align-items: center;
             z-index: 100;
         }
 
         .modal-content {
-            background: #1e293b;
+            background: rgba(15, 23, 42, 0.95);
             border: 2px solid #38bdf8;
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 30px;
             text-align: center;
             max-width: 450px;
             width: 90%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         }
 
         .modal-title {
@@ -307,7 +357,7 @@
         .score-display {
             font-size: 2.2rem;
             font-weight: bold;
-            color: #10b981;
+            color: #34d399;
             margin: 15px 0;
         }
 
@@ -318,8 +368,9 @@
             text-align: center;
             font-size: 0.9rem;
             color: #94a3b8;
-            border-top: 1px solid #334155;
+            border-top: 1px solid rgba(56, 189, 248, 0.2);
             width: 100%;
+            z-index: 2;
         }
 
         .footer-credit b {
@@ -345,18 +396,18 @@
         </div>
 
         <div class="dashboard" id="dashboardBox" style="display: none;">
-            <div class="stat-box">⏱️ Waktu: <span id="timer-display" style="color: #f59e0b;">4:00</span></div>
+            <div class="stat-box">⏱️ Waktu: <span id="timer-display" style="color: #fde047;">4:00</span></div>
             <div class="stat-box">📌 Fase: <span id="phase-display" style="color: #38bdf8;">Menghafal Urutan</span></div>
         </div>
 
         <!-- Screen 1: Start Button -->
         <div class="start-screen" id="startScreen">
             <h2 style="color: #38bdf8; margin-bottom: 12px;">⚡ BRAIN FLASH</h2>
-            <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.5;">
+            <p style="color: #e0f2fe; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.5;">
                 Hafalkan posisi <b>10 Trivia Unik Dunia & 10 Simbol Visual</b> beserta nomor urutnya selama <b>4 menit</b>. Setelah itu, susun kembali dari urutan 1 sampai 20!
             </p>
             
-            <!-- Aturan Permainan Tambahan -->
+            <!-- Aturan Permainan -->
             <div class="rule-box">
                 ⚠️ <b>ATURAN MAIN:</b><br>
                 Kerjakan game ini <b>murni mengandalkan daya ingat/memori otak</b> (tanpa bantuan kertas, catatan, alat tulis, maupun tangkapan layar)!
@@ -388,7 +439,7 @@
         <div class="modal-content">
             <h2 class="modal-title" id="modalTitle">🎉 Hasil Akhir Game</h2>
             <div class="score-display" id="modalScore">0 / 20 Kartu Benar</div>
-            <p id="modalMessage" style="color: #cbd5e1; margin-bottom: 25px; line-height: 1.4;"></p>
+            <p id="modalMessage" style="color: #e0f2fe; margin-bottom: 25px; line-height: 1.4;"></p>
             <button class="btn-action" onclick="resetGame()">🔄 Main Lagi</button>
         </div>
     </div>
@@ -483,7 +534,7 @@
             document.getElementById('btnSkip').style.display = 'none';
             document.getElementById('recallSection').style.display = 'block';
             document.getElementById('phase-display').innerText = 'Mengurutkan Kartu';
-            document.getElementById('phase-display').style.color = '#10b981';
+            document.getElementById('phase-display').style.color = '#34d399';
 
             // Reset Slot dan Placed Cards
             placedCards = new Array(20).fill(null);
@@ -501,7 +552,7 @@
 
                 let contentHTML = "";
                 if (item.type === "symbol") {
-                    contentHTML += `<div class="card-icon">${item.icon}</div>`;
+              contentHTML += `<div class="card-icon">${item.icon}</div>`;
                 }
                 contentHTML += `<div class="card-title">${item.topic}</div>`;
                 contentHTML += `<div class="card-text">${item.fact}</div>`;
@@ -518,7 +569,7 @@
                 const slot = document.createElement('div');
                 slot.className = 'slot-box';
                 slot.id = `slot-${i}`;
-                slot.innerHTML = `<div class="slot-number">SLOT #${i + 1}</div><div class="slot-content" style="font-size:0.75rem; color:#64748b;">[ Kosong ]</div>`;
+                slot.innerHTML = `<div class="slot-number">SLOT #${i + 1}</div><div class="slot-content" style="font-size:0.75rem; color:#94a3b8;">[ Kosong ]</div>`;
                 slotGrid.appendChild(slot);
             }
 
