@@ -104,12 +104,24 @@
             background: #1e293b;
             border: 2px solid #38bdf8;
             border-radius: 16px;
-            padding: 40px 20px;
-            max-width: 450px;
+            padding: 35px 20px;
+            max-width: 480px;
             width: 100%;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            margin-top: 30px;
+            margin-top: 20px;
+        }
+
+        .rule-box {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            width: 100%;
         }
 
         /* Grid Layouts (5 kolom untuk 20 kartu) */
@@ -339,10 +351,17 @@
 
         <!-- Screen 1: Start Button -->
         <div class="start-screen" id="startScreen">
-            <h2 style="color: #38bdf8; margin-bottom: 15px;">⚡ BRAIN FLASH</h2>
-            <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5;">
+            <h2 style="color: #38bdf8; margin-bottom: 12px;">⚡ BRAIN FLASH</h2>
+            <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.5;">
                 Hafalkan posisi <b>10 Trivia Unik Dunia & 10 Simbol Visual</b> beserta nomor urutnya selama <b>4 menit</b>. Setelah itu, susun kembali dari urutan 1 sampai 20!
             </p>
+            
+            <!-- Aturan Permainan Tambahan -->
+            <div class="rule-box">
+                ⚠️ <b>ATURAN MAIN:</b><br>
+                Kerjakan game ini <b>murni mengandalkan daya ingat/memori otak</b> (tanpa bantuan kertas, catatan, alat tulis, maupun tangkapan layar)!
+            </div>
+
             <button class="btn-action" style="font-size: 1.3rem; padding: 14px 45px;" onclick="startGame()">START</button>
         </div>
 
@@ -548,7 +567,7 @@
 
                 if (placedItem && placedItem.id === (i + 1)) {
                     slotBox.classList.add('correct');
-         correctCount++;
+                    correctCount++;
                 } else {
                     slotBox.classList.add('wrong');
                 }
