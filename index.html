@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Memory Recall - SMAN 1 Cijeruk</title>
+    <title>Brain Flash - SMAN 1 Cijeruk</title>
     <style>
         * {
             box-sizing: border-box;
@@ -37,37 +37,42 @@
         }
 
         h1 {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             color: #38bdf8;
-            text-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            letter-spacing: 1px;
             margin-bottom: 5px;
         }
 
-        /* Running Clue Ticker (Lebih Lambat -> 60s) */
+        /* Running Clue Ticker */
         .ticker-wrap {
             width: 100%;
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.9);
             border: 1px solid #3b82f6;
             border-radius: 8px;
             overflow: hidden;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .ticker-title {
             background: #2563eb;
             color: white;
-            padding: 8px 12px;
+            padding: 8px 14px;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             white-space: nowrap;
         }
 
         .ticker-content {
             display: flex;
             white-space: nowrap;
-            animation: ticker 60s linear infinite; /* Diperlambat dari 30s ke 60s */
+            animation: ticker 25s linear infinite;
+            font-weight: 600;
+            color: #f59e0b;
+            font-size: 0.95rem;
         }
 
         @keyframes ticker {
@@ -309,13 +314,17 @@
 
     <div class="main-wrapper">
         <div class="header-section">
-            <h1>🧠 Game Memory Recall</h1>
+            <h1>⚡ BRAIN FLASH</h1>
         </div>
 
-        <!-- Running Clue Ticker -->
+        <!-- Running Clue Ticker Motivasi -->
         <div class="ticker-wrap" id="tickerWrap" style="display: none;">
-            <div class="ticker-title">💡 RUNNING CLUE</div>
-            <div class="ticker-content" id="tickerContent"></div>
+            <div class="ticker-title">🔥 MOTIVASI</div>
+            <div class="ticker-content" id="tickerContent">
+                ✨ "Ayo, kamu pasti bisa! Tetap fokus dan pertajam daya ingatmu!" ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                ✨ "Ayo, kamu pasti bisa! Tetap fokus dan pertajam daya ingatmu!" ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                ✨ "Ayo, kamu pasti bisa! Tetap fokus dan pertajam daya ingatmu!" ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
         </div>
 
         <div class="dashboard" id="dashboardBox" style="display: none;">
@@ -325,9 +334,9 @@
 
         <!-- Screen 1: Start Button -->
         <div class="start-screen" id="startScreen">
-            <h2 style="color: #38bdf8; margin-bottom: 15px;">Game Memory Recall</h2>
+            <h2 style="color: #38bdf8; margin-bottom: 15px;">⚡ BRAIN FLASH</h2>
             <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5;">
-                Hafalkan posisi <b>20 Kartu Informasi Sains</b> beserta nomor urutnya selama 2 menit. Setelah itu, susun kembali urutannya dari 1 sampai 20.
+                Hafalkan posisi <b>20 Kartu Informasi Sains</b> beserta nomor urutnya selama 2 menit. Setelah itu, susun kembali urutannya dari 1 sampai 20!
             </p>
             <button class="btn-action" style="font-size: 1.3rem; padding: 14px 45px;" onclick="startGame()">START</button>
         </div>
@@ -366,7 +375,7 @@
     </div>
 
     <script>
-        // Data 20 Kartu Konseptual
+        // Data 20 Kartu Konseptual Sains
         const memoryDatabase = [
             { id: 1, topic: "Prinsip Kimia Hijau 1", fact: "Mencegah limbah lebih diutamakan daripada mengolahnya." },
             { id: 2, topic: "Pelarut Hijau Ideal", fact: "Air dan scCO2 adalah pelarut ramah lingkungan." },
@@ -401,13 +410,6 @@
             document.getElementById('dashboardBox').style.display = 'flex';
             document.getElementById('memoGrid').style.display = 'grid';
             document.getElementById('btnSkip').style.display = 'inline-block';
-
-            // Running Clue Ticker
-            let clueText = "";
-            memoryDatabase.forEach((item) => {
-                clueText += `🔹 [${item.topic}]: ${item.fact} &nbsp;&nbsp;&nbsp;&nbsp; `;
-            });
-            document.getElementById('tickerContent').innerHTML = clueText + clueText;
 
             // Render 20 Cards (Ada Angka)
             const grid = document.getElementById('memoGrid');
@@ -551,7 +553,8 @@
             document.getElementById('recallSection').style.display = 'none';
             document.getElementById('startScreen').style.display = 'flex';
             document.getElementById('tickerWrap').style.display = 'none';
-          document.getElementById('phase-display').innerText = 'Menghafal Urutan';
+            document.getElementById('dashboardBox').style.display = 'none';
+            document.getElementById('phase-display').innerText = 'Menghafal Urutan';
             document.getElementById('phase-display').style.color = '#38bdf8';
         }
     </script>
