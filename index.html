@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Memory Card Kuis (30 Kartu - High Level)</title>
+    <title>Game Memory Recall - Muhamad Fatih Sopwanudin</title>
     <style>
         * {
             box-sizing: border-box;
@@ -22,136 +22,241 @@
             padding: 20px;
         }
 
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: #38bdf8;
+        .header-section {
             text-align: center;
-            text-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
+            margin-bottom: 15px;
         }
 
-        .subtitle {
-            font-size: 0.95rem;
-            color: #94a3b8;
-            margin-bottom: 20px;
-            text-align: center;
+        h1 {
+            font-size: 1.8rem;
+            color: #38bdf8;
+            text-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
+            margin-bottom: 5px;
+        }
+
+        .school-badge {
+            font-size: 1rem;
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .identity-bar {
+            background: #1e293b;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            margin-top: 10px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .identity-bar input {
+            background: #0f172a;
+            border: 1px solid #38bdf8;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        /* Running Clue Ticker */
+        .ticker-wrap {
+            width: 100%;
+            max-width: 950px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .ticker-title {
+            background: #2563eb;
+            color: white;
+            padding: 8px 12px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .ticker-content {
+            display: flex;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
         }
 
         .dashboard {
             display: flex;
             gap: 20px;
             background: #1e293b;
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 12px;
             border: 1px solid #334155;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            justify-content: center;
+            margin-bottom: 15px;
         }
 
         .stat-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 600;
         }
 
-        .stat-value {
-            color: #f43f5e;
-            font-size: 1.2rem;
+        /* Screen 1: Start Screen */
+        .start-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #1e293b;
+            border: 2px solid #38bdf8;
+            border-radius: 16px;
+            padding: 40px 20px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-top: 30px;
         }
 
+        /* Grid Layouts */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 12px;
-            max-width: 1000px;
+            gap: 10px;
+            max-width: 950px;
             width: 100%;
-            perspective: 1000px;
+            margin-bottom: 15px;
         }
 
         @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(5, 1fr);
-                gap: 8px;
-            }
+            .grid-container { grid-template-columns: repeat(3, 1fr); gap: 6px; }
         }
 
-        @media (max-width: 500px) {
-            .grid-container {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 6px;
-            }
-        }
-
-        .card {
-            background-color: transparent;
-            height: 110px;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        .card.flipped .card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Card Styles */
+        .memo-card {
+            background: #1e293b;
+            border: 2px solid #38bdf8;
+            border-radius: 8px;
             padding: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            font-size: 0.85rem;
-            line-height: 1.2;
+            position: relative;
+            min-height: 85px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
 
-        .card-front {
-            background: linear-gradient(145deg, #1e293b, #0f172a);
-            border: 2px solid #3b82f6;
+        .memo-card .card-badge {
+            position: absolute;
+            top: 4px;
+            left: 6px;
+            background: #2563eb;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .memo-card .card-title {
+            font-size: 0.8rem;
+            font-weight: bold;
             color: #38bdf8;
-            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .memo-card .card-text {
+            font-size: 0.7rem;
+            color: #cbd5e1;
+            line-height: 1.1;
+        }
+
+        /* Recall Area Styles */
+        .recall-section {
+            display: none;
+            width: 100%;
+            max-width: 950px;
+        }
+
+        .pool-title {
+            font-size: 1rem;
+            color: #f59e0b;
+            margin-bottom: 8px;
             font-weight: bold;
         }
 
-        .card-front::after {
-            content: "❓";
-            font-size: 1.8rem;
-        }
-
-        .card-back {
-            background: #334155;
-            color: #f8fafc;
-            transform: rotateY(180deg);
-            border: 2px solid #64748b;
-            font-weight: 500;
+        .card-pool {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px dashed #475569;
+            border-radius: 12px;
+            padding: 12px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            max-height: 220px;
             overflow-y: auto;
+            margin-bottom: 20px;
         }
 
-        .card.matched .card-back {
-            background: #065f46;
-            border-color: #10b981;
-            color: #a7f3d0;
+        /* Drop Slots */
+        .slot-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
         }
 
-        .btn-reset {
-            margin-top: 25px;
+        .slot-box {
+            background: #334155; /* Neutral Grey */
+            border: 2px solid #64748b;
+            border-radius: 8px;
+            min-height: 85px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 6px;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .slot-box .slot-number {
+            position: absolute;
+            top: 4px;
+            left: 6px;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            font-weight: bold;
+        }
+
+        /* Result States */
+        .slot-box.correct {
+            background: #064e3b !important; /* Hijau */
+            border-color: #10b981 !important;
+        }
+
+        .slot-box.wrong {
+            background: #881337 !important; /* Merah */
+            border-color: #f43f5e !important;
+        }
+
+        .card-disabled {
+            opacity: 0.3;
+            pointer-events: none;
+            filter: grayscale(100%);
+        }
+
+        .btn-action {
             background: #2563eb;
             color: white;
             border: none;
@@ -164,17 +269,17 @@
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
         }
 
-        .btn-reset:hover {
+        .btn-action:hover {
             background: #1d4ed8;
             transform: translateY(-2px);
         }
 
-        /* Modal Overlay */
+        /* Modal Result */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             justify-content: center;
             align-items: center;
             z-index: 100;
@@ -186,191 +291,295 @@
             border-radius: 16px;
             padding: 30px;
             text-align: center;
-            max-width: 400px;
+            max-width: 480px;
             width: 90%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
 
         .modal-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             margin-bottom: 10px;
+            color: #38bdf8;
         }
 
-        .modal-body {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-            margin-bottom: 20px;
+        .score-display {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #10b981;
+            margin: 15px 0;
         }
     </style>
 </head>
 <body>
 
-    <h1>🧠 Game Memory Kuis (Tingkat Sulit)</h1>
-    <div class="subtitle">30 Kartu (15 Pasang Pertanyaan & Jawaban) | 4 Nyawa</div>
-
-    <div class="dashboard">
-        <div class="stat-box">❤️ Nyawa: <span id="lives-count" class="stat-value">❤️❤️❤️❤️</span></div>
-        <div class="stat-box">🎯 Cocok: <span id="matches-count" style="color: #10b981;">0 / 15</span></div>
-        <div class="stat-box">⏱️ Waktu: <span id="timer-count" style="color: #f59e0b;">0s</span></div>
+    <div class="header-section">
+        <h1>🧠 Game Memory Recall (Urutan Kartu)</h1>
+        <div class="school-badge">📍 SMAN 1 CIJERUK</div>
+        
+        <div class="identity-bar">
+            <label>Nama: <input type="text" id="studentName" value="Fatih"></label>
+            <label>Sekolah: <input type="text" id="schoolName" value="SMAN 1 Cijeruk"></label>
+        </div>
     </div>
 
-    <div class="grid-container" id="grid"></div>
+    <!-- Running Clue Ticker -->
+    <div class="ticker-wrap" id="tickerWrap" style="display: none;">
+        <div class="ticker-title">💡 RUNNING CLUE</div>
+        <div class="ticker-content" id="tickerContent"></div>
+    </div>
 
-    <button class="btn-reset" onclick="initGame()">🔄 Main Ulang / Reset</button>
+    <div class="dashboard" id="dashboardBox" style="display: none;">
+        <div class="stat-box">⏱️ Waktu: <span id="timer-display" style="color: #f59e0b;">120s</span></div>
+        <div class="stat-box">📌 Fase: <span id="phase-display" style="color: #38bdf8;">Menghafal Urutan</span></div>
+    </div>
 
-    <div class="modal" id="gameModal">
+    <!-- Screen 1: Start Button -->
+    <div class="start-screen" id="startScreen">
+        <h2 style="color: #38bdf8; margin-bottom: 15px;">Selamat Datang!</h2>
+        <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 25px; line-height: 1.5;">
+            Uji daya ingat kognitifmu! Hafalkan posisi <b>30 Kartu Informasi Sains</b> beserta nomor urutnya selama 2 menit. Setelah itu, susun kembali urutannya dari 1 sampai 30.
+        </p>
+        <button class="btn-action" style="font-size: 1.2rem; padding: 15px 40px;" onclick="startGame()">🚀 START GAME</button>
+    </div>
+
+    <!-- Screen 2: Fase Menghafal (Memorize) -->
+    <div class="grid-container" id="memoGrid" style="display: none;"></div>
+    <button id="btnSkip" class="btn-action" style="display: none; margin-bottom: 20px;" onclick="startRecallPhase()">🚀 Selesai Menghafal & Mulai Susun</button>
+
+    <!-- Screen 3: Fase Recall (Mengurutkan Kartu) -->
+    <div class="recall-section" id="recallSection">
+        <div class="pool-title">📦 Bank Kartu (Klik kartu untuk memasukkan ke slot urutan selanjutnya):</div>
+        <div class="card-pool" id="cardPool"></div>
+
+        <div class="pool-title" style="color: #38bdf8; margin-top: 10px;">📋 Slot Urutan Kartu (1 - 30):</div>
+        <div class="slot-grid" id="slotGrid"></div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn-action" onclick="finishGame()">VERIFIKASI & SELESAI</button>
+        </div>
+    </div>
+
+    <!-- Modal Hasil Akhir -->
+    <div class="modal" id="resultModal">
         <div class="modal-content">
-            <h2 class="modal-title" id="modalTitle">Game Over!</h2>
-            <p class="modal-body" id="modalBody">Nyawa kamu habis!</p>
-            <button class="btn-reset" onclick="initGame()">Coba Lagi</button>
+            <h2 class="modal-title" id="modalTitle">🎉 Hasil Akhir Game</h2>
+            <p id="modalUserDetail" style="color: #94a3b8; font-size: 0.9rem;"></p>
+            <div class="score-display" id="modalScore">0 / 30 Kartu Benar</div>
+            <p id="modalMessage" style="color: #cbd5e1; margin-bottom: 25px; line-height: 1.4;"></p>
+            <button class="btn-action" onclick="resetGame()">🔄 Main Lagi</button>
         </div>
     </div>
 
     <script>
-        // 15 Pasang Pertanyaan & Jawaban Tingkat Sulit
-        const questionsData = [
-            { id: 1, q: "❓ Prinsip Kimia Hijau ke-1?", a: "💡 Mencegah Timbulnya Limbah" },
-            { id: 2, q: "❓ Turunan f(x) = sin³(2x)", a: "💡 6 sin²(2x) cos(2x)" },
-            { id: 3, q: "❓ Persamaan Schrödinger Bebas Waktu", a: "💡 ĤΨ = EΨ" },
-            { id: 4, q: "❓ Hukum II Termodinamika", a: "💡 Entropi Semesta Selalu Meningkat (ΔS ≥ 0)" },
-            { id: 5, q: "❓ Katalis Utama Proses Haber-Bosch", a: "💡 Besi (Fe) + Promotor K₂O/Al₂O₃" },
-            { id: 6, q: "❓ Orde Reaksi jika Waktu Paruh (t½) Konstan", a: "💡 Reaksi Orde 1" },
-            { id: 7, q: "❓ Pelarut Hijau Pengganti Senyawa VOC", a: "💡 Karbondioksida Superkritis (scCO₂)" },
-            { id: 8, q: "❓ Partikel Pembawa Gaya Nuklir Kuat", a: "💡 Gluon" },
-            { id: 9, q: "❓ Rumus Tekanan Osmotik Larutan", a: "💡 π = M · R · T · i" },
-            { id: 10, q: "❓ Efek Doppler jika Sumber Menjauhi", a: "💡 Frekuensi Terdengar Lebih Rendah (f' < f)" },
-            { id: 11, q: "❓ Definisi Basa Bronsted-Lowry", a: "💡 Akseptor Proton (H⁺)" },
-            { id: 12, q: "❓ Titik Stasioner f(x) = x³ - 3x", a: "💡 x = 1 dan x = -1" },
-            { id: 13, q: "❓ Hukum Kepler III tentang Orbit", a: "💡 T² Berbanding Lurus dengan a³" },
-            { id: 14, q: "❓ Gas Rumah Kaca Potensi Pemanasan Paling Tinggi", a: "💡 Sulfur Heksafluorida (SF₆)" },
-            { id: 15, q: "❓ Hubungan Energi Foton & Frekuensi", a: "💡 E = h · f" }
+        // Data 30 Kartu Konseptual
+        const memoryDatabase = [
+            { id: 1, topic: "Prinsip Kimia Hijau 1", fact: "Mencegah limbah lebih diutamakan daripada mengolahnya." },
+            { id: 2, topic: "Pelarut Hijau Ideal", fact: "Air dan scCO2 adalah pelarut ramah lingkungan." },
+            { id: 3, topic: "Katalis Haber-Bosch", fact: "Katalis Besi (Fe) mempercepat sintesis Amonia." },
+            { id: 4, topic: "Basa Bronsted-Lowry", fact: "Bertindak sebagai akseptor proton (H+)." },
+            { id: 5, topic: "Gas Rumah Kaca Poten", fact: "Sulfur Heksafluorida (SF6) berpotensi GWP tertinggi." },
+            { id: 6, topic: "Aturan Markovnikov", fact: "H terikat pada C alifatik yang mengikat H lebih banyak." },
+            { id: 7, topic: "Hukum Termo II", fact: "Entropi total sistem terisolasi selalu meningkat." },
+            { id: 8, topic: "Pembawa Gaya Kuat", fact: "Gluon adalah boson pembawa gaya nuklir kuat." },
+            { id: 9, topic: "Efek Doppler Menjauh", fact: "Frekuensi gelombang terdengar lebih rendah." },
+            { id: 10, topic: "Sifat Sinar Alfa", fact: "Daya ionisasi tertinggi, daya tembus terlemah." },
+            { id: 11, topic: "Hukum Kepler III", fact: "Kuadrat periode orbit berbanding lurus pangkat tiga jarak." },
+            { id: 12, topic: "Interferensi Celah", fact: "Pola terang terbentuk saat interferensi konstruktif." },
+            { id: 13, topic: "Syarat Fungsi Kontinu", fact: "Limit kiri, limit kanan, dan nilai fungsi sama." },
+            { id: 14, topic: "Definisi Turunan", fact: "Laju perubahan instan dari suatu fungsi." },
+            { id: 15, topic: "Vektor Tegak Lurus", fact: "Hasil kali titik (dot product) sama dengan nol." },
+            { id: 16, topic: "Biofuel Generasi 2", fact: "Dibuat dari limbah biomassa non-pangan (selulosa)." },
+            { id: 17, topic: "Kimia Hijau & Energi", fact: "Sintesis dirancang pada suhu dan tekanan ruang." },
+            { id: 18, topic: "Isomer Geometri", fact: "Terjadi karena keterbatasan rotasi ikatan rangkap dua." },
+            { id: 19, topic: "Reaksi Eksoterm", fact: "Melepaskan kalor ke lingkungan, ΔH bernilai negatif." },
+            { id: 20, topic: "Efek Fotolistrik", fact: "Cahaya bersifat sebagai partikel (foton)." },
+            { id: 21, topic: "Prinsip Pembiasan", fact: "Membias mendekati normal saat masuk medium rapat." },
+            { id: 22, topic: "Dualisme Gelombang", fact: "De Broglie: partikel bergerak memiliki sifat gelombang." },
+            { id: 23, topic: "Dekomposisi Biologi", fact: "Bahan kimia dirancang mudah terurai tak beracun." },
+            { id: 24, topic: "Deret Homolog Alkena", fact: "Hidrokarbon tak jenuh dengan ikatan C=C." },
+            { id: 25, topic: "Kondisi Kesetimbangan", fact: "Laju reaksi maju sama dengan laju reaksi balik." },
+            { id: 26, topic: "Hukum Lenz", fact: "Arah arus induksi menentang perubahan medan magnet." },
+            { id: 27, topic: "Radiasi Benda Hitam", fact: "Pancaran energi berbanding suhu mutlak pangkat empat." },
+            { id: 28, topic: "Limit Tak Hingga", fact: "Asimtot horizontal ditentukan dari limit x tak hingga." },
+            { id: 29, topic: "Bahan Terbarukan", fact: "Penggunaan bahan baku dari biomassa terbarukan." },
+            { id: 30, topic: "Resonansi Gelombang", fact: "Frekuensi alami sama dengan frekuensi sumber." }
         ];
 
-        let cards = [];
-        let flippedCards = [];
-        let lives = 4;
-        let matches = 0;
-        let lockBoard = false;
-        let timer = 0;
+        let timer = 120;
         let timerInterval = null;
+        let placedCards = []; // Menampung kartu yang ditempatkan di slot
+        let currentNextSlot = 0;
 
-        function startTimer() {
-            clearInterval(timerInterval);
-            timer = 0;
-            document.getElementById('timer-count').innerText = "0s";
+        function startGame() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('tickerWrap').style.display = 'flex';
+            document.getElementById('dashboardBox').style.display = 'flex';
+            document.getElementById('memoGrid').style.display = 'grid';
+            document.getElementById('btnSkip').style.display = 'inline-block';
+
+            // Running Clue
+            let clueText = "";
+            memoryDatabase.forEach((item) => {
+                clueText += `🔹 [${item.topic}]: ${item.fact} &nbsp;&nbsp;&nbsp;&nbsp; `;
+            });
+            document.getElementById('tickerContent').innerHTML = clueText + clueText;
+
+            // Render 30 Cards dengan Angka di Kiri Atas
+            const grid = document.getElementById('memoGrid');
+            grid.innerHTML = '';
+            memoryDatabase.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = 'memo-card';
+                card.innerHTML = `
+                    <div class="card-badge">#${item.id}</div>
+                    <div class="card-title">${item.topic}</div>
+                    <div class="card-text">${item.fact}</div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Start Timer 2 Menit (Fase Menghafal)
+            timer = 120;
+            updateTimerDisplay();
             timerInterval = setInterval(() => {
-                timer++;
-                document.getElementById('timer-count').innerText = timer + "s";
+                timer--;
+                updateTimerDisplay();
+                if (timer <= 0) {
+                    clearInterval(timerInterval);
+                    startRecallPhase();
+                }
             }, 1000);
         }
 
-        function stopTimer() {
+        function updateTimerDisplay() {
+            const mins = Math.floor(timer / 60);
+            const secs = timer % 60;
+            document.getElementById('timer-display').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function startRecallPhase() {
             clearInterval(timerInterval);
-        }
 
-        function initGame() {
-            stopTimer();
-            startTimer();
-            lives = 4;
-            matches = 0;
-            lockBoard = false;
-            flippedCards = [];
-            
-            document.getElementById('lives-count').innerText = "❤️".repeat(lives);
-            document.getElementById('matches-count').innerText = "0 / 15";
-            document.getElementById('gameModal').style.display = "none";
+            document.getElementById('memoGrid').style.display = 'none';
+            document.getElementById('btnSkip').style.display = 'none';
+            document.getElementById('recallSection').style.display = 'block';
+            document.getElementById('phase-display').innerText = 'Mengurutkan Kartu';
+            document.getElementById('phase-display').style.color = '#10b981';
 
-            // Buat array 30 kartu (15 soal + 15 jawaban)
-            let cardDeck = [];
-            questionsData.forEach(item => {
-                cardDeck.push({ pairId: item.id, text: item.q, type: 'q' });
-                cardDeck.push({ pairId: item.id, text: item.a, type: 'a' });
-            });
+            // Reset Slot dan Placed Cards
+            placedCards = new Array(30).fill(null);
+            currentNextSlot = 0;
 
-            // Acak kartu (Fisher-Yates Shuffle)
-            for (let i = cardDeck.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [cardDeck[i], cardDeck[j]] = [cardDeck[j], cardDeck[i]];
-            }
+            // Acak Kartu untuk Bank Kartu (TANPA ANGKA DI KIRI ATAS)
+            const shuffled = [...memoryDatabase].sort(() => Math.random() - 0.5);
+            const pool = document.getElementById('cardPool');
+            pool.innerHTML = '';
 
-            const grid = document.getElementById('grid');
-            grid.innerHTML = '';
-
-            cardDeck.forEach((data, index) => {
-                const cardEl = document.createElement('div');
-                cardEl.classList.add('card');
-                cardEl.dataset.pairId = data.pairId;
-                cardEl.dataset.index = index;
-
-                cardEl.innerHTML = `
-                    <div class="card-inner">
-                        <div class="card-front"></div>
-                        <div class="card-back">${data.text}</div>
-                    </div>
+            shuffled.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = 'memo-card';
+                card.id = `pool-card-${item.id}`;
+                card.innerHTML = `
+                    <div class="card-title">${item.topic}</div>
+                    <div class="card-text">${item.fact}</div>
                 `;
-
-                cardEl.addEventListener('click', () => flipCard(cardEl));
-                grid.appendChild(cardEl);
+                card.onclick = () => selectCardFromPool(item);
+                pool.appendChild(card);
             });
-        }
 
-        function flipCard(card) {
-            if (lockBoard) return;
-            if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
-
-            card.classList.add('flipped');
-            flippedCards.push(card);
-
-            if (flippedCards.length === 2) {
-                checkMatch();
+            // Render 30 Slot Kosong (Warna Abu-Abu)
+            const slotGrid = document.getElementById('slotGrid');
+            slotGrid.innerHTML = '';
+            for (let i = 0; i < 30; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'slot-box';
+                slot.id = `slot-${i}`;
+                slot.innerHTML = `<div class="slot-number">SLOT #${i + 1}</div><div class="slot-content" style="font-size:0.75rem; color:#64748b;">[ Kosong ]</div>`;
+                slotGrid.appendChild(slot);
             }
-        }
 
-        function checkMatch() {
-            lockBoard = true;
-            const [card1, card2] = flippedCards;
-
-            const isMatch = card1.dataset.pairId === card2.dataset.pairId;
-
-            if (isMatch) {
-                card1.classList.add('matched');
-                card2.classList.add('matched');
-                matches++;
-                document.getElementById('matches-count').innerText = `${matches} / 15`;
-                flippedCards = [];
-                lockBoard = false;
-
-                if (matches === 15) {
-                    stopTimer();
-                    setTimeout(() => showModal("🎉 Kemenangan Luar Biasa!", `Kamu berhasil mencocokkan semua 15 pasang soal sulit dalam waktu ${timer} detik dengan sisa ${lives} nyawa!`), 500);
+            // Start Timer 2 Menit (Fase Recall)
+            timer = 120;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timer--;
+                updateTimerDisplay();
+                if (timer <= 0) {
+                    finishGame();
                 }
-            } else {
-                lives--;
-                document.getElementById('lives-count').innerText = lives > 0 ? "❤️".repeat(lives) : "💀 Habis";
+            }, 1000);
+        }
 
-                setTimeout(() => {
-                    card1.classList.remove('flipped');
-                    card2.classList.remove('flipped');
-                    flippedCards = [];
-                    lockBoard = false;
+        function selectCardFromPool(item) {
+            if (currentNextSlot >= 30) return; // Sudah penuh
 
-                    if (lives === 0) {
-                        stopTimer();
-                        showModal("💥 Game Over!", `Nyawa kamu sudah habis! Kamu berhasil mencocokkan ${matches} dari 15 pasang soal.`);
-                    }
-                }, 1000);
+            // Tandai Kartu di Pool Agar Tidak Bisa Dipilih Lagi
+            const poolCard = document.getElementById(`pool-card-${item.id}`);
+            if (poolCard.classList.contains('card-disabled')) return;
+
+            poolCard.classList.add('card-disabled');
+
+            // Masukkan Kartu ke Slot Selanjutnya
+            placedCards[currentNextSlot] = item;
+            const targetSlot = document.getElementById(`slot-${currentNextSlot}`);
+            targetSlot.querySelector('.slot-content').innerHTML = `
+                <div style="font-weight:bold; color:#38bdf8; font-size:0.75rem;">${item.topic}</div>
+            `;
+
+            currentNextSlot++;
+        }
+
+        function finishGame() {
+            clearInterval(timerInterval);
+
+            // Verifikasi Hasil & Ubah Warna Kotak Kartu
+            let correctCount = 0;
+
+            for (let i = 0; i < 30; i++) {
+                const slotBox = document.getElementById(`slot-${i}`);
+      const placedItem = placedCards[i];
+
+                if (placedItem && placedItem.id === (i + 1)) {
+                    // Benar -> Warna Hijau
+                    slotBox.classList.add('correct');
+                    correctCount++;
+                } else {
+                    // Salah / Kosong -> Warna Merah
+                    slotBox.classList.add('wrong');
+                }
             }
+
+            // Tampilkan Modal Hasil
+            const student = document.getElementById('studentName').value || "Siswa";
+            const school = document.getElementById('schoolName').value || "SMAN 1 Cijeruk";
+
+            document.getElementById('modalUserDetail').innerText = `👤 ${student} | 🏫 ${school}`;
+            document.getElementById('modalScore').innerText = `${correctCount} / 30 Kartu Benar`;
+
+            let msg = "";
+            if (correctCount === 30) {
+                msg = "🌟 LUAR BIASA PERFECT! Kamu berhasil mengingat seluruh 30 posisi urutan kartu dengan sempurna!";
+            } else if (correctCount >= 20) {
+                msg = "👏 HEBAT SEKALI! Daya ingat kognitif kamu sangat tajam dalam mengurutkan kartu materi!";
+            } else if (correctCount >= 10) {
+                msg = "👍 BAGUS! Kamu berhasil mengurutkan sebagian besar kartu dengan tepat. Tingkatkan lagi!";
+            } else {
+                msg = "💪 TETAP SEMANGAAT! Cobalah untuk fokus melihat pola angka pada kartu di kesempatan berikutnya!";
+            }
+
+            document.getElementById('modalMessage').innerText = msg;
+            document.getElementById('resultModal').style.display = 'flex';
         }
 
-        function showModal(title, body) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalBody').innerText = body;
-            document.getElementById('gameModal').style.display = "flex";
+        function resetGame() {
+            document.getElementById('resultModal').style.display = 'none';
+            document.getElementById('recallSection').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'flex';
+            document.getElementById('tickerWrap').style.display = 'none';
+            document.getElementById('dashboardBox').style.display = 'none';
+            document.getElementById('phase-display').innerText = 'Menghafal Urutan';
+            document.getElementById('phase-display').style.color = '#38bdf8';
         }
-
-        // Jalankan game saat halaman dimuat
-        window.onload = initGame;
     </script>
 </body>
-  </html>
-  
+</html>
