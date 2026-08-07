@@ -132,7 +132,7 @@
             border-radius: 8px;
             padding: 8px;
             position: relative;
-            min-height: 100px;
+            min-height: 105px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -210,7 +210,7 @@
             background: #334155;
             border: 2px solid #64748b;
             border-radius: 8px;
-            min-height: 100px;
+            min-height: 105px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -333,7 +333,7 @@
         </div>
 
         <div class="dashboard" id="dashboardBox" style="display: none;">
-            <div class="stat-box">⏱️ Waktu: <span id="timer-display" style="color: #f59e0b;">5:00</span></div>
+            <div class="stat-box">⏱️ Waktu: <span id="timer-display" style="color: #f59e0b;">4:00</span></div>
             <div class="stat-box">📌 Fase: <span id="phase-display" style="color: #38bdf8;">Menghafal Urutan</span></div>
         </div>
 
@@ -341,7 +341,7 @@
         <div class="start-screen" id="startScreen">
             <h2 style="color: #38bdf8; margin-bottom: 15px;">⚡ BRAIN FLASH</h2>
             <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5;">
-                Hafalkan posisi <b>10 Pengetahuan Umum & 10 Simbol Visual</b> beserta nomor urutnya selama 5 menit. Setelah itu, susun kembali dari urutan 1 sampai 20!
+                Hafalkan posisi <b>10 Trivia Unik Dunia & 10 Simbol Visual</b> beserta nomor urutnya selama <b>4 menit</b>. Setelah itu, susun kembali dari urutan 1 sampai 20!
             </p>
             <button class="btn-action" style="font-size: 1.3rem; padding: 14px 45px;" onclick="startGame()">START</button>
         </div>
@@ -380,19 +380,19 @@
     </div>
 
     <script>
-        // 10 Pengetahuan Umum Tingkat Lanjut + 10 Simbol Visual
+        // 10 Trivia Negara, Mata Uang & Geografi Seru + 10 Simbol Visual
         const memoryDatabase = [
-            // --- 10 Kartu Pengetahuan Teks (1 - 10) ---
-            { id: 1, type: "text", topic: "Danau Terbesar Dunia", fact: "Laut Kaspia adalah danau air asin darat terbesar." },
-            { id: 2, type: "text", topic: "Suhu Titik Nol Mutlak", fact: "Suhu terendah yang mungkin: -273.15° Kelvin." },
-            { id: 3, type: "text", topic: "Unsur Terbanyak di Bumi", fact: "Besi (Fe) membentuk inti dan massa terbesar bumi." },
-            { id: 4, type: "text", topic: "Logam Terkeras", fact: "Kromium (Cr) adalah logam murni paling keras." },
-            { id: 5, type: "text", topic: "Penerbangan Antariksa", fact: "Yuri Gagarin (1961) manusia pertama di luar angkasa." },
-            { id: 6, type: "text", topic: "Palung Terdalam", fact: "Palung Mariana di Pasifik mencapai kedalaman ~11 km." },
-            { id: 7, type: "text", topic: "Hewan Tertua Bumi", fact: "Spons laut diperkirakan hidup sejak 600 juta tahun lalu." },
-            { id: 8, type: "text", topic: "Kecepatan Cahaya", fact: "Cahaya merambat ~300.000 kilometer per detik." },
-            { id: 9, type: "text", topic: "Organ Terbesar Manusia", fact: "Kulit adalah organ tubuh terluas dan terberat." },
-            { id: 10, type: "text", topic: "Teleskop Web NASA", fact: "Teleskop James Webb menangkap infra merah luar angkasa." },
+            // --- 10 Kartu Pengetahuan Unik & Seru (1 - 10) ---
+            { id: 1, type: "text", topic: "Mata Uang Termahal", fact: "Dinar Kuwait (KWD) adalah mata uang tertinggi di dunia." },
+            { id: 2, type: "text", topic: "Negara Tanpa Sungai", fact: "Arab Saudi tidak memiliki alir sungai permanen alami." },
+            { id: 3, type: "text", topic: "Mata Uang Batu Unik", fact: "Pulau Yap memakai batu raksasa Rai sebagai uang." },
+            { id: 4, type: "text", topic: "Negara Terbanyak Pulau", fact: "Swedia memiliki lebih dari 267.000 pulau." },
+            { id: 5, type: "text", topic: "Kota Terdingin Dunia", fact: "Yakutsk (Rusia) bisa mencapai suhu ekstrem -64°C." },
+            { id: 6, type: "text", topic: "Mata Uang Ngultrum", fact: "Mata uang unik Kerajaan Bhutan di Pegunungan Himalaya." },
+            { id: 7, type: "text", topic: "Negara Dalam Negara", fact: "Lesotho dikelilingi sepenuhnya oleh Afrika Selatan." },
+            { id: 8, type: "text", topic: "Gunung Tertinggi Mars", fact: "Olympus Mons (21 km), 2.5x tinggi Gunung Everest." },
+            { id: 9, type: "text", topic: "Mata Uang Plastik", fact: "Dolar Australia menggunakan bahan polimer tahan air." },
+            { id: 10, type: "text", topic: "Tempat Kering Bumi", fact: "Gurun Atacama (Chili) hampir tak pernah diguyur hujan." },
 
             // --- 10 Kartu Simbol & Gambar (11 - 20) ---
             { id: 11, type: "symbol", icon: "⚛️", topic: "Simbol Fisika Atom", fact: "Struktur Model Atom Bohr" },
@@ -407,7 +407,7 @@
             { id: 20, type: "symbol", icon: "🛰️", topic: "Satelit Antariksa", fact: "Komunikasi Observasi Bumi" }
         ];
 
-        const TIME_LIMIT = 300; // 5 Menit = 300 Detik
+        const TIME_LIMIT = 240; // 4 Menit = 240 Detik
         let timer = TIME_LIMIT;
         let timerInterval = null;
         let placedCards = []; 
@@ -438,7 +438,7 @@
                 grid.appendChild(card);
             });
 
-            // Start Timer 5 Menit (Fase Menghafal)
+            // Start Timer 4 Menit (Fase Menghafal)
             timer = TIME_LIMIT;
             updateTimerDisplay();
             timerInterval = setInterval(() => {
@@ -503,7 +503,7 @@
                 slotGrid.appendChild(slot);
             }
 
-            // Start Timer 5 Menit (Fase Recall)
+            // Start Timer 4 Menit (Fase Recall)
             timer = TIME_LIMIT;
             updateTimerDisplay();
             timerInterval = setInterval(() => {
@@ -548,8 +548,8 @@
 
                 if (placedItem && placedItem.id === (i + 1)) {
                     slotBox.classList.add('correct');
-                    correctCount++;
-                 } else {
+         correctCount++;
+                } else {
                     slotBox.classList.add('wrong');
                 }
             }
