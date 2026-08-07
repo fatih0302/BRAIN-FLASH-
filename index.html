@@ -132,7 +132,7 @@
             border-radius: 8px;
             padding: 8px;
             position: relative;
-            min-height: 90px;
+            min-height: 100px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -155,17 +155,22 @@
             border-radius: 4px;
         }
 
+        .memo-card .card-icon {
+            font-size: 1.8rem;
+            margin-bottom: 2px;
+        }
+
         .memo-card .card-title {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: bold;
             color: #38bdf8;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .memo-card .card-text {
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             color: #cbd5e1;
-            line-height: 1.1;
+            line-height: 1.15;
         }
 
         /* Recall Area Styles */
@@ -189,7 +194,7 @@
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 8px;
-            max-height: 240px;
+            max-height: 250px;
             overflow-y: auto;
             margin-bottom: 20px;
         }
@@ -202,10 +207,10 @@
         }
 
         .slot-box {
-            background: #334155; /* Neutral Grey */
+            background: #334155;
             border: 2px solid #64748b;
             border-radius: 8px;
-            min-height: 90px;
+            min-height: 100px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -226,12 +231,12 @@
 
         /* Result States */
         .slot-box.correct {
-            background: #064e3b !important; /* Hijau */
+            background: #064e3b !important;
             border-color: #10b981 !important;
         }
 
         .slot-box.wrong {
-            background: #881337 !important; /* Merah */
+            background: #881337 !important;
             border-color: #f43f5e !important;
         }
 
@@ -336,7 +341,7 @@
         <div class="start-screen" id="startScreen">
             <h2 style="color: #38bdf8; margin-bottom: 15px;">⚡ BRAIN FLASH</h2>
             <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5;">
-                Hafalkan posisi <b>20 Kartu Informasi Sains</b> beserta nomor urutnya selama 2 menit. Setelah itu, susun kembali urutannya dari 1 sampai 20!
+                Hafalkan posisi <b>10 Pengetahuan Umum & 10 Simbol Visual</b> beserta nomor urutnya selama 2 menit. Setelah itu, susun kembali dari urutan 1 sampai 20!
             </p>
             <button class="btn-action" style="font-size: 1.3rem; padding: 14px 45px;" onclick="startGame()">START</button>
         </div>
@@ -375,28 +380,31 @@
     </div>
 
     <script>
-        // Data 20 Kartu Konseptual Sains
+        // 10 Pengetahuan Umum Tingkat Lanjut + 10 Simbol Visual
         const memoryDatabase = [
-            { id: 1, topic: "Prinsip Kimia Hijau 1", fact: "Mencegah limbah lebih diutamakan daripada mengolahnya." },
-            { id: 2, topic: "Pelarut Hijau Ideal", fact: "Air dan scCO2 adalah pelarut ramah lingkungan." },
-            { id: 3, topic: "Katalis Haber-Bosch", fact: "Katalis Besi (Fe) mempercepat sintesis Amonia." },
-            { id: 4, topic: "Basa Bronsted-Lowry", fact: "Bertindak sebagai akseptor proton (H+)." },
-            { id: 5, topic: "Gas Rumah Kaca Poten", fact: "Sulfur Heksafluorida (SF6) berpotensi GWP tertinggi." },
-            { id: 6, topic: "Aturan Markovnikov", fact: "H terikat pada C alifatik yang mengikat H lebih banyak." },
-            { id: 7, topic: "Hukum Termo II", fact: "Entropi total sistem terisolasi selalu meningkat." },
-            { id: 8, topic: "Pembawa Gaya Kuat", fact: "Gluon adalah boson pembawa gaya nuklir kuat." },
-            { id: 9, topic: "Efek Doppler Menjauh", fact: "Frekuensi gelombang terdengar lebih rendah." },
-            { id: 10, topic: "Sifat Sinar Alfa", fact: "Daya ionisasi tertinggi, daya tembus terlemah." },
-            { id: 11, topic: "Hukum Kepler III", fact: "Kuadrat periode orbit berbanding lurus pangkat tiga jarak." },
-            { id: 12, topic: "Interferensi Celah", fact: "Pola terang terbentuk saat interferensi konstruktif." },
-            { id: 13, topic: "Syarat Fungsi Kontinu", fact: "Limit kiri, limit kanan, dan nilai fungsi sama." },
-            { id: 14, topic: "Definisi Turunan", fact: "Laju perubahan instan dari suatu fungsi." },
-            { id: 15, topic: "Vektor Tegak Lurus", fact: "Hasil kali titik (dot product) sama dengan nol." },
-            { id: 16, topic: "Biofuel Generasi 2", fact: "Dibuat dari limbah biomassa non-pangan (selulosa)." },
-            { id: 17, topic: "Kimia Hijau & Energi", fact: "Sintesis dirancang pada suhu dan tekanan ruang." },
-            { id: 18, topic: "Isomer Geometri", fact: "Terjadi karena keterbatasan rotasi ikatan rangkap dua." },
-            { id: 19, topic: "Reaksi Eksoterm", fact: "Melepaskan kalor ke lingkungan, ΔH bernilai negatif." },
-            { id: 20, topic: "Efek Fotolistrik", fact: "Cahaya bersifat sebagai partikel (foton)." }
+            // --- 10 Kartu Pengetahuan Teks (1 - 10) ---
+            { id: 1, type: "text", topic: "Danau Terbesar Dunia", fact: "Laut Kaspia adalah danau air asin darat terbesar." },
+            { id: 2, type: "text", topic: "Suhu Titik Nol Mutlak", fact: "Suhu terendah yang mungkin: -273.15° Kelvin." },
+            { id: 3, type: "text", topic: "Unsur Terbanyak di Bumi", fact: "Besi (Fe) membentuk inti dan massa terbesar bumi." },
+            { id: 4, type: "text", topic: "Logam Terkeras", fact: "Kromium (Cr) adalah logam murni paling keras." },
+            { id: 5, type: "text", topic: "Penerbangan Antariksa", fact: "Yuri Gagarin (1961) manusia pertama di luar angkasa." },
+            { id: 6, type: "text", topic: "Palung Terdalam", fact: "Palung Mariana di Pasifik mencapai kedalaman ~11 km." },
+            { id: 7, type: "text", topic: "Hewan Tertua Bumi", fact: "Spons laut diperkirakan hidup sejak 600 juta tahun lalu." },
+            { id: 8, type: "text", topic: "Kecepatan Cahaya", fact: "Cahaya merambat ~300.000 kilometer per detik." },
+            { id: 9, type: "text", topic: "Organ Terbesar Manusia", fact: "Kulit adalah organ tubuh terluas dan terberat." },
+            { id: 10, type: "text", topic: "Teleskop Web NASA", fact: "Teleskop James Webb menangkap infra merah luar angkasa." },
+
+            // --- 10 Kartu Simbol & Gambar (11 - 20) ---
+            { id: 11, type: "symbol", icon: "⚛️", topic: "Simbol Fisika Atom", fact: "Struktur Model Atom Bohr" },
+            { id: 12, type: "symbol", icon: "🧬", topic: "Simbol Biologi DNA", fact: "Heliks Ganda Genetika" },
+            { id: 13, type: "symbol", icon: "☣️", topic: "Simbol Biohazard", fact: "Bahaya Bahan Biologis" },
+            { id: 14, type: "symbol", icon: "☢️", topic: "Simbol Radioaktif", fact: "Radiasi Pengion Nuklir" },
+            { id: 15, type: "symbol", icon: "♾️", topic: "Simbol Tak Hingga", fact: "Konsep Matematika Infinity" },
+            { id: 16, type: "symbol", icon: "π", topic: "Konstanta Pi (3.14)", fact: "Rasio Keliling Lingkaran" },
+            { id: 17, type: "symbol", icon: "⚡", topic: "Tegangan Tinggi", fact: "Bahaya Arus Listrik" },
+            { id: 18, type: "symbol", icon: "⚖️", topic: "Simbol Keseimbangan", fact: "Hukum & Kesetimbangan" },
+            { id: 19, type: "symbol", icon: "🌱", topic: "Simbol Kimia Hijau", fact: "Keberlanjutan Lingkungan" },
+            { id: 20, type: "symbol", icon: "🛰️", topic: "Satelit Antariksa", fact: "Komunikasi Observasi Bumi" }
         ];
 
         let timer = 120;
@@ -417,11 +425,15 @@
             memoryDatabase.forEach((item) => {
                 const card = document.createElement('div');
                 card.className = 'memo-card';
-                card.innerHTML = `
-                    <div class="card-badge">#${item.id}</div>
-                    <div class="card-title">${item.topic}</div>
-                    <div class="card-text">${item.fact}</div>
-                `;
+                
+                let contentHTML = `<div class="card-badge">#${item.id}</div>`;
+                if (item.type === "symbol") {
+                    contentHTML += `<div class="card-icon">${item.icon}</div>`;
+                }
+                contentHTML += `<div class="card-title">${item.topic}</div>`;
+                contentHTML += `<div class="card-text">${item.fact}</div>`;
+
+                card.innerHTML = contentHTML;
                 grid.appendChild(card);
             });
 
@@ -466,15 +478,20 @@
                 const card = document.createElement('div');
                 card.className = 'memo-card';
                 card.id = `pool-card-${item.id}`;
-                card.innerHTML = `
-                    <div class="card-title">${item.topic}</div>
-                    <div class="card-text">${item.fact}</div>
-                `;
+
+                let contentHTML = "";
+                if (item.type === "symbol") {
+                    contentHTML += `<div class="card-icon">${item.icon}</div>`;
+                }
+                contentHTML += `<div class="card-title">${item.topic}</div>`;
+                contentHTML += `<div class="card-text">${item.fact}</div>`;
+
+                card.innerHTML = contentHTML;
                 card.onclick = () => selectCardFromPool(item);
                 pool.appendChild(card);
             });
 
-            // Render 20 Slot Kosong (Warna Abu-Abu)
+            // Render 20 Slot Kosong
             const slotGrid = document.getElementById('slotGrid');
             slotGrid.innerHTML = '';
             for (let i = 0; i < 20; i++) {
@@ -507,10 +524,15 @@
 
             placedCards[currentNextSlot] = item;
             const targetSlot = document.getElementById(`slot-${currentNextSlot}`);
-            targetSlot.querySelector('.slot-content').innerHTML = `
-                <div style="font-weight:bold; color:#38bdf8; font-size:0.75rem;">${item.topic}</div>
-            `;
+            
+            let displayHTML = "";
+            if (item.type === "symbol") {
+                displayHTML = `<div style="font-size:1.2rem;">${item.icon}</div><div style="font-weight:bold; color:#38bdf8; font-size:0.7rem;">${item.topic}</div>`;
+            } else {
+                displayHTML = `<div style="font-weight:bold; color:#38bdf8; font-size:0.75rem;">${item.topic}</div>`;
+            }
 
+            targetSlot.querySelector('.slot-content').innerHTML = displayHTML;
             currentNextSlot++;
         }
 
@@ -528,20 +550,20 @@
                     correctCount++;
                 } else {
                     slotBox.classList.add('wrong');
-                }
+              }
             }
 
             document.getElementById('modalScore').innerText = `${correctCount} / 20 Kartu Benar`;
 
             let msg = "";
             if (correctCount === 20) {
-                msg = "🌟 LUAR BIASA PERFECT! Kamu berhasil mengingat seluruh 20 posisi urutan kartu dengan sempurna!";
+                msg = "🌟 LUAR BIASA PERFECT! Daya ingat visual dan logika kamu sangat tajam!";
             } else if (correctCount >= 14) {
-                msg = "👏 HEBAT SEKALI! Daya ingat kognitif kamu sangat tajam dalam mengurutkan kartu materi!";
+                msg = "👏 HEBAT SEKALI! Kamu berhasil mengingat sebagian besar fakta & simbol!";
             } else if (correctCount >= 7) {
-                msg = "👍 BAGUS! Kamu berhasil mengurutkan sebagian kartu dengan tepat. Tingkatkan lagi!";
+                msg = "👍 BAGUS! Cobalah latihan lagi untuk memperkuat urutan ingatan visualmu!";
             } else {
-                msg = "💪 TETAP SEMANGAT! Cobalah untuk lebih fokus mengingat urutan nomor kartu di kesempatan berikutnya!";
+                msg = "💪 TETAP SEMANGAT! Jangan menyerah dan coba fokus pada urutan angka kartu!";
             }
 
             document.getElementById('modalMessage').innerText = msg;
