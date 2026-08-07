@@ -3,17 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BrainRecall Extreme Trivia</title>
+  <title>BrainRecall Extreme Hardcore</title>
+  <!-- Load Iconify library untuk ikon yang pasti muncul & presisi -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
   <style>
     :root {
-      --primary: #6366f1;
-      --bg-gradient: radial-gradient(circle at top, #1e1b4b, #0f172a, #020617);
-      --card-bg: rgba(255, 255, 255, 0.05);
-      --card-border: rgba(255, 255, 255, 0.12);
+      --primary: #8b5cf6;
+      --primary-hover: #7c3aed;
+      --bg-gradient: linear-gradient(135deg, #050515 0%, #1a0b2e 50%, #091a2a 100%);
+      --card-bg: rgba(255, 255, 255, 0.07);
+      --card-border: rgba(139, 92, 246, 0.3);
       --text-main: #f8fafc;
       --text-sub: #94a3b8;
-      --accent: #f59e0b;
-      --danger: #ef4444;
+      --accent: #fbbf24;
+      --danger: #f43f5e;
       --success: #10b981;
     }
 
@@ -31,36 +34,44 @@
       padding: 12px;
     }
 
-    .container { width: 100%; max-width: 650px; margin: 0 auto; flex-grow: 1; }
+    .container { width: 100%; max-width: 600px; margin: 0 auto; flex-grow: 1; }
 
-    header { text-align: center; margin-bottom: 15px; }
-    h1 { font-size: 1.8rem; color: #fff; text-shadow: 0 0 12px var(--primary); letter-spacing: 0.5px; }
-    p.subtitle { color: var(--text-sub); font-size: 0.85rem; }
+    header { text-align: center; margin-bottom: 12px; }
+    h1 { 
+      font-size: 1.7rem; 
+      background: linear-gradient(to right, #c084fc, #60a5fa); 
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+    }
+    p.subtitle { color: var(--text-sub); font-size: 0.8rem; }
 
     .status-bar {
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(12px);
       border: 1px solid var(--card-border);
       border-radius: 14px;
       padding: 12px 16px;
       margin-bottom: 15px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
     }
 
     .status-flex { display: flex; width: 100%; justify-content: space-between; align-items: center; }
-    .timer-value { color: var(--accent); font-size: 1.3rem; font-weight: bold; font-family: monospace; }
+    .timer-value { color: var(--danger); font-size: 1.4rem; font-weight: bold; font-family: monospace; }
     
     .btn {
       background: var(--primary); color: white; border: none; padding: 10px 18px;
       border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.9rem;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+      transition: all 0.2s;
     }
+    .btn:active { transform: scale(0.96); }
 
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
-      max-height: 58vh;
+      max-height: 55vh;
       overflow-y: auto;
       padding-right: 4px;
     }
@@ -69,18 +80,23 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 10px;
+      padding: 12px 8px;
       text-align: center;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
     }
 
     .card-num {
-      position: absolute; top: 5px; left: 8px; font-size: 0.7rem; font-weight: bold; color: var(--accent);
+      position: absolute; top: 6px; left: 8px; font-size: 0.7rem; font-weight: bold; color: var(--accent);
     }
 
-    .card-img { width: 45px; height: 45px; object-fit: contain; margin: 6px 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
-    .card-title { font-weight: 700; color: #818cf8; font-size: 0.85rem; margin-bottom: 2px; }
-    .card-ans { font-size: 0.8rem; color: #f1f5f9; font-weight: 600; }
+    .card-icon { font-size: 38px; color: #a78bfa; margin: 4px 0; }
+    .card-title { font-weight: 700; color: #38bdf8; font-size: 0.8rem; margin-bottom: 2px; }
+    .card-ans { font-size: 0.75rem; color: #f1f5f9; font-weight: 600; }
 
     .quiz-box {
       background: var(--card-bg);
@@ -91,19 +107,20 @@
       text-align: center;
     }
 
-    .q-img-large { width: 70px; height: 70px; object-fit: contain; margin: 0 auto 12px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
-    .q-text { font-size: 1rem; font-weight: 700; margin-bottom: 15px; line-height: 1.4; color: #f1f5f9; }
+    .q-icon-large { font-size: 60px; color: #c084fc; margin-bottom: 10px; }
+    .q-text { font-size: 0.95rem; font-weight: 700; margin-bottom: 15px; line-height: 1.4; color: #f1f5f9; }
 
     .options-grid { display: flex; flex-direction: column; gap: 8px; }
     .opt-btn {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--card-border);
-      color: white; padding: 12px; border-radius: 10px; font-size: 0.9rem;
+      color: white; padding: 12px; border-radius: 10px; font-size: 0.85rem;
       text-align: left; cursor: pointer; font-weight: 500;
+      transition: background 0.2s;
     }
 
-    .opt-btn.correct { background: rgba(16, 185, 129, 0.3) !important; border-color: var(--success) !important; color: #6ee7b7; }
-    .opt-btn.wrong { background: rgba(239, 68, 68, 0.3) !important; border-color: var(--danger) !important; color: #fca5a5; }
+    .opt-btn.correct { background: rgba(16, 185, 129, 0.35) !important; border-color: var(--success) !important; color: #6ee7b7; }
+    .opt-btn.wrong { background: rgba(244, 63, 94, 0.35) !important; border-color: var(--danger) !important; color: #fca5a5; }
 
     .end-screen {
       text-align: center; background: var(--card-bg); border: 1px solid var(--card-border);
@@ -118,18 +135,18 @@
 
   <div class="container">
     <header>
-      <h1>BrainRecall Extreme</h1>
-      <p class="subtitle" id="phase-title">Fase Memorize: Hafalkan Gambar & Fakta!</p>
+      <h1>BrainRecall HARDCORE</h1>
+      <p class="subtitle" id="phase-title">Fase Memorize: 2 Menit Menghafal!</p>
     </header>
 
     <div class="status-bar">
       <div id="memorize-ui" class="status-flex">
-        <div>⏱️ Sisa Waktu: <span class="timer-value" id="timer">05:00</span></div>
+        <div>⏱️ Waktu: <span class="timer-value" id="timer">02:00</span></div>
         <button class="btn" id="btn-ready">SAYA SIAP!</button>
       </div>
       <div id="recall-ui" class="status-flex hidden">
-        <div>❤️ Nyawa: <span id="lives" style="color: var(--danger); font-weight: bold;">6</span></div>
-        <div>⭐ Skor: <span id="score" style="color: var(--accent); font-weight: bold;">0</span></div>
+        <div>❤️ Nyawa: <span id="lives" style="color: var(--danger); font-weight: bold; font-size: 1.1rem;">6</span></div>
+        <div>⭐ Skor: <span id="score" style="color: var(--accent); font-weight: bold; font-size: 1.1rem;">0</span></div>
       </div>
     </div>
 
@@ -138,8 +155,8 @@
 
     <!-- FASE RECALL -->
     <div id="recall-phase" class="hidden quiz-box">
-      <div id="q-number" style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 8px;">Soal 1/20</div>
-      <img id="q-img" class="q-img-large" src="" alt="Soal">
+      <div id="q-number" style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 8px;">Soal 1/15</div>
+      <div id="q-icon-box"><iconify-icon id="q-icon" class="q-icon-large" icon="mdi:help-circle"></iconify-icon></div>
       <div class="q-text" id="q-txt">Pertanyaan...</div>
       <div class="options-grid" id="options-container"></div>
       <div id="feedback" style="margin-top: 10px; font-size: 0.85rem; font-weight: bold; min-height: 20px;"></div>
@@ -150,7 +167,7 @@
       <h2 id="end-title">Game Selesai!</h2>
       <p style="color: var(--text-sub); margin-top: 5px;">Skor Akhir Anda:</p>
       <div style="font-size: 2.8rem; font-weight: 800; color: var(--accent); margin: 10px 0;" id="final-score">0</div>
-      <button class="btn" onclick="location.reload()" style="padding: 12px 24px; font-size: 1rem;">🔄 Coba Lagi</button>
+      <button class="btn" onclick="location.reload()" style="padding: 12px 24px; font-size: 1rem;">🔄 Main Lagi</button>
     </div>
   </div>
 
@@ -159,39 +176,34 @@
   </footer>
 
   <script>
-    // DATA DENGAN ICON VECTOR SESUAI TOPIK LENGKAP
+    // DATA DENGAN IKON SESUAI TOPIK LENGKAP
     const knowledgeData = [
-      { id: 1, title: "Ibu Kota Indonesia", ans: "Nusantara (IKN)", img: "https://cdn-icons-png.flaticon.com/512/330/330528.png" },
-      { id: 2, title: "Planet Terbesar", ans: "Yupiter", img: "https://cdn-icons-png.flaticon.com/512/3594/3594270.png" },
-      { id: 3, title: "Penemu Arus Listrik / Lampu", ans: "Thomas Edison", img: "https://cdn-icons-png.flaticon.com/512/702/702797.png" },
-      { id: 4, title: "Lagu Kebangsaan RI", ans: "Indonesia Raya", img: "https://cdn-icons-png.flaticon.com/512/3074/3074058.png" },
-      { id: 5, title: "Simbol Gas Oksigen", ans: "O2", img: "https://cdn-icons-png.flaticon.com/512/1043/1043431.png" },
-      { id: 6, title: "Benua Terluas di Dunia", ans: "Asia", img: "https://cdn-icons-png.flaticon.com/512/814/814587.png" },
-      { id: 7, title: "Mata Uang Negara Jepang", ans: "Yen", img: "https://cdn-icons-png.flaticon.com/512/330/330622.png" },
-      { id: 8, title: "Hewan Darat Tercepat", ans: "Cheetah", img: "https://cdn-icons-png.flaticon.com/512/3069/3069172.png" },
-      { id: 9, title: "Mamalia Terbesar di Bumi", ans: "Paus Biru", img: "https://cdn-icons-png.flaticon.com/512/2042/2042861.png" },
-      { id: 10, title: "Candi Buddha Terbesar", ans: "Borobudur", img: "https://cdn-icons-png.flaticon.com/512/1000/1000868.png" },
-      { id: 11, title: "Monumen Nasional di Jakarta", ans: "Monas", img: "https://cdn-icons-png.flaticon.com/512/2162/2162060.png" },
-      { id: 12, title: "Sungai Terpanjang Dunia", ans: "Sungai Nil", img: "https://cdn-icons-png.flaticon.com/512/2913/2913520.png" },
-      { id: 13, title: "Organ Pemompa Darah Utama", ans: "Jantung", img: "https://cdn-icons-png.flaticon.com/512/2545/2545191.png" },
-      { id: 14, title: "Alat Pengukur Suhu Udara", ans: "Termometer", img: "https://cdn-icons-png.flaticon.com/512/1959/1959311.png" },
-      { id: 15, title: "Gunung Tertinggi di Dunia", ans: "Mount Everest", img: "https://cdn-icons-png.flaticon.com/512/2913/2913008.png" },
-      { id: 16, title: "Simbol Unsur Kimia Emas", ans: "Au", img: "https://cdn-icons-png.flaticon.com/512/2058/2058220.png" },
-      { id: 17, title: "Satuan untuk Arus Listrik", ans: "Ampere", img: "https://cdn-icons-png.flaticon.com/512/616/616490.png" },
-      { id: 18, title: "Proklamator Kemerdekaan RI", ans: "Soekarno - Hatta", img: "https://cdn-icons-png.flaticon.com/512/2910/2910791.png" },
-      { id: 19, title: "Proses Tumbuhan Buat Makanan", ans: "Fotosintesis", img: "https://cdn-icons-png.flaticon.com/512/628/628283.png" },
-      { id: 20, title: "Senyawa Kimia Air", ans: "H2O", img: "https://cdn-icons-png.flaticon.com/512/3105/3105807.png" }
+      { id: 1, title: "Ibu Kota Baru Indonesia", ans: "Nusantara (IKN)", icon: "emojione-monotone:star" },
+      { id: 2, title: "Planet Terbesar di Tata Surya", ans: "Yupiter", icon: "mdi:planet" },
+      { id: 3, title: "Penemu Penemu Arus Listrik / Lampu", ans: "Thomas Edison", icon: "mdi:lightbulb" },
+      { id: 4, title: "Lagu Kebangsaan Indonesia", ans: "Indonesia Raya", icon: "mdi:music" },
+      { id: 5, title: "Rumus Gas Oksigen Kimia", ans: "O2", icon: "mdi:atom" },
+      { id: 6, title: "Benua Terluas di Bumi", ans: "Asia", icon: "mdi:earth" },
+      { id: 7, title: "Mata Uang Resmi Jepang", ans: "Yen", icon: "mdi:currency-jpy" },
+      { id: 8, title: "Hewan Darat Tercepat", ans: "Cheetah", icon: "mdi:run-fast" },
+      { id: 9, title: "Mamalia Terbesar di Dunia", ans: "Paus Biru", icon: "mdi:fish" },
+      { id: 10, title: "Candi Buddha Terbesar", ans: "Borobudur", icon: "mdi:temple-buddhist" },
+      { id: 11, title: "Monumen Nasional Jakarta", ans: "Monas", icon: "mdi:tower-fire" },
+      { id: 12, title: "Sungai Terpanjang di Dunia", ans: "Sungai Nil", icon: "mdi:waves" },
+      { id: 13, title: "Organ Pemompa Darah", ans: "Jantung", icon: "mdi:heart-pulse" },
+      { id: 14, title: "Alat Pengukur Suhu", ans: "Termometer", icon: "mdi:thermometer" },
+      { id: 15, title: "Gunung Tertinggi di Dunia", ans: "Mount Everest", icon: "mdi:image-filter-hdr" }
     ];
 
-    let memorizeTime = 5 * 60; // 5 Menit
+    let memorizeTime = 3 * 60; // Ditetapkan 3 Menit (180 Detik)
     let timerInterval = null;
     let score = 0;
-    let lives = 6;
+    let lives = 6; // Ditetapkan 6 Nyawa
     let currentQIndex = 0;
     let questions = [];
 
     function initGame() {
-      // ACAK POSISI KARTU SETIAP KALI START
+      // Mengacak kartu saat diawali
       const shuffledData = [...knowledgeData].sort(() => 0.5 - Math.random());
       
       const container = document.getElementById('memorize-phase');
@@ -202,7 +214,7 @@
         card.className = 'card';
         card.innerHTML = `
           <div class="card-num">#${idx + 1}</div>
-          <img src="${item.img}" class="card-img" alt="icon">
+          <iconify-icon icon="${item.icon}" class="card-icon"></iconify-icon>
           <div class="card-title">${item.title}</div>
           <div class="card-ans">${item.ans}</div>
         `;
@@ -235,38 +247,33 @@
       document.getElementById('memorize-ui').classList.add('hidden');
       document.getElementById('recall-phase').classList.remove('hidden');
       document.getElementById('recall-ui').classList.remove('hidden');
-      document.getElementById('phase-title').textContent = "Fase Recall: Jawab dengan Cepat & Tepat!";
+      document.getElementById('phase-title').textContent = "Fase Recall: Jawab dengan Teliti!";
 
       generateHardQuestions();
       loadQuestion();
     }
 
-    // MEMBUAT SOAL-SOAL VARIASI DAN TINGKAT KESULITAN TINGGI
+    // MEMBUAT SOAL-SOAL VARIASI KESULITAN TINGGI
     function generateHardQuestions() {
       const copy = [...knowledgeData].sort(() => 0.5 - Math.random());
       
       questions = copy.map(item => {
-        // Acak jenis tipe pertanyaan
         const type = Math.floor(Math.random() * 3); 
         let qText = "";
         let correctOption = "";
-        let showImg = true;
 
         if (type === 0) {
-          // Tipe 1: Tanya Jawaban dari Judul
-          qText = `Apa jawaban/fakta dari: "${item.title}"?`;
+          qText = `Sesuai memori kamu, apa fakta/jawaban dari: "${item.title}"?`;
           correctOption = item.ans;
         } else if (type === 1) {
-          // Tipe 2: Tanya Judul dari Jawaban
-          qText = `Pertanyaan mana yang menghasilkan jawaban: "${item.ans}"?`;
+          qText = `Pertanyaan mana yang tepat untuk jawaban: "${item.ans}"?`;
           correctOption = item.title;
         } else {
-          // Tipe 3: Visual Memory Test (Tanpa sebut judul)
-          qText = `Berdasarkan ikon gambar di atas, fakta/jawaban apa yang tepat?`;
+          qText = `Mengingat ikon di atas, fakta atau jawaban apa yang sesuai?`;
           correctOption = item.ans;
         }
 
-        // Pilihan Jawaban Pengecoh (Distractors)
+        // Pengecoh jawaban dari data lain (Pilihan Ganda Susah)
         let options = [correctOption];
         while (options.length < 4) {
           const randItem = knowledgeData[Math.floor(Math.random() * knowledgeData.length)];
@@ -279,7 +286,7 @@
         options.sort(() => 0.5 - Math.random());
 
         return {
-          img: item.img,
+          icon: item.icon,
           text: qText,
           correct: correctOption,
           opts: options
@@ -292,7 +299,7 @@
       const q = questions[currentQIndex];
 
       document.getElementById('q-number').textContent = `Soal ${currentQIndex + 1} dari ${questions.length}`;
-      document.getElementById('q-img').src = q.img;
+      document.getElementById('q-icon').setAttribute('icon', q.icon);
       document.getElementById('q-txt').textContent = q.text;
 
       const optsContainer = document.getElementById('options-container');
@@ -343,7 +350,7 @@
             endGame(true);
           }
         }
-      }, 1500);
+      }, 1400);
     }
 
     function endGame(isWin) {
@@ -351,7 +358,7 @@
       document.getElementById('recall-ui').classList.add('hidden');
       document.getElementById('end-phase').classList.remove('hidden');
 
-      document.getElementById('end-title').textContent = isWin ? "🎉 HEBAT! Kamu Menyelesaikan Semua Soal" : "💥 GAME OVER (Nyawa Habis)";
+      document.getElementById('end-title').textContent = isWin ? "🎉 LUAR BIASA! Kamu Berhasil Menang" : "💥 GAME OVER (Nyawa Habis)";
       document.getElementById('final-score').textContent = score;
     }
 
