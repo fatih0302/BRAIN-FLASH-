@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brain Flash - Memorize and Recall</title>
+
+    <!-- Meta Tags untuk Preview WhatsApp & Medsos -->
+    <meta property="og:title" content="Brain Flash - Memorize and Recall">
+    <meta property="og:description" content="Game Asah Otak Memori dan Daya Ingat Visual">
+    <meta name="twitter:title" content="Brain Flash - Memorize and Recall">
+
     <style>
         * {
             box-sizing: border-box;
@@ -46,7 +52,7 @@
             letter-spacing: 1px;
         }
 
-        /* Running Clue Ticker */
+        /* Running Clue Ticker Rapi & Tidak Menutupi Teks */
         .ticker-wrap {
             width: 100%;
             background: rgba(15, 23, 42, 0.85);
@@ -66,20 +72,29 @@
             font-weight: bold;
             font-size: 0.75rem;
             white-space: nowrap;
+            z-index: 5;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.4);
+        }
+
+        .ticker-scroll-area {
+            flex-grow: 1;
+            overflow: hidden;
+            position: relative;
         }
 
         .ticker-content {
-            display: flex;
+            display: inline-block;
             white-space: nowrap;
-            animation: ticker 25s linear infinite;
+            animation: ticker 22s linear infinite;
             font-weight: 600;
             color: #fde047;
             font-size: 0.85rem;
+            padding-left: 100%;
         }
 
         @keyframes ticker {
             0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-50%, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
         }
 
         .dashboard {
@@ -338,10 +353,18 @@
             border-top: 1px solid rgba(56, 189, 248, 0.2);
             width: 100%;
             z-index: 2;
+            line-height: 1.4;
         }
 
         .footer-credit b {
             color: #38bdf8;
+        }
+
+        .footer-credit .class-tag {
+            color: #fde047;
+            font-weight: bold;
+            font-size: 0.78rem;
+            margin-top: 2px;
         }
     </style>
 </head>
@@ -352,12 +375,13 @@
             <h1>⚡ BRAIN FLASH</h1>
         </div>
 
-        <!-- Running Clue Ticker Motivasi -->
+        <!-- Running Clue Ticker Motivasi Rapi -->
         <div class="ticker-wrap" id="tickerWrap" style="display: none;">
             <div class="ticker-title">🔥 MOTIVASI</div>
-            <div class="ticker-content" id="tickerContent">
-                ✨ "Ayo, kamu pasti bisa! Tetap fokus dan pertajam daya ingatmu!" ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                ✨ "Ayo, kamu pasti bisa! Tetap fokus dan pertajam daya ingatmu!" ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="ticker-scroll-area">
+                <div class="ticker-content" id="tickerContent">
+                    ✨ "Ayo, kamu pasti bisa! Tetap fokus dan pertajam daya ingatmu!" ✨
+                </div>
             </div>
         </div>
 
@@ -409,9 +433,10 @@
         </div>
     </div>
 
-    <!-- Footer Credit -->
+    <!-- Footer Credit & Kelas -->
     <div class="footer-credit">
         Dibuat oleh: <b>Muhamad Fatih Sopwanudin - SMAN 1 CIJERUK</b>
+        <div class="class-tag">XI - 6 (IPA MURNI)</div>
     </div>
 
     <script>
@@ -536,6 +561,66 @@
                 timer--;
                 updateTimerDisplay();
                 if (timer <= 0) {
+                    clearInterval(timerInterval);
+                    startRecallPhase();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timer / 60);
+            const secs = timer % 60;
+            document.getElementById('timer-display').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function startRecallPhase() {
+            clearInterval(timerInterval);
+
+            document.getElementById('memoGrid').style.display = 'none';
+            document.getElementById('recallSection').style.display = 'block';
+            document.getElementById('phase-display').innerText = 'Mengurutkan Kartu';
+            document.getElementById('phase-display').style.color = '#34d399';
+
+            placedCards = new Array(20).fill(null);
+            currentNextSlot = 0;
+
+            const shuffled = [...memoryDatabase].sort(() => Math.random() - 0.5);
+            const pool = document.getElementById('cardPool');
+            pool.innerHTML = '';
+
+            shuffled.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = 'memo-card';
+                card.id = `pool-card-${item.id}`;
+
+                let contentHTML = "";
+                if (item.type === "symbol") {
+                    contentHTML += `<div class="card-icon">${item.icon}</div>`;
+                }
+                contentHTML += `<div class="card-title">${item.topic}</div>`;
+                contentHTML += `<div class="card-text">${item.fact}</div>`;
+
+                card.innerHTML = contentHTML;
+                card.onclick = () => selectCardFromPool(item);
+                pool.appendChild(card);
+            });
+
+            const slotGrid = document.getElementById('slotGrid');
+            slotGrid.innerHTML = '';
+            for (let i = 0; i < 20; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'slot-box';
+                slot.id = `slot-${i}`;
+                slot.innerHTML = `<div class="slot-number">SLOT #${i + 1}</div><div class="slot-content" style="font-size:0.7rem; color:#94a3b8;">[ Kosong ]</div>`;
+                slotGrid.appendChild(slot);
+            }
+
+            timer = TIME_LIMIT;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timer--;
+                updateTimerDisplay();
+                if (timer <= 0) {
                     finishGame();
                 }
             }, 1000);
@@ -555,7 +640,7 @@
             let displayHTML = "";
             if (item.type === "symbol") {
                 displayHTML = `<div style="font-size:1.1rem;">${item.icon}</div><div style="font-weight:bold; color:#38bdf8; font-size:0.68rem;">${item.topic}</div>`;
-         } else {
+            } else {
                 displayHTML = `<div style="font-weight:bold; color:#38bdf8; font-size:0.7rem;">${item.topic}</div>`;
             }
 
