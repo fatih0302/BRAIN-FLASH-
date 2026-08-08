@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brain Flash - SMAN 1 Cijeruk</title>
+    <title>Brain Flash - Memory and Recall</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,7 +12,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Latar Belakang Biru Laut dengan Animasi Gradasi Glow */
         body {
             background: radial-gradient(circle at 50% 20%, #0284c7 0%, #0f172a 75%, #02122c 100%);
             color: #f0f9ff;
@@ -21,41 +20,14 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 20px;
+            padding: 12px;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Hiasan Cahaya Gelombang Laut Background */
-        body::before {
-            content: '';
-            position: absolute;
-            top: -100px;
-            left: -100px;
-            width: 400px;
-            height: 400px;
-            background: rgba(56, 189, 248, 0.15);
-            filter: blur(100px);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        body::after {
-            content: '';
-            position: absolute;
-            bottom: -100px;
-            right: -100px;
-            width: 450px;
-            height: 450px;
-            background: rgba(14, 165, 233, 0.12);
-            filter: blur(120px);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
         .main-wrapper {
             width: 100%;
-            max-width: 950px;
+            max-width: 900px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -64,37 +36,35 @@
 
         .header-section {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         h1 {
-            font-size: 2.4rem;
+            font-size: 1.8rem;
             color: #7dd3fc;
-            text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
-            letter-spacing: 2px;
-            margin-bottom: 5px;
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+            letter-spacing: 1px;
         }
 
-        /* Running Clue Ticker Tema Laut */
+        /* Running Clue Ticker */
         .ticker-wrap {
             width: 100%;
-            background: rgba(15, 23, 42, 0.75);
+            background: rgba(15, 23, 42, 0.85);
             border: 1px solid #38bdf8;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(2, 132, 199, 0.25);
+            backdrop-filter: blur(8px);
         }
 
         .ticker-title {
             background: linear-gradient(135deg, #0284c7, #2563eb);
             color: white;
-            padding: 8px 16px;
+            padding: 6px 12px;
             font-weight: bold;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             white-space: nowrap;
         }
 
@@ -104,7 +74,7 @@
             animation: ticker 25s linear infinite;
             font-weight: 600;
             color: #fde047;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
         }
 
         @keyframes ticker {
@@ -114,119 +84,122 @@
 
         .dashboard {
             display: flex;
-            gap: 20px;
-            background: rgba(15, 23, 42, 0.7);
-            padding: 10px 24px;
-            border-radius: 20px;
+            gap: 15px;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 8px 16px;
+            border-radius: 15px;
             border: 1px solid rgba(56, 189, 248, 0.3);
-            backdrop-filter: blur(10px);
-            margin-bottom: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            margin-bottom: 12px;
         }
 
         .stat-box {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             font-weight: 600;
         }
 
-        /* Start Screen Glassmorphism */
+        /* Start Screen */
         .start-screen {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(15, 23, 42, 0.75);
+            background: rgba(15, 23, 42, 0.85);
             border: 2px solid #38bdf8;
-            border-radius: 20px;
-            padding: 35px 25px;
-            max-width: 480px;
+            border-radius: 16px;
+            padding: 24px 16px;
+            max-width: 420px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 12px 35px rgba(2, 132, 199, 0.3);
-            backdrop-filter: blur(12px);
-            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.3);
+            backdrop-filter: blur(10px);
+            margin-top: 15px;
         }
 
         .rule-box {
             background: rgba(239, 68, 68, 0.15);
             border: 1px solid #f87171;
             color: #fca5a5;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            margin-bottom: 25px;
-            line-height: 1.4;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            line-height: 1.35;
             width: 100%;
-            backdrop-filter: blur(5px);
         }
 
-        /* Grid Layouts (5 kolom untuk 20 kartu) */
+        /* Responsive Grid: Laptop 5 kolom, HP 2 kolom */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
+            gap: 8px;
             width: 100%;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
-        @media (max-width: 768px) {
-            .grid-container { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        /* Style Khusus Layar Smartphone / HP */
+        @media (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+            .slot-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 6px !important;
+            }
+            .card-pool {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 6px !important;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
         }
 
-        /* Card Styles Glass Blue */
+        /* Card Styles Pas di Layar HP */
         .memo-card {
-            background: rgba(15, 23, 42, 0.85);
-            border: 2px solid #38bdf8;
-            border-radius: 12px;
-            padding: 8px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1.5px solid #38bdf8;
+            border-radius: 10px;
+            padding: 6px;
             position: relative;
-            min-height: 105px;
+            min-height: 85px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            backdrop-filter: blur(8px);
-        }
-
-        .memo-card:hover {
-            transform: translateY(-4px);
-            border-color: #7dd3fc;
-            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.4);
+            transition: all 0.2s;
         }
 
         .memo-card .card-badge {
             position: absolute;
-            top: 5px;
-            left: 6px;
+            top: 4px;
+            left: 5px;
             background: linear-gradient(135deg, #0284c7, #2563eb);
             color: #fff;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
-            padding: 2px 7px;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            padding: 1px 5px;
+            border-radius: 4px;
         }
 
         .memo-card .card-icon {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             margin-bottom: 2px;
         }
 
         .memo-card .card-title {
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             font-weight: bold;
             color: #38bdf8;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
 
         .memo-card .card-text {
-            font-size: 0.68rem;
+            font-size: 0.65rem;
             color: #e0f2fe;
-            line-height: 1.15;
+            line-height: 1.1;
         }
 
         /* Recall Area Styles */
@@ -236,72 +209,68 @@
         }
 
         .pool-title {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #fde047;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: bold;
         }
 
         .card-pool {
-            background: rgba(15, 23, 42, 0.8);
-            border: 2px dashed #0284c7;
-            border-radius: 16px;
-            padding: 12px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1.5px dashed #0284c7;
+            border-radius: 12px;
+            padding: 8px;
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            max-height: 250px;
+            gap: 6px;
+            max-height: 200px;
             overflow-y: auto;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
+            margin-bottom: 15px;
         }
 
         /* Drop Slots */
         .slot-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
+            gap: 8px;
         }
 
         .slot-box {
-            background: rgba(30, 41, 59, 0.8);
-            border: 2px solid #0284c7;
-            border-radius: 12px;
-            min-height: 105px;
+            background: rgba(30, 41, 59, 0.85);
+            border: 1.5px solid #0284c7;
+            border-radius: 10px;
+            min-height: 85px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
-            padding: 6px;
-            transition: all 0.3s;
-            backdrop-filter: blur(8px);
+            padding: 5px;
+            transition: all 0.2s;
         }
 
         .slot-box .slot-number {
             position: absolute;
-            top: 5px;
-            left: 6px;
-            font-size: 0.65rem;
+            top: 4px;
+            left: 5px;
+            font-size: 0.6rem;
             color: #94a3b8;
             font-weight: bold;
         }
 
         /* Result States */
         .slot-box.correct {
-            background: rgba(6, 78, 59, 0.9) !important;
+            background: rgba(6, 78, 59, 0.95) !important;
             border-color: #10b981 !important;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
         }
 
         .slot-box.wrong {
-            background: rgba(136, 19, 55, 0.9) !important;
+            background: rgba(136, 19, 55, 0.95) !important;
             border-color: #f43f5e !important;
-            box-shadow: 0 0 15px rgba(244, 63, 94, 0.5);
         }
 
         .card-disabled {
-            opacity: 0.25;
+            opacity: 0.2;
             pointer-events: none;
             filter: grayscale(100%);
         }
@@ -310,19 +279,18 @@
             background: linear-gradient(135deg, #0284c7, #2563eb);
             color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
+            padding: 10px 24px;
+            font-size: 0.95rem;
             font-weight: bold;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.5);
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
         }
 
         .btn-action:hover {
             background: linear-gradient(135deg, #0369a1, #1d4ed8);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.7);
+            transform: translateY(-1px);
         }
 
         /* Modal Result */
@@ -330,8 +298,8 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(2, 18, 44, 0.88);
-            backdrop-filter: blur(12px);
+            background: rgba(2, 18, 44, 0.9);
+            backdrop-filter: blur(8px);
             justify-content: center;
             align-items: center;
             z-index: 100;
@@ -340,33 +308,32 @@
         .modal-content {
             background: rgba(15, 23, 42, 0.95);
             border: 2px solid #38bdf8;
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 16px;
+            padding: 24px 16px;
             text-align: center;
-            max-width: 450px;
+            max-width: 380px;
             width: 90%;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         }
 
         .modal-title {
-            font-size: 1.6rem;
-            margin-bottom: 10px;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
             color: #38bdf8;
         }
 
         .score-display {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: #34d399;
-            margin: 15px 0;
+            margin: 10px 0;
         }
 
         /* Footer Credit */
         .footer-credit {
-            margin-top: 30px;
-            padding: 10px;
+            margin-top: 20px;
+            padding: 8px;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #94a3b8;
             border-top: 1px solid rgba(56, 189, 248, 0.2);
             width: 100%;
@@ -391,7 +358,6 @@
             <div class="ticker-content" id="tickerContent">
                 ✨ "Ayo, kamu pasti bisa! Tetap fokus dan pertajam daya ingatmu!" ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 ✨ "Ayo, kamu pasti bisa! Tetap fokus dan pertajam daya ingatmu!" ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                ✨ "Ayo, kamu pasti bisa! Tetap fokus dan pertajam daya ingatmu!" ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </div>
         </div>
 
@@ -402,8 +368,8 @@
 
         <!-- Screen 1: Start Button -->
         <div class="start-screen" id="startScreen">
-            <h2 style="color: #38bdf8; margin-bottom: 12px;">⚡ BRAIN FLASH</h2>
-            <p style="color: #e0f2fe; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.5;">
+            <h2 style="color: #38bdf8; margin-bottom: 10px; font-size: 1.3rem;">⚡ BRAIN FLASH</h2>
+            <p style="color: #e0f2fe; font-size: 0.85rem; margin-bottom: 12px; line-height: 1.4;">
                 Hafalkan posisi <b>10 Trivia Unik Dunia & 10 Simbol Visual</b> beserta nomor urutnya selama <b>4 menit</b>. Setelah itu, susun kembali dari urutan 1 sampai 20!
             </p>
             
@@ -413,22 +379,22 @@
                 Kerjakan game ini <b>murni mengandalkan daya ingat/memori otak</b> (tanpa bantuan kertas, catatan, alat tulis, maupun tangkapan layar)!
             </div>
 
-            <button class="btn-action" style="font-size: 1.3rem; padding: 14px 45px;" onclick="startGame()">START</button>
+            <button class="btn-action" style="font-size: 1.1rem; padding: 12px 36px;" onclick="startGame()">START</button>
         </div>
 
         <!-- Screen 2: Fase Menghafal (Memorize) -->
         <div class="grid-container" id="memoGrid" style="display: none;"></div>
-        <button id="btnSkip" class="btn-action" style="display: none; margin-bottom: 20px;" onclick="startRecallPhase()">🚀 Selesai Menghafal & Mulai Susun</button>
+        <button id="btnSkip" class="btn-action" style="display: none; margin-bottom: 15px;" onclick="startRecallPhase()">🚀 Selesai Menghafal & Mulai Susun</button>
 
         <!-- Screen 3: Fase Recall (Mengurutkan Kartu) -->
         <div class="recall-section" id="recallSection">
-            <div class="pool-title">📦 Bank Kartu (Klik kartu untuk memasukkan ke slot selanjutnya):</div>
+            <div class="pool-title">📦 Bank Kartu (Klik kartu untuk memasukkan ke slot):</div>
             <div class="card-pool" id="cardPool"></div>
 
-            <div class="pool-title" style="color: #38bdf8; margin-top: 10px;">📋 Slot Urutan Kartu (1 - 20):</div>
+            <div class="pool-title" style="color: #38bdf8; margin-top: 8px;">📋 Slot Urutan Kartu (1 - 20):</div>
             <div class="slot-grid" id="slotGrid"></div>
             
-            <div style="text-align: center; margin-top: 20px;">
+            <div style="text-align: center; margin-top: 15px;">
                 <button class="btn-action" onclick="finishGame()">VERIFIKASI & SELESAI</button>
             </div>
         </div>
@@ -439,7 +405,7 @@
         <div class="modal-content">
             <h2 class="modal-title" id="modalTitle">🎉 Hasil Akhir Game</h2>
             <div class="score-display" id="modalScore">0 / 20 Kartu Benar</div>
-            <p id="modalMessage" style="color: #e0f2fe; margin-bottom: 25px; line-height: 1.4;"></p>
+            <p id="modalMessage" style="color: #e0f2fe; margin-bottom: 20px; line-height: 1.35; font-size: 0.85rem;"></p>
             <button class="btn-action" onclick="resetGame()">🔄 Main Lagi</button>
         </div>
     </div>
@@ -450,7 +416,6 @@
     </div>
 
     <script>
-        // 10 Trivia Negara, Mata Uang & Geografi Seru + 10 Simbol Visual
         const memoryDatabase = [
             // --- 10 Kartu Pengetahuan Unik & Seru (1 - 10) ---
             { id: 1, type: "text", topic: "Mata Uang Termahal", fact: "Dinar Kuwait (KWD) adalah mata uang tertinggi di dunia." },
@@ -490,7 +455,6 @@
             document.getElementById('memoGrid').style.display = 'grid';
             document.getElementById('btnSkip').style.display = 'inline-block';
 
-            // Render 20 Cards (Ada Angka)
             const grid = document.getElementById('memoGrid');
             grid.innerHTML = '';
             memoryDatabase.forEach((item) => {
@@ -508,7 +472,6 @@
                 grid.appendChild(card);
             });
 
-            // Start Timer 4 Menit (Fase Menghafal)
             timer = TIME_LIMIT;
             updateTimerDisplay();
             timerInterval = setInterval(() => {
@@ -536,11 +499,9 @@
             document.getElementById('phase-display').innerText = 'Mengurutkan Kartu';
             document.getElementById('phase-display').style.color = '#34d399';
 
-            // Reset Slot dan Placed Cards
             placedCards = new Array(20).fill(null);
             currentNextSlot = 0;
 
-            // Acak Kartu untuk Bank Kartu (TANPA ANGKA)
             const shuffled = [...memoryDatabase].sort(() => Math.random() - 0.5);
             const pool = document.getElementById('cardPool');
             pool.innerHTML = '';
@@ -552,7 +513,7 @@
 
                 let contentHTML = "";
                 if (item.type === "symbol") {
-              contentHTML += `<div class="card-icon">${item.icon}</div>`;
+                    contentHTML += `<div class="card-icon">${item.icon}</div>`;
                 }
                 contentHTML += `<div class="card-title">${item.topic}</div>`;
                 contentHTML += `<div class="card-text">${item.fact}</div>`;
@@ -562,18 +523,16 @@
                 pool.appendChild(card);
             });
 
-            // Render 20 Slot Kosong
             const slotGrid = document.getElementById('slotGrid');
             slotGrid.innerHTML = '';
             for (let i = 0; i < 20; i++) {
                 const slot = document.createElement('div');
                 slot.className = 'slot-box';
                 slot.id = `slot-${i}`;
-                slot.innerHTML = `<div class="slot-number">SLOT #${i + 1}</div><div class="slot-content" style="font-size:0.75rem; color:#94a3b8;">[ Kosong ]</div>`;
+                slot.innerHTML = `<div class="slot-number">SLOT #${i + 1}</div><div class="slot-content" style="font-size:0.7rem; color:#94a3b8;">[ Kosong ]</div>`;
                 slotGrid.appendChild(slot);
             }
 
-            // Start Timer 4 Menit (Fase Recall)
             timer = TIME_LIMIT;
             updateTimerDisplay();
             timerInterval = setInterval(() => {
@@ -598,9 +557,9 @@
             
             let displayHTML = "";
             if (item.type === "symbol") {
-                displayHTML = `<div style="font-size:1.2rem;">${item.icon}</div><div style="font-weight:bold; color:#38bdf8; font-size:0.7rem;">${item.topic}</div>`;
+                displayHTML = `<div style="font-size:1.1rem;">${item.icon}</div><div style="font-weight:bold; color:#38bdf8; font-size:0.68rem;">${item.topic}</div>`;
             } else {
-                displayHTML = `<div style="font-weight:bold; color:#38bdf8; font-size:0.75rem;">${item.topic}</div>`;
+                displayHTML = `<div style="font-weight:bold; color:#38bdf8; font-size:0.7rem;">${item.topic}</div>`;
             }
 
             targetSlot.querySelector('.slot-content').innerHTML = displayHTML;
