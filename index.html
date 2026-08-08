@@ -33,7 +33,7 @@
 
         .main-wrapper {
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -52,7 +52,7 @@
             letter-spacing: 1px;
         }
 
-        /* Running Clue Ticker Rapi & Tidak Menutupi Teks */
+        /* Running Clue Ticker Motivasi */
         .ticker-wrap {
             width: 100%;
             background: rgba(15, 23, 42, 0.85);
@@ -122,7 +122,7 @@
             border: 2px solid #38bdf8;
             border-radius: 16px;
             padding: 24px 16px;
-            max-width: 420px;
+            max-width: 450px;
             width: 100%;
             text-align: center;
             box-shadow: 0 10px 30px rgba(2, 132, 199, 0.3);
@@ -142,42 +142,43 @@
             width: 100%;
         }
 
-        /* Responsive Grid: Laptop 5 kolom, HP 2 kolom */
+        /* Grid Layout: Desktop 6 kolom, HP 2-3 kolom */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 8px;
             width: 100%;
             margin-bottom: 12px;
         }
 
-        /* Style Khusus Layar Smartphone / HP */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .slot-grid, .card-pool {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+        }
+
+        @media (max-width: 480px) {
             .grid-container {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 6px;
             }
-            .slot-grid {
+            .slot-grid, .card-pool {
                 grid-template-columns: repeat(2, 1fr) !important;
                 gap: 6px !important;
             }
-            .card-pool {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 6px !important;
-            }
-            h1 {
-                font-size: 1.5rem;
-            }
+            h1 { font-size: 1.5rem; }
         }
 
-        /* Card Styles Pas di Layar HP */
         .memo-card {
             background: rgba(15, 23, 42, 0.9);
             border: 1.5px solid #38bdf8;
             border-radius: 10px;
             padding: 6px;
             position: relative;
-            min-height: 85px;
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -200,7 +201,7 @@
         }
 
         .memo-card .card-icon {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             margin-bottom: 2px;
         }
 
@@ -236,17 +237,16 @@
             border-radius: 12px;
             padding: 8px;
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 6px;
-            max-height: 200px;
+            max-height: 220px;
             overflow-y: auto;
             margin-bottom: 15px;
         }
 
-        /* Drop Slots */
         .slot-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 8px;
         }
 
@@ -254,7 +254,7 @@
             background: rgba(30, 41, 59, 0.85);
             border: 1.5px solid #0284c7;
             border-radius: 10px;
-            min-height: 85px;
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -273,7 +273,6 @@
             font-weight: bold;
         }
 
-        /* Result States */
         .slot-box.correct {
             background: rgba(6, 78, 59, 0.95) !important;
             border-color: #10b981 !important;
@@ -356,10 +355,7 @@
             line-height: 1.4;
         }
 
-        .footer-credit b {
-            color: #38bdf8;
-        }
-
+        .footer-credit b { color: #38bdf8; }
         .footer-credit .class-tag {
             color: #fde047;
             font-weight: bold;
@@ -375,7 +371,7 @@
             <h1>⚡ BRAIN FLASH</h1>
         </div>
 
-        <!-- Running Clue Ticker Motivasi Rapi -->
+        <!-- Ticker Motivasi -->
         <div class="ticker-wrap" id="tickerWrap" style="display: none;">
             <div class="ticker-title">🔥 MOTIVASI</div>
             <div class="ticker-scroll-area">
@@ -390,14 +386,13 @@
             <div class="stat-box">📌 Fase: <span id="phase-display" style="color: #38bdf8;">Menghafal Urutan</span></div>
         </div>
 
-        <!-- Screen 1: Start Button -->
+        <!-- Start Screen -->
         <div class="start-screen" id="startScreen">
             <h2 style="color: #38bdf8; margin-bottom: 10px; font-size: 1.3rem;">⚡ BRAIN FLASH</h2>
             <p style="color: #e0f2fe; font-size: 0.85rem; margin-bottom: 12px; line-height: 1.4;">
-                Hafalkan posisi <b>10 Trivia Unik Dunia & 10 Simbol Visual</b> beserta nomor urutnya selama <b>4 menit</b>. Setelah itu, susun kembali dari urutan 1 sampai 20!
+                Hafalkan posisi <b>30 Kartu</b> (10 Trivia Unik, 10 Simbol Visual, & 10 Pahlawan Nasional) beserta nomor urutnya selama <b>4 menit</b>. Setelah itu, susun kembali dari urutan 1 sampai 30 selama <b>4 menit</b>!
             </p>
             
-            <!-- Aturan Permainan -->
             <div class="rule-box">
                 ⚠️ <b>ATURAN MAIN:</b><br>
                 Kerjakan game ini <b>murni mengandalkan daya ingat/memori otak</b> (tanpa bantuan kertas, catatan, alat tulis, maupun tangkapan layar)!
@@ -406,15 +401,15 @@
             <button class="btn-action" style="font-size: 1.1rem; padding: 12px 36px;" onclick="startGame()">START</button>
         </div>
 
-        <!-- Screen 2: Fase Menghafal (Memorize) -->
+        <!-- Screen 2: Fase Menghafal -->
         <div class="grid-container" id="memoGrid" style="display: none;"></div>
 
-        <!-- Screen 3: Fase Recall (Mengurutkan Kartu) -->
+        <!-- Screen 3: Fase Recall -->
         <div class="recall-section" id="recallSection">
             <div class="pool-title">📦 Bank Kartu (Klik kartu untuk memasukkan ke slot):</div>
             <div class="card-pool" id="cardPool"></div>
 
-            <div class="pool-title" style="color: #38bdf8; margin-top: 8px;">📋 Slot Urutan Kartu (1 - 20):</div>
+            <div class="pool-title" style="color: #38bdf8; margin-top: 8px;">📋 Slot Urutan Kartu (1 - 30):</div>
             <div class="slot-grid" id="slotGrid"></div>
             
             <div style="text-align: center; margin-top: 15px;">
@@ -427,7 +422,7 @@
     <div class="modal" id="resultModal">
         <div class="modal-content">
             <h2 class="modal-title" id="modalTitle">🎉 Hasil Akhir Game</h2>
-            <div class="score-display" id="modalScore">0 / 20 Kartu Benar</div>
+            <div class="score-display" id="modalScore">0 / 30 Kartu Benar</div>
             <p id="modalMessage" style="color: #e0f2fe; margin-bottom: 20px; line-height: 1.35; font-size: 0.85rem;"></p>
             <button class="btn-action" onclick="resetGame()">🔄 Main Lagi</button>
         </div>
@@ -441,7 +436,7 @@
 
     <script>
         const memoryDatabase = [
-            // --- 10 Kartu Pengetahuan Unik & Seru (1 - 10) ---
+            // --- 10 Kartu Trivia Unik Dunia (1 - 10) ---
             { id: 1, type: "text", topic: "Mata Uang Termahal", fact: "Dinar Kuwait (KWD) adalah mata uang tertinggi di dunia." },
             { id: 2, type: "text", topic: "Negara Tanpa Sungai", fact: "Arab Saudi tidak memiliki alir sungai permanen alami." },
             { id: 3, type: "text", topic: "Mata Uang Batu Unik", fact: "Pulau Yap memakai batu raksasa Rai sebagai uang." },
@@ -463,7 +458,19 @@
             { id: 17, type: "symbol", icon: "⚡", topic: "Tegangan Tinggi", fact: "Bahaya Arus Listrik" },
             { id: 18, type: "symbol", icon: "⚖️", topic: "Simbol Keseimbangan", fact: "Hukum & Kesetimbangan" },
             { id: 19, type: "symbol", icon: "🌱", topic: "Simbol Kimia Hijau", fact: "Keberlanjutan Lingkungan" },
-            { id: 20, type: "symbol", icon: "🛰️", topic: "Satelit Antariksa", fact: "Komunikasi Observasi Bumi" }
+            { id: 20, type: "symbol", icon: "🛰️", topic: "Satelit Antariksa", fact: "Komunikasi Observasi Bumi" },
+
+            // --- 10 Kartu Pahlawan Indonesia (21 - 30) ---
+            { id: 21, type: "hero", icon: "🇮🇩", topic: "Ir. Soekarno", fact: "Pahlawan Proklamator & Presiden Pertama RI" },
+            { id: 22, type: "hero", icon: "🇮🇩", topic: "Drs. Mohammad Hatta", fact: "Pahlawan Proklamator & Bapak Koperasi Indonesia" },
+            { id: 23, type: "hero", icon: "⚔️", topic: "Jenderal Soedirman", fact: "Pahlawan Perang Gerilya & Panglima Besar TNI" },
+            { id: 24, type: "hero", icon: "📖", topic: "Ki Hajar Dewantara", fact: "Pahlawan Pendidikan Nasional (Tut Wuri Handayani)" },
+            { id: 25, type: "hero", icon: "👑", topic: "R.A. Kartini", fact: "Pahlawan Emansipasi Wanita Indonesia" },
+            { id: 26, type: "hero", icon: "🗡️", topic: "Pangeran Diponegoro", fact: "Pahlawan Perang Jawa Melawan Belanda" },
+            { id: 27, type: "hero", icon: "🔥", topic: "Bung Tomo", fact: "Pahlawan Pertempuran 10 November Surabaya" },
+            { id: 28, type: "hero", icon: "🛡️", topic: "Cut Nyak Dhien", fact: "Pahlawan Perang Aceh Perkasa" },
+            { id: 29, type: "hero", icon: "📜", topic: "Sutan Sjahrir", fact: "Pahlawan Perjuangan Diplomasi Kemerdekaan" },
+            { id: 30, type: "hero", icon: "🕌", topic: "KH. Hasyim Asy'ari", fact: "Pahlawan Pergerakan Islam & Pendiri NU" }
         ];
 
         const TIME_LIMIT = 240; // 4 Menit = 240 Detik
@@ -485,7 +492,7 @@
                 card.className = 'memo-card';
                 
                 let contentHTML = `<div class="card-badge">#${item.id}</div>`;
-                if (item.type === "symbol") {
+                if (item.type === "symbol" || item.type === "hero") {
                     contentHTML += `<div class="card-icon">${item.icon}</div>`;
                 }
                 contentHTML += `<div class="card-title">${item.topic}</div>`;
@@ -521,7 +528,7 @@
             document.getElementById('phase-display').innerText = 'Mengurutkan Kartu';
             document.getElementById('phase-display').style.color = '#34d399';
 
-            placedCards = new Array(20).fill(null);
+            placedCards = new Array(30).fill(null);
             currentNextSlot = 0;
 
             const shuffled = [...memoryDatabase].sort(() => Math.random() - 0.5);
@@ -534,7 +541,7 @@
                 card.id = `pool-card-${item.id}`;
 
                 let contentHTML = "";
-                if (item.type === "symbol") {
+                if (item.type === "symbol" || item.type === "hero") {
                     contentHTML += `<div class="card-icon">${item.icon}</div>`;
                 }
                 contentHTML += `<div class="card-title">${item.topic}</div>`;
@@ -547,67 +554,7 @@
 
             const slotGrid = document.getElementById('slotGrid');
             slotGrid.innerHTML = '';
-            for (let i = 0; i < 20; i++) {
-                const slot = document.createElement('div');
-                slot.className = 'slot-box';
-                slot.id = `slot-${i}`;
-                slot.innerHTML = `<div class="slot-number">SLOT #${i + 1}</div><div class="slot-content" style="font-size:0.7rem; color:#94a3b8;">[ Kosong ]</div>`;
-                slotGrid.appendChild(slot);
-            }
-
-            timer = TIME_LIMIT;
-            updateTimerDisplay();
-            timerInterval = setInterval(() => {
-                timer--;
-                updateTimerDisplay();
-                if (timer <= 0) {
-                    clearInterval(timerInterval);
-                    startRecallPhase();
-                }
-            }, 1000);
-        }
-
-        function updateTimerDisplay() {
-            const mins = Math.floor(timer / 60);
-            const secs = timer % 60;
-            document.getElementById('timer-display').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-        }
-
-        function startRecallPhase() {
-            clearInterval(timerInterval);
-
-            document.getElementById('memoGrid').style.display = 'none';
-            document.getElementById('recallSection').style.display = 'block';
-            document.getElementById('phase-display').innerText = 'Mengurutkan Kartu';
-            document.getElementById('phase-display').style.color = '#34d399';
-
-            placedCards = new Array(20).fill(null);
-            currentNextSlot = 0;
-
-            const shuffled = [...memoryDatabase].sort(() => Math.random() - 0.5);
-            const pool = document.getElementById('cardPool');
-            pool.innerHTML = '';
-
-            shuffled.forEach((item) => {
-                const card = document.createElement('div');
-                card.className = 'memo-card';
-                card.id = `pool-card-${item.id}`;
-
-                let contentHTML = "";
-                if (item.type === "symbol") {
-                    contentHTML += `<div class="card-icon">${item.icon}</div>`;
-                }
-                contentHTML += `<div class="card-title">${item.topic}</div>`;
-                contentHTML += `<div class="card-text">${item.fact}</div>`;
-
-                card.innerHTML = contentHTML;
-                card.onclick = () => selectCardFromPool(item);
-                pool.appendChild(card);
-            });
-
-            const slotGrid = document.getElementById('slotGrid');
-            slotGrid.innerHTML = '';
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 30; i++) {
                 const slot = document.createElement('div');
                 slot.className = 'slot-box';
                 slot.id = `slot-${i}`;
@@ -627,7 +574,7 @@
         }
 
         function selectCardFromPool(item) {
-            if (currentNextSlot >= 20) return;
+            if (currentNextSlot >= 30) return;
 
             const poolCard = document.getElementById(`pool-card-${item.id}`);
             if (poolCard.classList.contains('card-disabled')) return;
@@ -638,8 +585,8 @@
             const targetSlot = document.getElementById(`slot-${currentNextSlot}`);
             
             let displayHTML = "";
-            if (item.type === "symbol") {
-                displayHTML = `<div style="font-size:1.1rem;">${item.icon}</div><div style="font-weight:bold; color:#38bdf8; font-size:0.68rem;">${item.topic}</div>`;
+            if (item.type === "symbol" || item.type === "hero") {
+                displayHTML = `<div style="font-size:1rem;">${item.icon}</div><div style="font-weight:bold; color:#38bdf8; font-size:0.68rem;">${item.topic}</div>`;
             } else {
                 displayHTML = `<div style="font-weight:bold; color:#38bdf8; font-size:0.7rem;">${item.topic}</div>`;
             }
@@ -653,7 +600,7 @@
 
             let correctCount = 0;
 
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 30; i++) {
                 const slotBox = document.getElementById(`slot-${i}`);
                 const placedItem = placedCards[i];
 
@@ -665,17 +612,17 @@
                 }
             }
 
-            document.getElementById('modalScore').innerText = `${correctCount} / 20 Kartu Benar`;
+            document.getElementById('modalScore').innerText = `${correctCount} / 30 Kartu Benar`;
 
             let msg = "";
-            if (correctCount === 20) {
-                msg = "🌟 LUAR BIASA PERFECT! Daya ingat visual dan logika kamu sangat tajam!";
-            } else if (correctCount >= 14) {
-                msg = "👏 HEBAT SEKALI! Kamu berhasil mengingat sebagian besar fakta & simbol!";
-            } else if (correctCount >= 7) {
-                msg = "👍 BAGUS! Cobalah latihan lagi untuk memperkuat urutan ingatan visualmu!";
+            if (correctCount === 30) {
+                msg = "🌟 PERFECT! Daya ingat visual, pahlawan, dan pengetahuan umummu sungguh luar biasa!";
+            } else if (correctCount >= 20) {
+                msg = "👏 HEBAT SEKALI! Kamu berhasil mengurutkan sebagian besar dari 30 kartu!";
+            } else if (correctCount >= 10) {
+                msg = "👍 BAGUS! Terus latih memori fokusmu untuk hasil yang lebih maksimal!";
             } else {
-                msg = "💪 TETAP SEMANGAT! Jangan menyerah dan coba fokus pada urutan angka kartu!";
+                msg = "💪 TETAP SEMANGAT! Cobalah berkonsentrasi pada kelompok angka 1-10, 11-20, dan 21-30!";
             }
 
             document.getElementById('modalMessage').innerText = msg;
@@ -694,3 +641,5 @@
     </script>
 </body>
 </html>
+
+                
