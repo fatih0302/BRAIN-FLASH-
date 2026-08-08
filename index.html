@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brain Flash - Memory and Recall</title>
+    <title>Brain Flash - SMAN 1 Cijeruk</title>
     <style>
         * {
             box-sizing: border-box;
@@ -384,7 +384,6 @@
 
         <!-- Screen 2: Fase Menghafal (Memorize) -->
         <div class="grid-container" id="memoGrid" style="display: none;"></div>
-        <button id="btnSkip" class="btn-action" style="display: none; margin-bottom: 15px;" onclick="startRecallPhase()">🚀 Selesai Menghafal & Mulai Susun</button>
 
         <!-- Screen 3: Fase Recall (Mengurutkan Kartu) -->
         <div class="recall-section" id="recallSection">
@@ -453,7 +452,6 @@
             document.getElementById('tickerWrap').style.display = 'flex';
             document.getElementById('dashboardBox').style.display = 'flex';
             document.getElementById('memoGrid').style.display = 'grid';
-            document.getElementById('btnSkip').style.display = 'inline-block';
 
             const grid = document.getElementById('memoGrid');
             grid.innerHTML = '';
@@ -494,7 +492,6 @@
             clearInterval(timerInterval);
 
             document.getElementById('memoGrid').style.display = 'none';
-            document.getElementById('btnSkip').style.display = 'none';
             document.getElementById('recallSection').style.display = 'block';
             document.getElementById('phase-display').innerText = 'Mengurutkan Kartu';
             document.getElementById('phase-display').style.color = '#34d399';
