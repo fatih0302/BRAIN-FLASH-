@@ -2,11 +2,11 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BRAIN FLASH - MEMORIZE AND RECALL</title>
 
     <meta property="og:title" content="BRAIN FLASH - MEMORIZE AND RECALL">
-    <meta property="og:description" content="Game Asah Otak Memori dan Daya Ingat Visual Tema Pantai">
+    <meta property="og:description" content="Game Asah Otak Memori Tema Pantai Tropis Seru">
 
     <style>
         * {
@@ -24,76 +24,61 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 12px;
+            padding: 10px;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* --- DEKORASI PANTAI ANIMASI (Latar Belakang) --- */
+        /* --- DEKORASI PANTAI BELAKANG ANIMASI --- */
         .beach-bg-element {
             position: fixed;
             pointer-events: none;
             z-index: 1;
+            opacity: 0.7;
         }
 
         .sun {
-            top: 20px;
-            right: 20px;
-            width: 70px;
-            height: 70px;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
             background: #facc15;
             border-radius: 50%;
             box-shadow: 0 0 40px #fde047, 0 0 80px #facc15;
             animation: pulseSun 4s infinite alternate ease-in-out;
         }
 
-        @keyframes pulseSun {
-            0% { transform: scale(1); box-shadow: 0 0 30px #fde047; }
-            100% { transform: scale(1.1); box-shadow: 0 0 50px #fde047, 0 0 90px #facc15; }
-        }
+        @keyframes pulseSun { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
 
-        .cloud {
-            font-size: 2rem;
-            opacity: 0.8;
-            animation: floatCloud 25s linear infinite;
-        }
-        .cloud-1 { top: 30px; left: -100px; animation-duration: 22s; }
-        .cloud-2 { top: 70px; left: -100px; animation-delay: 10s; animation-duration: 28s; }
+        .cloud { font-size: 2.2rem; opacity: 0.6; animation: floatCloud linear infinite; }
+        .cloud-1 { top: 40px; left: -100px; animation-duration: 25s; }
+        .cloud-2 { top: 90px; left: -100px; animation-delay: 12s; animation-duration: 32s; }
 
-        @keyframes floatCloud {
-            0% { transform: translateX(-100px); }
-            100% { transform: translateX(calc(100vw + 200px)); }
-        }
+        @keyframes floatCloud { 0% { transform: translateX(-100px); } 100% { transform: translateX(calc(100vw + 200px)); } }
 
-        .palm-tree {
-            bottom: 10px;
-            font-size: 3rem;
-            animation: swayPalm 3s infinite ease-in-out alternate;
-        }
-        .palm-left { left: 15px; transform-origin: bottom left; }
-        .palm-right { right: 15px; transform-origin: bottom right; }
+        .palm { bottom: 15px; font-size: 3.5rem; animation: swayPalm 3s infinite ease-in-out alternate; }
+        .palm-l { left: 15px; transform-origin: bottom left; }
+        .palm-r { right: 15px; transform-origin: bottom right; }
 
-        @keyframes swayPalm {
-            0% { transform: rotate(-3deg); }
-            100% { transform: rotate(4deg); }
-        }
+        @keyframes swayPalm { 0% { transform: rotate(-3deg); } 100% { transform: rotate(4deg); } }
 
-        .crab {
-            bottom: 15px;
-            left: 20%;
-            font-size: 1.8rem;
-            animation: crabWalk 8s infinite alternate ease-in-out;
-        }
+        .crab { bottom: 15px; left: 25%; font-size: 2rem; animation: crabWalk 9s infinite alternate ease-in-out; }
+        @keyframes crabWalk { 0% { transform: translateX(0); } 100% { transform: translateX(100px); } }
 
-        @keyframes crabWalk {
-            0% { transform: translateX(0) rotate(0deg); }
-            50% { transform: translateX(80px) rotate(5deg); }
-            100% { transform: translateX(0) rotate(0deg); }
+        /* --- DEKORASI HP / DESKTOP (Pasir) --- */
+        .decoration-item { font-size: 1.3rem; margin: 3px; }
+        
+        .grid-container .decoration-item,
+        .card-pool .decoration-item,
+        .slot-grid .decoration-item {
+            position: absolute;
+            opacity: 0.5;
+            pointer-events: none;
         }
 
         .main-wrapper {
             width: 100%;
-            max-width: 1000px;
+            max-width: 960px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -102,50 +87,46 @@
 
         .header-section {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         h1 {
-            font-size: 1.9rem;
+            font-size: 1.6rem;
             color: #0369a1;
             text-shadow: 2px 2px 0px #ffffff, 0 0 10px rgba(255,255,255,0.8);
             letter-spacing: 1px;
-            animation: bounceHeader 2s infinite ease-in-out;
+            animation: bounceHeader 2.5s infinite ease-in-out;
         }
 
-        @keyframes bounceHeader {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
-        }
+        @keyframes bounceHeader { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 
-        /* Running Clue Ticker Tema Pantai */
+        /* Running Clue Ticker */
         .ticker-wrap {
             width: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.92);
             border: 2px solid #0284c7;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.25);
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.15);
         }
 
         .ticker-title {
             background: linear-gradient(135deg, #0284c7, #0369a1);
             color: white;
-            padding: 6px 12px;
+            padding: 5px 12px;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             white-space: nowrap;
             z-index: 5;
         }
 
-        .ticker-scroll-area {
-            flex-grow: 1;
-            overflow: hidden;
-            position: relative;
-        }
+        .ticker-scroll-area { flex-grow: 1; overflow: hidden; position: relative; }
 
         .ticker-content {
             display: inline-block;
@@ -153,97 +134,90 @@
             animation: ticker 20s linear infinite;
             font-weight: 700;
             color: #0284c7;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             padding-left: 100%;
         }
 
-        @keyframes ticker {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
-        }
+        @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
 
+        /* Dashboard Kompak 1 Baris */
         .dashboard {
             display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
             gap: 15px;
-            background: rgba(255, 255, 255, 0.92);
-            padding: 8px 20px;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 12px;
+            border-radius: 16px;
             border: 2px solid #facc15;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            white-space: nowrap;
         }
 
-        .stat-box {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #0369a1;
-        }
+        .dashboard .stat-group { display: flex; align-items: center; gap: 5px; }
 
-        /* Start Screen Tema Pantai */
+        .stat-box { font-size: 0.88rem; font-weight: bold; color: #0369a1; }
+
+        /* Start Screen */
         .start-screen {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             border: 3px solid #38bdf8;
             border-radius: 20px;
-            padding: 24px 18px;
-            max-width: 460px;
+            padding: 22px 16px;
+            max-width: 440px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 10px 35px rgba(2, 132, 199, 0.3);
+            box-shadow: 0 10px 35px rgba(2, 132, 199, 0.2);
             margin-top: 10px;
             animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
         .rule-box {
             background: #fef2f2;
             border: 2px dashed #f87171;
             color: #991b1b;
-            padding: 10px;
+            padding: 8px;
             border-radius: 10px;
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             margin-bottom: 20px;
             line-height: 1.4;
             width: 100%;
         }
 
-        /* Grid Layout */
-        .grid-container {
+        /* Grid Layout Responsif */
+        .grid-container, .slot-grid, .card-pool {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 8px;
             width: 100%;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         @media (max-width: 768px) {
-            .grid-container, .slot-grid, .card-pool {
-                grid-template-columns: repeat(3, 1fr) !important;
-            }
+            .grid-container, .slot-grid, .card-pool { grid-template-columns: repeat(3, 1fr) !important; gap: 7px !important; }
         }
 
         @media (max-width: 480px) {
-            .grid-container, .slot-grid, .card-pool {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 6px !important;
-            }
-            h1 { font-size: 1.5rem; }
+            .grid-container, .slot-grid, .card-pool { grid-template-columns: repeat(2, 1fr) !important; gap: 6px !important; }
+            h1 { font-size: 1.3rem; }
         }
 
+        /* Kartu Tema Pantai Rapi */
         .memo-card {
             background: linear-gradient(145deg, #ffffff, #f0f9ff);
             border: 2px solid #38bdf8;
             border-radius: 12px;
             padding: 6px;
             position: relative;
-            min-height: 95px;
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -251,12 +225,13 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            overflow: hidden;
         }
 
         .memo-card:hover {
             transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 8px 16px rgba(2, 132, 199, 0.2);
+            box-shadow: 0 8px 16px rgba(2, 132, 199, 0.18);
             border-color: #0284c7;
         }
 
@@ -266,198 +241,153 @@
             left: 5px;
             background: linear-gradient(135deg, #0284c7, #0369a1);
             color: #fff;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: bold;
             padding: 1px 6px;
             border-radius: 6px;
+            z-index: 2;
         }
 
-        .memo-card .card-icon {
-            font-size: 1.4rem;
-            margin-bottom: 2px;
-        }
+        .memo-card .card-icon { font-size: 1.4rem; margin-bottom: 2px; z-index: 2; }
+        .memo-card .card-title { font-size: 0.75rem; font-weight: bold; color: #0369a1; margin-bottom: 2px; z-index: 2; }
+        .memo-card .card-text { font-size: 0.62rem; color: #334155; line-height: 1.15; z-index: 2; }
 
-        .memo-card .card-title {
-            font-size: 0.78rem;
-            font-weight: bold;
-            color: #0369a1;
-            margin-bottom: 2px;
-        }
+        /* Recall Area & Help */
+        .recall-section { display: none; width: 100%; }
 
-        .memo-card .card-text {
-            font-size: 0.65rem;
-            color: #334155;
-            line-height: 1.15;
-        }
-
-        /* Recall Area & Help Cards */
-        .recall-section {
-            display: none;
-            width: 100%;
-        }
-
-        .help-cards-container {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
+        .help-cards-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
 
         .btn-help {
             background: linear-gradient(135deg, #facc15, #eab308);
             color: #713f12;
             border: 2px solid #ca8a04;
-            padding: 8px 14px;
+            padding: 6px 12px;
             border-radius: 12px;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(202, 138, 4, 0.3);
+            box-shadow: 0 4px 10px rgba(202, 138, 4, 0.2);
             transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            display: flex; align-items: center; gap: 5px;
         }
 
-        .btn-help:hover:not(:disabled) {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 6px 14px rgba(202, 138, 4, 0.4);
-        }
+        .btn-help:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(202, 138, 4, 0.3); }
 
-        .btn-help:disabled {
-            background: #cbd5e1;
-            color: #64748b;
-            border-color: #94a3b8;
-            cursor: not-allowed;
-            box-shadow: none;
-            opacity: 0.6;
-        }
+        .btn-help:disabled { background: #cbd5e1; color: #64748b; border-color: #94a3b8; cursor: not-allowed; opacity: 0.6; }
 
         .pool-title {
-            font-size: 0.88rem;
-            color: #0369a1;
-            margin-bottom: 6px;
-            font-weight: bold;
-            background: rgba(255,255,255,0.8);
-            padding: 4px 10px;
-            border-radius: 8px;
-            display: inline-block;
+            font-size: 0.85rem; color: #0369a1; margin-bottom: 6px; font-weight: bold;
+            background: rgba(255,255,255,0.8); padding: 4px 10px; border-radius: 8px; display: inline-block;
+            position: relative; overflow: hidden;
         }
 
         .card-pool {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.88);
             border: 2px dashed #0284c7;
             border-radius: 14px;
             padding: 8px;
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 6px;
             max-height: 220px;
             overflow-y: auto;
-            margin-bottom: 15px;
+            position: relative;
         }
 
-        .slot-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 8px;
-        }
-
+        /* Slot Rapi */
         .slot-box {
             background: rgba(255, 255, 255, 0.9);
             border: 2px solid #38bdf8;
             border-radius: 12px;
-            min-height: 95px;
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
             padding: 5px;
-            transition: all 0.25s;
+            transition: all 0.2s;
+            overflow: hidden;
         }
 
-        .slot-box .slot-number {
-            position: absolute;
-            top: 4px;
-            left: 5px;
-            font-size: 0.6rem;
-            color: #0284c7;
-            font-weight: bold;
-        }
+        .slot-box .slot-number { position: absolute; top: 4px; left: 5px; font-size: 0.58rem; color: #0284c7; font-weight: bold; z-index: 2;}
 
-        /* STATUS HASIL TEMA PANTAI & EMOJI */
-        .slot-box.beach-correct {
-            background: linear-gradient(145deg, #dcfce7, #86efac) !important;
-            border: 2px solid #16a34a !important;
-            color: #14532d;
-        }
+        /* STATUS HASIL TEMA PANTAI */
+        .slot-box.beach-correct { background: linear-gradient(145deg, #dcfce7, #a7f3d0) !important; border-color: #059669 !important; color: #064e3b; }
+        .slot-box.beach-wrong { background: linear-gradient(145deg, #fee2e2, #fecaca) !important; border-color: #dc2626 !important; color: #7f1d1d; }
 
-        .slot-box.beach-wrong {
-            background: linear-gradient(145deg, #fee2e2, #fca5a5) !important;
-            border: 2px solid #dc2626 !important;
-            color: #7f1d1d;
-        }
-
-        .card-disabled {
-            opacity: 0.25;
-            pointer-events: none;
-            filter: grayscale(80%);
-        }
+        .card-disabled { opacity: 0.2; pointer-events: none; filter: grayscale(90%); }
 
         .btn-action {
             background: linear-gradient(135deg, #0284c7, #0369a1);
-            color: white;
-            border: none;
-            padding: 10px 26px;
-            font-size: 0.95rem;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+            color: white; border: none; padding: 10px 24px;
+            font-size: 0.9rem; font-weight: bold; border-radius: 12px;
+            cursor: pointer; transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            display: inline-flex; align-items: center; gap: 6px;
         }
 
-        .btn-action:hover {
-            background: linear-gradient(135deg, #0369a1, #075985);
-            transform: translateY(-2px);
-        }
+        .btn-action:hover { background: linear-gradient(135deg, #0369a1, #075985); transform: translateY(-2px); }
 
-        /* --- ANIMASI OMBAK TRANSISI PASIR & LAUT --- */
-        .wave-overlay {
+        /* --- ANIMASI OMBAK AIR TRANSISI BARU --- */
+        .wave-transition {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #0284c7 0%, #38bdf8 100%);
-            z-index: 999;
-            display: flex;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff;
+            z-index: 9999;
+            display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transform: translateY(-100%);
-            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            overflow: hidden;
         }
 
-        .wave-overlay.active {
-            transform: translateY(0);
+        .wave-transition.active { display: flex; }
+
+        .water-wave {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0284c7;
+            transform: translateY(100%);
+            animation: waveRise 2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
         }
 
-        .wave-text {
-            color: white;
-            font-size: 2rem;
-            font-weight: bold;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            animation: waveBounce 0.8s infinite alternate ease-in-out;
+        @keyframes waveRise {
+            0% { transform: translateY(100%); }
+            45%, 65% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
         }
 
-        @keyframes waveBounce {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-12px); }
+        .water-wave::before {
+            content: '';
+            position: absolute;
+            top: -50px; left: 0; width: 100%; height: 60px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C38.08,42.77,114.7,55.49,150.1,56.44Z' fill='%230284c7'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            animation: waveSway 2s ease-in-out infinite;
         }
 
-        /* Modal Result Tema Pantai */
+        @keyframes waveSway { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-30px); } }
+
+        .wave-transition-text {
+            color: #ffffff;
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            z-index: 10;
+            animation: textPopUp 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+            display: none;
+        }
+
+        .wave-transition.active .wave-transition-text { display: block; }
+
+        @keyframes textPopUp {
+            0%, 25% { transform: translateY(50px); opacity: 0; }
+            45%, 65% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+
+        /* Modal Result */
         .modal {
             display: none;
             position: fixed;
@@ -473,113 +403,105 @@
             background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
             border: 3px solid #38bdf8;
             border-radius: 20px;
-            padding: 24px 18px;
+            padding: 22px 16px;
             text-align: center;
-            max-width: 400px;
+            max-width: 380px;
             width: 90%;
             box-shadow: 0 15px 40px rgba(0,0,0,0.25);
             animation: modalBeachPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes modalBeachPop {
-            0% { transform: scale(0.6) rotate(-5deg); opacity: 0; }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
+        @keyframes modalBeachPop { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-        .modal-title {
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-            color: #0369a1;
-        }
+        .modal-title { font-size: 1.3rem; margin-bottom: 6px; color: #0369a1; }
 
-        .score-display {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #16a34a;
-            margin: 10px 0;
-        }
+        .score-display { font-size: 1.8rem; font-weight: bold; color: #16a34a; margin: 8px 0; }
 
         .btn-review {
             background: linear-gradient(135deg, #facc15, #eab308);
-            color: #713f12;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 8px;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 10px rgba(202, 138, 4, 0.3);
+            color: #713f12; border: none; padding: 10px 20px;
+            font-size: 0.88rem; font-weight: bold; border-radius: 10px;
+            cursor: pointer; margin-top: 8px; margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(202, 138, 4, 0.2);
             transition: all 0.2s;
         }
 
-        .btn-review:hover {
-            transform: scale(1.05);
-        }
+        .btn-review:hover { transform: scale(1.04); }
 
         /* Footer Credit */
         .footer-credit {
             margin-top: 20px;
-            padding: 8px;
+            padding: 10px 8px 15px 8px;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: #0369a1;
-            border-top: 1.5px solid rgba(2, 132, 199, 0.2);
+            border-top: 1.5px solid rgba(2, 132, 199, 0.15);
             width: 100%;
             z-index: 2;
             font-weight: 600;
+            position: relative;
         }
 
         .footer-credit b { color: #0284c7; }
-        .footer-credit .class-tag {
-            color: #ca8a04;
-            font-weight: bold;
-            font-size: 0.78rem;
-            margin-top: 2px;
-        }
+        .footer-credit .class-tag { color: #ca8a04; font-weight: bold; font-size: 0.75rem; margin-top: 2px; }
+        
+        /* Ikon Mainan Pasir Footer (Responsif) */
+        .sand-toy { position: absolute; bottom: 8px; font-size: 1.6rem; opacity: 0.8; }
+        .sand-toy-l { left: 15px; }
+        .sand-toy-r { right: 15px; }
     </style>
 </head>
 <body>
 
-    <!-- DEKORASI PANTAI ANIMASI -->
+    <!-- DEKORASI PANTAI BELAKANG ANIMASI -->
     <div class="beach-bg-element sun"></div>
     <div class="beach-bg-element cloud cloud-1">☁️</div>
     <div class="beach-bg-element cloud cloud-2">☁️</div>
-    <div class="beach-bg-element palm-tree palm-left">🌴</div>
-    <div class="beach-bg-element palm-tree palm-right">🌴</div>
+    <div class="beach-bg-element palm palm-l">🌴</div>
+    <div class="beach-bg-element palm palm-r">🌴</div>
     <div class="beach-bg-element crab">🦀</div>
 
-    <!-- TRANSISI OMBAK -->
-    <div class="wave-overlay" id="waveOverlay">
-        <div style="font-size: 4rem; margin-bottom: 10px;">🌊</div>
-        <div class="wave-text">Waktu Habis! Ombak Membawa Fase Recall... 🌊</div>
+    <!-- TRANSISI OMBAK AIR BARU -->
+    <div class="wave-transition" id="waveTransition">
+        <div class="water-wave"></div>
+        <div class="wave-transition-text">WAKTU HABIS!</div>
     </div>
 
     <div class="main-wrapper">
         <div class="header-section">
-            <h1>🏖️ BRAIN FLASH - MEMORIZE AND RECALL 🐚</h1>
+            <span style="font-size: 2rem; animation: swayPalm 2s infinite alternate;">🏖️</span>
+            <h1>BRAIN FLASH - MEMORIZE AND RECALL</h1>
+            <span style="font-size: 2rem; animation: swayPalm 2s infinite alternate;">🐚</span>
         </div>
 
-        <!-- Ticker Motivasi Pantai -->
+        <!-- Ticker Motivasi -->
         <div class="ticker-wrap" id="tickerWrap" style="display: none;">
             <div class="ticker-title">🌊 TIPS PANTAI</div>
             <div class="ticker-scroll-area">
                 <div class="ticker-content" id="tickerContent">
-                    ✨ "Tetap tenang seperti ombak sore, fokus hafalkan posisi 30 kartumu!" ✨
+                    ✨ "Tenang seperti air laut, fokus hafalkan posisi 30 kartumu!" ✨
                 </div>
             </div>
         </div>
 
+        <!-- Dashboard Fase -->
         <div class="dashboard" id="dashboardBox" style="display: none;">
-            <div class="stat-box">⏱️ Waktu: <span id="timer-display" style="color: #ca8a04;">2:00</span></div>
-            <div class="stat-box">📌 Fase: <span id="phase-display" style="color: #0284c7;">Menghafal Urutan</span></div>
+            <div class="stat-group">
+                <span style="font-size: 1rem;">⏳</span>
+                <span class="stat-box" id="timer-label">Waktu:</span>
+                <span class="stat-box" id="timer-display" style="color: #ca8a04;">2:00</span>
+            </div>
+            <div class="stat-group">
+                <span style="font-size: 1rem;">🐚</span>
+                <span class="stat-box">Fase:</span>
+                <span class="stat-box" id="phase-display" style="color: #0284c7;">Menghafal Urutan</span>
+            </div>
         </div>
 
         <!-- Start Screen -->
         <div class="start-screen" id="startScreen">
-            <h2 style="color: #0369a1; margin-bottom: 10px; font-size: 1.3rem;">🏝️ SELAMAT DATANG DI PANTAI BRAIN FLASH 🏝️</h2>
-            <p style="color: #334155; font-size: 0.85rem; margin-bottom: 12px; line-height: 1.4;">
+            <h2 style="color: #0369a1; margin-bottom: 10px; font-size: 1.25rem;">🏝️ SELAMAT DATANG DI PANTAI BRAIN FLASH 🏝️</h2>
+            <p style="color: #334155; font-size: 0.82rem; margin-bottom: 12px; line-height: 1.4;">
                 Hafalkan posisi <b>30 Kartu</b> (Trivia Unik, Simbol Visual, & Pahlawan Nasional) selama <b>2 menit</b>. Setelah itu, susun kembali urutannya di Fase Recall selama <b>3 menit</b>!
             </p>
             
@@ -588,17 +510,17 @@
                 Kerjakan game ini <b>murni mengandalkan daya ingat/memori otak</b> (tanpa bantuan catatan atau tangkapan layar)!
             </div>
 
-            <button class="btn-action" style="font-size: 1.1rem; padding: 12px 36px;" onclick="startGame()">START GAME 🐚</button>
+            <button class="btn-action" style="font-size: 1rem; padding: 10px 32px;" onclick="startGame()">START GAME 🐚</button>
         </div>
 
-        <!-- Screen 2: Fase Menghafal (2 Menit) -->
+        <!-- Screen Fase Menghafal -->
         <div class="grid-container" id="memoGrid" style="display: none;"></div>
 
-        <!-- Screen 3: Fase Recall (3 Menit) -->
+        <!-- Screen Fase Recall -->
         <div class="recall-section" id="recallSection">
             
-            <!-- BANTUAN KARTU TEMA PANTAI -->
-            <div class="help-cards-container">
+            <!-- Bantuan Kartu -->
+            <div class="help-cards-container" id="helpCardsContainer">
                 <button class="btn-help" id="btnUndo" onclick="useUndoHelp()">
                     <span>🔄</span> Kartu Undo (1x)
                 </button>
@@ -607,10 +529,23 @@
                 </button>
             </div>
 
-            <div class="pool-title">📦 Bank Kartu (Klik kartu untuk memasukkan ke slot):</div>
+            <div class="pool-title" id="poolTitleBank">
+                📦 Bank Kartu (Klik kartu untuk memasukkan ke slot):
+                <span class="decoration-item" style="top:-5px; right:5px;">🐚</span>
+            </div>
             <div class="card-pool" id="cardPool"></div>
 
-            <div class="pool-title" style="color: #0369a1; margin-top: 8px;">📋 Slot Urutan Kartu (1 - 30):</div>
+            <div class="pool-title" id="slotTitleMain" style="color: #0369a1; margin-top: 8px;">
+                📋 Slot Urutan Kartu (1 - 30):
+                <span class="decoration-item" style="bottom:-3px; left:20px;">🦀</span>
+            </div>
+            
+            <!-- JUDUL HASIL JAWABAN (Awal disembunyikan) -->
+            <div class="pool-title" id="resultTitleHeader" style="color: #0369a1; margin-top: 8px; display: none; width: 100%; text-align: center;">
+                📋 BERIKUT HASIL JAWABAN ANDA
+                <span class="decoration-item" style="top:-5px; right:10px;">🌟</span>
+            </div>
+
             <div class="slot-grid" id="slotGrid"></div>
             
             <div style="text-align: center; margin-top: 15px;" id="verifyBtnContainer">
@@ -619,24 +554,26 @@
         </div>
     </div>
 
-    <!-- Modal Ucapan Selamat Tema Pantai -->
+    <!-- Modal Hasil -->
     <div class="modal" id="resultModal">
         <div class="modal-content">
-            <div style="font-size: 2.5rem; margin-bottom: 5px;">🎉 🐚 🏝️</div>
+            <div style="font-size: 2.2rem; margin-bottom: 5px; animation: swayPalm 1.5s infinite alternate;">🎉 🐚 🏝️</div>
             <h2 class="modal-title" id="modalTitle">Selamat! Game Selesai</h2>
             <div class="score-display" id="modalScore">0 / 30 Kartu Benar</div>
-            <p id="modalMessage" style="color: #334155; margin-bottom: 12px; line-height: 1.35; font-size: 0.85rem;"></p>
+            <p id="modalMessage" style="color: #334155; margin-bottom: 12px; line-height: 1.35; font-size: 0.8rem;"></p>
             
             <button class="btn-review" onclick="reviewAnswers()">🔍 Lihat Jawaban</button>
             <br>
-            <button class="btn-action" onclick="resetGame()">🔄 Main Lagi</button>
+            <button class="btn-action" onclick="resetGame()">🔄 Main Lagi 🏖️</button>
         </div>
     </div>
 
-    <!-- Footer Credit & Kelas -->
+    <!-- Footer Credit -->
     <div class="footer-credit">
+        <span class="sand-toy sand-toy-l">🪣</span>
         Dibuat oleh: <b>Muhamad Fatih Sopwanudin - SMAN 1 CIJERUK</b>
         <div class="class-tag">XI - 6 (IPA MURNI)</div>
+        <span class="sand-toy sand-toy-r">🏖️</span>
     </div>
 
     <script>
@@ -678,16 +615,17 @@
             { id: 30, type: "hero", icon: "🕌", topic: "KH. Hasyim Asy'ari", fact: "Pahlawan Pergerakan Islam & Pendiri NU" }
         ];
 
-        // KONFIGURASI WAKTU REVISI:
-        const MEMO_TIME = 120;  // 2 Menit (120 detik)
-        const RECALL_TIME = 180; // 3 Menit (180 detik)
+        // Ikon hiasan pantai kotak
+        const beachDecorations = ["🐚", "🌟", "🦀", "⚓", "⛱️", "🏐", "🐢"];
+
+        const MEMO_TIME = 120;  // 2 Menit
+        const RECALL_TIME = 180; // 3 Menit
 
         let timer = MEMO_TIME;
         let timerInterval = null;
         let placedCards = []; 
         let currentNextSlot = 0;
 
-        // Bantuan State
         let isUndoUsed = false;
         let isHintUsed = false;
 
@@ -703,19 +641,20 @@
                 const card = document.createElement('div');
                 card.className = 'memo-card';
                 
-                let contentHTML = `<div class="card-badge">#${item.id}</div>`;
-                if (item.type === "symbol" || item.type === "hero") {
-                    contentHTML += `<div class="card-icon">${item.icon}</div>`;
-                }
-                contentHTML += `<div class="card-title">${item.topic}</div>`;
-                contentHTML += `<div class="card-text">${item.fact}</div>`;
-
-                card.innerHTML = contentHTML;
+                // Hiasan acak kotak
+                const decorId = Math.floor(Math.random() * beachDecorations.length);
+                card.innerHTML = `
+                    <div class="card-badge">#${item.id}</div>
+                    ${(item.type === "symbol" || item.type === "hero") ? `<div class="card-icon">${item.icon}</div>` : ''}
+                    <div class="card-title">${item.topic}</div>
+                    <div class="card-text">${item.fact}</div>
+                    <span class="decoration-item" style="bottom:2px; right:3px; font-size:1rem; opacity:0.3;">${beachDecorations[decorId]}</span>
+                `;
                 grid.appendChild(card);
             });
 
             timer = MEMO_TIME;
-            document.getElementById('phase-display').innerText = 'Menghafal Urutan (2 Menit)';
+            document.getElementById('phase-display').innerText = 'Menghafal Urutan';
             updateTimerDisplay();
 
             timerInterval = setInterval(() => {
@@ -723,7 +662,7 @@
                 updateTimerDisplay();
                 if (timer <= 0) {
                     clearInterval(timerInterval);
-                    triggerWaveTransition();
+                    triggerWaveTransition(); // Ombak air transisi
                 }
             }, 1000);
         }
@@ -734,24 +673,24 @@
             document.getElementById('timer-display').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        // ANIMASI OMBAK TRANSISI
+        // --- ANIMASI OMBAK AIR TRANSISI BARU ---
         function triggerWaveTransition() {
-            const overlay = document.getElementById('waveOverlay');
+            const overlay = document.getElementById('waveTransition');
             overlay.classList.add('active');
 
             setTimeout(() => {
                 startRecallPhase();
-            }, 1200);
+            }, 1000); // Saat ombak menutupi layar
 
             setTimeout(() => {
                 overlay.classList.remove('active');
-            }, 2200);
+            }, 2100); // Ombak turun kembali
         }
 
         function startRecallPhase() {
             document.getElementById('memoGrid').style.display = 'none';
             document.getElementById('recallSection').style.display = 'block';
-            document.getElementById('phase-display').innerText = 'Mengurutkan Kartu (3 Menit)';
+            document.getElementById('phase-display').innerText = 'Mengurutkan Kartu';
 
             placedCards = new Array(30).fill(null);
             currentNextSlot = 0;
@@ -769,15 +708,15 @@
                 const card = document.createElement('div');
                 card.className = 'memo-card';
                 card.id = `pool-card-${item.id}`;
-
-                let contentHTML = "";
-                if (item.type === "symbol" || item.type === "hero") {
-                    contentHTML += `<div class="card-icon">${item.icon}</div>`;
-                }
-                contentHTML += `<div class="card-title">${item.topic}</div>`;
-                contentHTML += `<div class="card-text">${item.fact}</div>`;
-
-                card.innerHTML = contentHTML;
+                
+                // Hiasan acak kotak
+                const decorId = Math.floor(Math.random() * beachDecorations.length);
+                card.innerHTML = `
+                    ${(item.type === "symbol" || item.type === "hero") ? `<div class="card-icon">${item.icon}</div>` : ''}
+                    <div class="card-title">${item.topic}</div>
+                    <div class="card-text">${item.fact}</div>
+                    <span class="decoration-item" style="bottom:2px; right:3px; font-size:1rem; opacity:0.3;">${beachDecorations[decorId]}</span>
+                `;
                 card.onclick = () => selectCardFromPool(item);
                 pool.appendChild(card);
             });
@@ -788,7 +727,13 @@
                 const slot = document.createElement('div');
                 slot.className = 'slot-box';
                 slot.id = `slot-${i}`;
-                slot.innerHTML = `<div class="slot-number">SLOT #${i + 1}</div><div class="slot-content" style="font-size:0.7rem; color:#0284c7;">[ Kosong ]</div>`;
+                
+                const decorId = Math.floor(Math.random() * beachDecorations.length);
+                slot.innerHTML = `
+                    <div class="slot-number">SLOT #${i + 1}</div>
+                    <div class="slot-content"><span style="font-size:0.7rem; color:#0284c7;">[ Kosong ]</span></div>
+                    <span class="decoration-item" style="top:5px; right:5px; font-size:0.9rem; opacity:0.2;">${beachDecorations[decorId]}</span>
+                `;
                 slotGrid.appendChild(slot);
             }
 
@@ -825,10 +770,8 @@
             currentNextSlot++;
         }
 
-        // BANTUAN 1: UNDO / ULANG PENEMPATAN KARTU TERAKHIR
         function useUndoHelp() {
             if (isUndoUsed || currentNextSlot === 0) return;
-
             isUndoUsed = true;
             document.getElementById('btnUndo').disabled = true;
 
@@ -836,66 +779,69 @@
             const lastItem = placedCards[currentNextSlot];
             placedCards[currentNextSlot] = null;
 
-            // Kembalikan status kartu di bank
             const poolCard = document.getElementById(`pool-card-${lastItem.id}`);
             if (poolCard) poolCard.classList.remove('card-disabled');
 
-            // Reset slot UI
             const targetSlot = document.getElementById(`slot-${currentNextSlot}`);
             targetSlot.querySelector('.slot-content').innerHTML = `<span style="font-size:0.7rem; color:#0284c7;">[ Kosong ]</span>`;
         }
 
-        // BANTUAN 2: PETUNJUK 1 URUTAN KARTU
         function useHintHelp() {
             if (isHintUsed || currentNextSlot >= 30) return;
-
             isHintUsed = true;
             document.getElementById('btnHint').disabled = true;
 
             const targetCorrectId = currentNextSlot + 1;
             const correctItem = memoryDatabase.find(item => item.id === targetCorrectId);
 
-            if (correctItem) {
-                selectCardFromPool(correctItem);
-            }
+            if (correctItem) { selectCardFromPool(correctItem); }
         }
 
         function finishGame() {
             clearInterval(timerInterval);
 
             let correctCount = 0;
-
             for (let i = 0; i < 30; i++) {
                 const placedItem = placedCards[i];
-                if (placedItem && placedItem.id === (i + 1)) {
-                    correctCount++;
-                }
+                if (placedItem && placedItem.id === (i + 1)) { correctCount++; }
             }
 
             document.getElementById('modalScore').innerText = `${correctCount} / 30 Kartu Benar`;
 
             let msg = "";
-            if (correctCount === 30) {
-                msg = "🌟 PERFECT! Ingatanmu seindah pemandangan pantai tropis! Semua kartu tepat!";
-            } else if (correctCount >= 20) {
-                msg = "👏 LUAR BIASA! Daya ingatmu sangat hebat dan fokus seperti kapten kapal!";
-            } else if (correctCount >= 10) {
-                msg = "👍 BAGUS! Terus berlatih agar ingatanmu semakin tajam di gulungan ombak!";
-            } else {
-                msg = "💪 TETAP SEMANGAT! Cobalah berkonsentrasi kembali dan kelompokkan kartu dengan tenang!";
-            }
+            if (correctCount === 30) { msg = "🌟 PERFECT! Ingatanmu seindah pemandangan pantai tropis! Semua kartu tepat!"; }
+            else if (correctCount >= 20) { msg = "👏 LUAR BIASA! Daya ingatmu sangat hebat dan fokus seperti kapten kapal!"; }
+            else if (correctCount >= 10) { msg = "👍 BAGUS! Terus berlatih agar ingatanmu semakin tajam di gulungan ombak!"; }
+            else { msg = "💪 TETAP SEMANGAT! Cobalah berkonsentrasi kembali dan kelompokkan kartu dengan tenang!"; }
 
             document.getElementById('modalMessage').innerText = msg;
             document.getElementById('resultModal').style.display = 'flex';
         }
 
-        // AKSI KLIK: LIHAT JAWABAN
+        // --- CEK JAWABAN (REVIEW MODE) SESUAI PERMINTAAN ---
         function reviewAnswers() {
             document.getElementById('resultModal').style.display = 'none';
 
+            // Hapus elemen yang tidak diinginkan
+            document.getElementById('dashboardBox').style.display = 'none'; // Waktu & Fase hapus
+            document.getElementById('tickerWrap').style.display = 'none';    // Tips Pantai hapus
+            document.getElementById('helpCardsContainer').style.display = 'none'; // Kartu bantuan hapus
+            document.getElementById('poolTitleBank').style.display = 'none';   // Judul Bank Kartu hapus
+            document.getElementById('cardPool').style.display = 'none';         // Bank Kartu hapus
+            document.getElementById('slotTitleMain').style.display = 'none'; // Judul Slot Lama hapus
+            document.getElementById('verifyBtnContainer').style.display = 'none'; // Tombol Cek hapus
+
+            // Tampilkan Judul Baru
+            document.getElementById('resultTitleHeader').style.display = 'inline-block';
+
+            // Saring dan ubah slot yang berisi jawaban
             for (let i = 0; i < 30; i++) {
                 const slotBox = document.getElementById(`slot-${i}`);
                 const placedItem = placedCards[i];
+                
+                // Tambahkan hiasan acak hasil
+                const decorId = Math.floor(Math.random() * beachDecorations.length);
+                slotBox.innerHTML += `<span class="decoration-item" style="top:5px; right:5px; font-size:1.1rem; opacity:0.15;">${beachDecorations[decorId]}</span>`;
 
                 if (placedItem && placedItem.id === (i + 1)) {
                     // BENAR: TEMA PANTAI & EMOJI KERANG 🐚
@@ -914,11 +860,7 @@
         }
 
         function resetGame() {
-            document.getElementById('resultModal').style.display = 'none';
-            document.getElementById('recallSection').style.display = 'none';
-            document.getElementById('startScreen').style.display = 'flex';
-            document.getElementById('tickerWrap').style.display = 'none';
-            document.getElementById('dashboardBox').style.display = 'none';
+            window.location.reload(); // Reload untuk reset total semua kondisi
         }
     </script>
 </body>
