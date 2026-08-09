@@ -243,9 +243,29 @@
         .memo-card .card-title { font-size: 0.75rem; font-weight: bold; color: #0369a1; margin-bottom: 2px; z-index: 2; }
         .memo-card .card-text { font-size: 0.62rem; color: #334155; line-height: 1.15; z-index: 2; }
 
-        /* Recall Area */
+        /* Recall Area & Help */
         .recall-section { display: none; width: 100%; }
-        
+
+        .help-cards-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
+
+        .btn-help {
+            background: linear-gradient(135deg, #facc15, #eab308);
+            color: #713f12;
+            border: 2px solid #ca8a04;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.75rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(202, 138, 4, 0.2);
+            transition: all 0.2s;
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        .btn-help:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(202, 138, 4, 0.3); }
+
+        .btn-help:disabled { background: #cbd5e1; color: #64748b; border-color: #94a3b8; cursor: not-allowed; opacity: 0.6; }
+
         .pool-title {
             font-size: 0.85rem; color: #0369a1; margin-bottom: 6px; font-weight: bold;
             background: rgba(255,255,255,0.8); padding: 4px 10px; border-radius: 8px; display: inline-block;
@@ -483,6 +503,16 @@
         <!-- Screen Fase Recall -->
         <div class="recall-section" id="recallSection">
             
+            <!-- Bantuan Kartu -->
+            <div class="help-cards-container" id="helpCardsContainer">
+                <button class="btn-help" id="btnUndo" onclick="useUndoHelp()">
+                    <span>🔄</span> Kartu Undo (1x)
+                </button>
+                <button class="btn-help" id="btnHint" onclick="useHintHelp()">
+                    <span>⭐</span> Kartu Petunjuk (1x)
+                </button>
+            </div>
+
             <div class="pool-title" id="poolTitleBank">
                 📦 Bank Kartu (Klik kartu untuk memasukkan ke slot):
                 <span class="decoration-item" style="top:-5px; right:5px;">🐚</span>
@@ -726,6 +756,33 @@
             currentNextSlot++;
         }
 
+        function useUndoHelp() {
+            if (isUndoUsed || currentNextSlot === 0) return;
+            isUndoUsed = true;
+            document.getElementById('btnUndo').disabled = true;
+
+            currentNextSlot--;
+            const lastItem = placedCards[currentNextSlot];
+            placedCards[currentNextSlot] = null;
+
+            const poolCard = document.getElementById(`pool-card-${lastItem.id}`);
+            if (poolCard) poolCard.classList.remove('card-disabled');
+
+            const targetSlot = document.getElementById(`slot-${currentNextSlot}`);
+            targetSlot.querySelector('.slot-content').innerHTML = `<span style="font-size:0.7rem; color:#0284c7;">[ Kosong ]</span>`;
+        }
+
+        function useHintHelp() {
+            if (isHintUsed || currentNextSlot >= 30) return;
+            isHintUsed = true;
+            document.getElementById('btnHint').disabled = true;
+
+            const targetCorrectId = currentNextSlot + 1;
+            const correctItem = memoryDatabase.find(item => item.id === targetCorrectId);
+
+            if (correctItem) { selectCardFromPool(correctItem); }
+        }
+
         function finishGame() {
             clearInterval(timerInterval);
 
@@ -805,4 +862,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
