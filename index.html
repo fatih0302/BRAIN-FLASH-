@@ -845,7 +845,20 @@
         }
 
         function resetGame() {
-            window.location.reload(); 
+            clearInterval(timerInterval);
+            // Sembunyikan semua layar game
+            document.getElementById('recallSection').style.display = 'none';
+            document.getElementById('resultModal').style.display = 'none';
+            document.getElementById('tickerWrap').style.display = 'none';
+            document.getElementById('dashboardBox').style.display = 'none';
+            document.getElementById('postReviewPlayAgainContainer').style.display = 'none';
+            document.getElementById('verifyBtnContainer').style.display = 'block';
+            
+            // Tampilkan Start Screen
+            document.getElementById('startScreen').style.display = 'flex';
+            placedCards = [];
+            currentNextSlot = 0;
+            document.getElementById('slotGrid').innerHTML = '';
         }
     </script>
 </body>
