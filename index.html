@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brain Flash - Memorize and Recall</title>
+    <title>BRAIN FLASH - MEMORIZE AND RECALL</title>
 
-    <!-- Meta Tags untuk Preview WhatsApp & Medsos -->
-    <meta property="og:title" content="Brain Flash - Memorize and Recall">
-    <meta property="og:description" content="Game Asah Otak Memori dan Daya Ingat Visual">
-    <meta name="twitter:title" content="Brain Flash - Memorize and Recall">
+    <meta property="og:title" content="BRAIN FLASH - MEMORIZE AND RECALL">
+    <meta property="og:description" content="Game Asah Otak Memori dan Daya Ingat Visual Tema Pantai">
 
     <style>
         * {
@@ -19,8 +17,8 @@
         }
 
         body {
-            background: radial-gradient(circle at 50% 20%, #0284c7 0%, #0f172a 75%, #02122c 100%);
-            color: #f0f9ff;
+            background: linear-gradient(180deg, #38bdf8 0%, #0284c7 35%, #0284c7 60%, #fef08a 85%, #fde047 100%);
+            color: #0f172a;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -29,6 +27,68 @@
             padding: 12px;
             position: relative;
             overflow-x: hidden;
+        }
+
+        /* --- DEKORASI PANTAI ANIMASI (Latar Belakang) --- */
+        .beach-bg-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .sun {
+            top: 20px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
+            background: #facc15;
+            border-radius: 50%;
+            box-shadow: 0 0 40px #fde047, 0 0 80px #facc15;
+            animation: pulseSun 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulseSun {
+            0% { transform: scale(1); box-shadow: 0 0 30px #fde047; }
+            100% { transform: scale(1.1); box-shadow: 0 0 50px #fde047, 0 0 90px #facc15; }
+        }
+
+        .cloud {
+            font-size: 2rem;
+            opacity: 0.8;
+            animation: floatCloud 25s linear infinite;
+        }
+        .cloud-1 { top: 30px; left: -100px; animation-duration: 22s; }
+        .cloud-2 { top: 70px; left: -100px; animation-delay: 10s; animation-duration: 28s; }
+
+        @keyframes floatCloud {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(calc(100vw + 200px)); }
+        }
+
+        .palm-tree {
+            bottom: 10px;
+            font-size: 3rem;
+            animation: swayPalm 3s infinite ease-in-out alternate;
+        }
+        .palm-left { left: 15px; transform-origin: bottom left; }
+        .palm-right { right: 15px; transform-origin: bottom right; }
+
+        @keyframes swayPalm {
+            0% { transform: rotate(-3deg); }
+            100% { transform: rotate(4deg); }
+        }
+
+        .crab {
+            bottom: 15px;
+            left: 20%;
+            font-size: 1.8rem;
+            animation: crabWalk 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes crabWalk {
+            0% { transform: translateX(0) rotate(0deg); }
+            50% { transform: translateX(80px) rotate(5deg); }
+            100% { transform: translateX(0) rotate(0deg); }
         }
 
         .main-wrapper {
@@ -46,34 +106,39 @@
         }
 
         h1 {
-            font-size: 1.8rem;
-            color: #7dd3fc;
-            text-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+            font-size: 1.9rem;
+            color: #0369a1;
+            text-shadow: 2px 2px 0px #ffffff, 0 0 10px rgba(255,255,255,0.8);
             letter-spacing: 1px;
+            animation: bounceHeader 2s infinite ease-in-out;
         }
 
-        /* Running Clue Ticker Motivasi */
+        @keyframes bounceHeader {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        /* Running Clue Ticker Tema Pantai */
         .ticker-wrap {
             width: 100%;
-            background: rgba(15, 23, 42, 0.85);
-            border: 1px solid #38bdf8;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #0284c7;
+            border-radius: 12px;
             overflow: hidden;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
-            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.25);
         }
 
         .ticker-title {
-            background: linear-gradient(135deg, #0284c7, #2563eb);
+            background: linear-gradient(135deg, #0284c7, #0369a1);
             color: white;
             padding: 6px 12px;
             font-weight: bold;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             white-space: nowrap;
             z-index: 5;
-            box-shadow: 2px 0 8px rgba(0,0,0,0.4);
         }
 
         .ticker-scroll-area {
@@ -85,9 +150,9 @@
         .ticker-content {
             display: inline-block;
             white-space: nowrap;
-            animation: ticker 22s linear infinite;
-            font-weight: 600;
-            color: #fde047;
+            animation: ticker 20s linear infinite;
+            font-weight: 700;
+            color: #0284c7;
             font-size: 0.85rem;
             padding-left: 100%;
         }
@@ -100,49 +165,56 @@
         .dashboard {
             display: flex;
             gap: 15px;
-            background: rgba(15, 23, 42, 0.8);
-            padding: 8px 16px;
-            border-radius: 15px;
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: rgba(255, 255, 255, 0.92);
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 2px solid #facc15;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             margin-bottom: 12px;
         }
 
         .stat-box {
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #0369a1;
         }
 
-        /* Start Screen */
+        /* Start Screen Tema Pantai */
         .start-screen {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(15, 23, 42, 0.85);
-            border: 2px solid #38bdf8;
-            border-radius: 16px;
-            padding: 24px 16px;
-            max-width: 450px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid #38bdf8;
+            border-radius: 20px;
+            padding: 24px 18px;
+            max-width: 460px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.3);
-            backdrop-filter: blur(10px);
-            margin-top: 15px;
+            box-shadow: 0 10px 35px rgba(2, 132, 199, 0.3);
+            margin-top: 10px;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .rule-box {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid #f87171;
-            color: #fca5a5;
+            background: #fef2f2;
+            border: 2px dashed #f87171;
+            color: #991b1b;
             padding: 10px;
-            border-radius: 8px;
-            font-size: 0.8rem;
+            border-radius: 10px;
+            font-size: 0.82rem;
             margin-bottom: 20px;
-            line-height: 1.35;
+            line-height: 1.4;
             width: 100%;
         }
 
-        /* Grid Layout: Desktop 6 kolom, HP 2-3 kolom */
+        /* Grid Layout */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -152,20 +224,13 @@
         }
 
         @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .slot-grid, .card-pool {
+            .grid-container, .slot-grid, .card-pool {
                 grid-template-columns: repeat(3, 1fr) !important;
             }
         }
 
         @media (max-width: 480px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 6px;
-            }
-            .slot-grid, .card-pool {
+            .grid-container, .slot-grid, .card-pool {
                 grid-template-columns: repeat(2, 1fr) !important;
                 gap: 6px !important;
             }
@@ -173,68 +238,116 @@
         }
 
         .memo-card {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1.5px solid #38bdf8;
-            border-radius: 10px;
+            background: linear-gradient(145deg, #ffffff, #f0f9ff);
+            border: 2px solid #38bdf8;
+            border-radius: 12px;
             padding: 6px;
             position: relative;
-            min-height: 90px;
+            min-height: 95px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+        }
+
+        .memo-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 16px rgba(2, 132, 199, 0.2);
+            border-color: #0284c7;
         }
 
         .memo-card .card-badge {
             position: absolute;
             top: 4px;
             left: 5px;
-            background: linear-gradient(135deg, #0284c7, #2563eb);
+            background: linear-gradient(135deg, #0284c7, #0369a1);
             color: #fff;
             font-size: 0.65rem;
             font-weight: bold;
-            padding: 1px 5px;
-            border-radius: 4px;
+            padding: 1px 6px;
+            border-radius: 6px;
         }
 
         .memo-card .card-icon {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 2px;
         }
 
         .memo-card .card-title {
             font-size: 0.78rem;
             font-weight: bold;
-            color: #38bdf8;
+            color: #0369a1;
             margin-bottom: 2px;
         }
 
         .memo-card .card-text {
             font-size: 0.65rem;
-            color: #e0f2fe;
-            line-height: 1.1;
+            color: #334155;
+            line-height: 1.15;
         }
 
-        /* Recall Area Styles */
+        /* Recall Area & Help Cards */
         .recall-section {
             display: none;
             width: 100%;
         }
 
+        .help-cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .btn-help {
+            background: linear-gradient(135deg, #facc15, #eab308);
+            color: #713f12;
+            border: 2px solid #ca8a04;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(202, 138, 4, 0.3);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-help:hover:not(:disabled) {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 14px rgba(202, 138, 4, 0.4);
+        }
+
+        .btn-help:disabled {
+            background: #cbd5e1;
+            color: #64748b;
+            border-color: #94a3b8;
+            cursor: not-allowed;
+            box-shadow: none;
+            opacity: 0.6;
+        }
+
         .pool-title {
-            font-size: 0.85rem;
-            color: #fde047;
+            font-size: 0.88rem;
+            color: #0369a1;
             margin-bottom: 6px;
             font-weight: bold;
+            background: rgba(255,255,255,0.8);
+            padding: 4px 10px;
+            border-radius: 8px;
+            display: inline-block;
         }
 
         .card-pool {
-            background: rgba(15, 23, 42, 0.85);
-            border: 1.5px dashed #0284c7;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 2px dashed #0284c7;
+            border-radius: 14px;
             padding: 8px;
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -251,17 +364,17 @@
         }
 
         .slot-box {
-            background: rgba(30, 41, 59, 0.85);
-            border: 1.5px solid #0284c7;
-            border-radius: 10px;
-            min-height: 90px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #38bdf8;
+            border-radius: 12px;
+            min-height: 95px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
             padding: 5px;
-            transition: all 0.2s;
+            transition: all 0.25s;
         }
 
         .slot-box .slot-number {
@@ -269,50 +382,87 @@
             top: 4px;
             left: 5px;
             font-size: 0.6rem;
-            color: #94a3b8;
+            color: #0284c7;
             font-weight: bold;
         }
 
-        .slot-box.correct {
-            background: rgba(6, 78, 59, 0.95) !important;
-            border-color: #10b981 !important;
+        /* STATUS HASIL TEMA PANTAI & EMOJI */
+        .slot-box.beach-correct {
+            background: linear-gradient(145deg, #dcfce7, #86efac) !important;
+            border: 2px solid #16a34a !important;
+            color: #14532d;
         }
 
-        .slot-box.wrong {
-            background: rgba(136, 19, 55, 0.95) !important;
-            border-color: #f43f5e !important;
+        .slot-box.beach-wrong {
+            background: linear-gradient(145deg, #fee2e2, #fca5a5) !important;
+            border: 2px solid #dc2626 !important;
+            color: #7f1d1d;
         }
 
         .card-disabled {
-            opacity: 0.2;
+            opacity: 0.25;
             pointer-events: none;
-            filter: grayscale(100%);
+            filter: grayscale(80%);
         }
 
         .btn-action {
-            background: linear-gradient(135deg, #0284c7, #2563eb);
+            background: linear-gradient(135deg, #0284c7, #0369a1);
             color: white;
             border: none;
-            padding: 10px 24px;
+            padding: 10px 26px;
             font-size: 0.95rem;
             font-weight: bold;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
         }
 
         .btn-action:hover {
-            background: linear-gradient(135deg, #0369a1, #1d4ed8);
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #0369a1, #075985);
+            transform: translateY(-2px);
         }
 
-        /* Modal Result */
+        /* --- ANIMASI OMBAK TRANSISI PASIR & LAUT --- */
+        .wave-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0284c7 0%, #38bdf8 100%);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateY(-100%);
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .wave-overlay.active {
+            transform: translateY(0);
+        }
+
+        .wave-text {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            animation: waveBounce 0.8s infinite alternate ease-in-out;
+        }
+
+        @keyframes waveBounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-12px); }
+        }
+
+        /* Modal Result Tema Pantai */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(2, 18, 44, 0.9);
+            background: rgba(2, 132, 199, 0.7);
             backdrop-filter: blur(8px);
             justify-content: center;
             align-items: center;
@@ -320,26 +470,52 @@
         }
 
         .modal-content {
-            background: rgba(15, 23, 42, 0.95);
-            border: 2px solid #38bdf8;
-            border-radius: 16px;
-            padding: 24px 16px;
+            background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+            border: 3px solid #38bdf8;
+            border-radius: 20px;
+            padding: 24px 18px;
             text-align: center;
-            max-width: 380px;
+            max-width: 400px;
             width: 90%;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            animation: modalBeachPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalBeachPop {
+            0% { transform: scale(0.6) rotate(-5deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
 
         .modal-title {
             font-size: 1.4rem;
             margin-bottom: 8px;
-            color: #38bdf8;
+            color: #0369a1;
         }
 
         .score-display {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #34d399;
+            color: #16a34a;
             margin: 10px 0;
+        }
+
+        .btn-review {
+            background: linear-gradient(135deg, #facc15, #eab308);
+            color: #713f12;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(202, 138, 4, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-review:hover {
+            transform: scale(1.05);
         }
 
         /* Footer Credit */
@@ -348,16 +524,16 @@
             padding: 8px;
             text-align: center;
             font-size: 0.8rem;
-            color: #94a3b8;
-            border-top: 1px solid rgba(56, 189, 248, 0.2);
+            color: #0369a1;
+            border-top: 1.5px solid rgba(2, 132, 199, 0.2);
             width: 100%;
             z-index: 2;
-            line-height: 1.4;
+            font-weight: 600;
         }
 
-        .footer-credit b { color: #38bdf8; }
+        .footer-credit b { color: #0284c7; }
         .footer-credit .class-tag {
-            color: #fde047;
+            color: #ca8a04;
             font-weight: bold;
             font-size: 0.78rem;
             margin-top: 2px;
@@ -366,64 +542,93 @@
 </head>
 <body>
 
+    <!-- DEKORASI PANTAI ANIMASI -->
+    <div class="beach-bg-element sun"></div>
+    <div class="beach-bg-element cloud cloud-1">☁️</div>
+    <div class="beach-bg-element cloud cloud-2">☁️</div>
+    <div class="beach-bg-element palm-tree palm-left">🌴</div>
+    <div class="beach-bg-element palm-tree palm-right">🌴</div>
+    <div class="beach-bg-element crab">🦀</div>
+
+    <!-- TRANSISI OMBAK -->
+    <div class="wave-overlay" id="waveOverlay">
+        <div style="font-size: 4rem; margin-bottom: 10px;">🌊</div>
+        <div class="wave-text">Waktu Habis! Ombak Membawa Fase Recall... 🌊</div>
+    </div>
+
     <div class="main-wrapper">
         <div class="header-section">
-            <h1>⚡ BRAIN FLASH</h1>
+            <h1>🏖️ BRAIN FLASH - MEMORIZE AND RECALL 🐚</h1>
         </div>
 
-        <!-- Ticker Motivasi -->
+        <!-- Ticker Motivasi Pantai -->
         <div class="ticker-wrap" id="tickerWrap" style="display: none;">
-            <div class="ticker-title">🔥 MOTIVASI</div>
+            <div class="ticker-title">🌊 TIPS PANTAI</div>
             <div class="ticker-scroll-area">
                 <div class="ticker-content" id="tickerContent">
-                    ✨ "Ayo, kamu pasti bisa! Tetap fokus dan pertajam daya ingatmu!" ✨
+                    ✨ "Tetap tenang seperti ombak sore, fokus hafalkan posisi 30 kartumu!" ✨
                 </div>
             </div>
         </div>
 
         <div class="dashboard" id="dashboardBox" style="display: none;">
-            <div class="stat-box">⏱️ Waktu: <span id="timer-display" style="color: #fde047;">3:00</span></div>
-            <div class="stat-box">📌 Fase: <span id="phase-display" style="color: #38bdf8;">Menghafal Urutan</span></div>
+            <div class="stat-box">⏱️ Waktu: <span id="timer-display" style="color: #ca8a04;">2:00</span></div>
+            <div class="stat-box">📌 Fase: <span id="phase-display" style="color: #0284c7;">Menghafal Urutan</span></div>
         </div>
 
         <!-- Start Screen -->
         <div class="start-screen" id="startScreen">
-            <h2 style="color: #38bdf8; margin-bottom: 10px; font-size: 1.3rem;">⚡ BRAIN FLASH</h2>
-            <p style="color: #e0f2fe; font-size: 0.85rem; margin-bottom: 12px; line-height: 1.4;">
-                Hafalkan posisi <b>30 Kartu</b> (10 Trivia Unik, 10 Simbol Visual, & 10 Pahlawan Nasional) beserta nomor urutnya selama <b>3 menit</b>. Setelah itu, susun kembali dari urutan 1 sampai 30 selama <b>3 menit</b>!
+            <h2 style="color: #0369a1; margin-bottom: 10px; font-size: 1.3rem;">🏝️ SELAMAT DATANG DI PANTAI BRAIN FLASH 🏝️</h2>
+            <p style="color: #334155; font-size: 0.85rem; margin-bottom: 12px; line-height: 1.4;">
+                Hafalkan posisi <b>30 Kartu</b> (Trivia Unik, Simbol Visual, & Pahlawan Nasional) selama <b>2 menit</b>. Setelah itu, susun kembali urutannya di Fase Recall selama <b>3 menit</b>!
             </p>
             
             <div class="rule-box">
-                ⚠️ <b>ATURAN MAIN:</b><br>
-                Kerjakan game ini <b>murni mengandalkan daya ingat/memori otak</b> (tanpa bantuan kertas, catatan, alat tulis, maupun tangkapan layar)!
+                ⚠️ <b>ATURAN PANTAI:</b><br>
+                Kerjakan game ini <b>murni mengandalkan daya ingat/memori otak</b> (tanpa bantuan catatan atau tangkapan layar)!
             </div>
 
-            <button class="btn-action" style="font-size: 1.1rem; padding: 12px 36px;" onclick="startGame()">START</button>
+            <button class="btn-action" style="font-size: 1.1rem; padding: 12px 36px;" onclick="startGame()">START GAME 🐚</button>
         </div>
 
-        <!-- Screen 2: Fase Menghafal -->
+        <!-- Screen 2: Fase Menghafal (2 Menit) -->
         <div class="grid-container" id="memoGrid" style="display: none;"></div>
 
-        <!-- Screen 3: Fase Recall -->
+        <!-- Screen 3: Fase Recall (3 Menit) -->
         <div class="recall-section" id="recallSection">
+            
+            <!-- BANTUAN KARTU TEMA PANTAI -->
+            <div class="help-cards-container">
+                <button class="btn-help" id="btnUndo" onclick="useUndoHelp()">
+                    <span>🔄</span> Kartu Undo (1x)
+                </button>
+                <button class="btn-help" id="btnHint" onclick="useHintHelp()">
+                    <span>⭐</span> Kartu Petunjuk (1x)
+                </button>
+            </div>
+
             <div class="pool-title">📦 Bank Kartu (Klik kartu untuk memasukkan ke slot):</div>
             <div class="card-pool" id="cardPool"></div>
 
-            <div class="pool-title" style="color: #38bdf8; margin-top: 8px;">📋 Slot Urutan Kartu (1 - 30):</div>
+            <div class="pool-title" style="color: #0369a1; margin-top: 8px;">📋 Slot Urutan Kartu (1 - 30):</div>
             <div class="slot-grid" id="slotGrid"></div>
             
-            <div style="text-align: center; margin-top: 15px;">
-                <button class="btn-action" onclick="finishGame()">VERIFIKASI & SELESAI</button>
+            <div style="text-align: center; margin-top: 15px;" id="verifyBtnContainer">
+                <button class="btn-action" onclick="finishGame()">CEK JAWABAN 🌊</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Hasil Akhir -->
+    <!-- Modal Ucapan Selamat Tema Pantai -->
     <div class="modal" id="resultModal">
         <div class="modal-content">
-            <h2 class="modal-title" id="modalTitle">🎉 Hasil Akhir Game</h2>
+            <div style="font-size: 2.5rem; margin-bottom: 5px;">🎉 🐚 🏝️</div>
+            <h2 class="modal-title" id="modalTitle">Selamat! Game Selesai</h2>
             <div class="score-display" id="modalScore">0 / 30 Kartu Benar</div>
-            <p id="modalMessage" style="color: #e0f2fe; margin-bottom: 20px; line-height: 1.35; font-size: 0.85rem;"></p>
+            <p id="modalMessage" style="color: #334155; margin-bottom: 12px; line-height: 1.35; font-size: 0.85rem;"></p>
+            
+            <button class="btn-review" onclick="reviewAnswers()">🔍 Lihat Jawaban</button>
+            <br>
             <button class="btn-action" onclick="resetGame()">🔄 Main Lagi</button>
         </div>
     </div>
@@ -473,11 +678,18 @@
             { id: 30, type: "hero", icon: "🕌", topic: "KH. Hasyim Asy'ari", fact: "Pahlawan Pergerakan Islam & Pendiri NU" }
         ];
 
-        const TIME_LIMIT = 180; // 3 Menit = 180 Detik
-        let timer = TIME_LIMIT;
+        // KONFIGURASI WAKTU REVISI:
+        const MEMO_TIME = 120;  // 2 Menit (120 detik)
+        const RECALL_TIME = 180; // 3 Menit (180 detik)
+
+        let timer = MEMO_TIME;
         let timerInterval = null;
         let placedCards = []; 
         let currentNextSlot = 0;
+
+        // Bantuan State
+        let isUndoUsed = false;
+        let isHintUsed = false;
 
         function startGame() {
             document.getElementById('startScreen').style.display = 'none';
@@ -502,14 +714,16 @@
                 grid.appendChild(card);
             });
 
-            timer = TIME_LIMIT;
+            timer = MEMO_TIME;
+            document.getElementById('phase-display').innerText = 'Menghafal Urutan (2 Menit)';
             updateTimerDisplay();
+
             timerInterval = setInterval(() => {
                 timer--;
                 updateTimerDisplay();
                 if (timer <= 0) {
                     clearInterval(timerInterval);
-                    startRecallPhase();
+                    triggerWaveTransition();
                 }
             }, 1000);
         }
@@ -520,16 +734,32 @@
             document.getElementById('timer-display').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        function startRecallPhase() {
-            clearInterval(timerInterval);
+        // ANIMASI OMBAK TRANSISI
+        function triggerWaveTransition() {
+            const overlay = document.getElementById('waveOverlay');
+            overlay.classList.add('active');
 
+            setTimeout(() => {
+                startRecallPhase();
+            }, 1200);
+
+            setTimeout(() => {
+                overlay.classList.remove('active');
+            }, 2200);
+        }
+
+        function startRecallPhase() {
             document.getElementById('memoGrid').style.display = 'none';
             document.getElementById('recallSection').style.display = 'block';
-            document.getElementById('phase-display').innerText = 'Mengurutkan Kartu';
-            document.getElementById('phase-display').style.color = '#34d399';
+            document.getElementById('phase-display').innerText = 'Mengurutkan Kartu (3 Menit)';
 
             placedCards = new Array(30).fill(null);
             currentNextSlot = 0;
+            isUndoUsed = false;
+            isHintUsed = false;
+
+            document.getElementById('btnUndo').disabled = false;
+            document.getElementById('btnHint').disabled = false;
 
             const shuffled = [...memoryDatabase].sort(() => Math.random() - 0.5);
             const pool = document.getElementById('cardPool');
@@ -558,11 +788,11 @@
                 const slot = document.createElement('div');
                 slot.className = 'slot-box';
                 slot.id = `slot-${i}`;
-                slot.innerHTML = `<div class="slot-number">SLOT #${i + 1}</div><div class="slot-content" style="font-size:0.7rem; color:#94a3b8;">[ Kosong ]</div>`;
+                slot.innerHTML = `<div class="slot-number">SLOT #${i + 1}</div><div class="slot-content" style="font-size:0.7rem; color:#0284c7;">[ Kosong ]</div>`;
                 slotGrid.appendChild(slot);
             }
 
-            timer = TIME_LIMIT;
+            timer = RECALL_TIME;
             updateTimerDisplay();
             timerInterval = setInterval(() => {
                 timer--;
@@ -586,13 +816,48 @@
             
             let displayHTML = "";
             if (item.type === "symbol" || item.type === "hero") {
-                displayHTML = `<div style="font-size:1rem;">${item.icon}</div><div style="font-weight:bold; color:#38bdf8; font-size:0.68rem;">${item.topic}</div>`;
+                displayHTML = `<div style="font-size:1rem;">${item.icon}</div><div style="font-weight:bold; color:#0369a1; font-size:0.68rem;">${item.topic}</div>`;
             } else {
-                displayHTML = `<div style="font-weight:bold; color:#38bdf8; font-size:0.7rem;">${item.topic}</div>`;
+                displayHTML = `<div style="font-weight:bold; color:#0369a1; font-size:0.7rem;">${item.topic}</div>`;
             }
 
             targetSlot.querySelector('.slot-content').innerHTML = displayHTML;
             currentNextSlot++;
+        }
+
+        // BANTUAN 1: UNDO / ULANG PENEMPATAN KARTU TERAKHIR
+        function useUndoHelp() {
+            if (isUndoUsed || currentNextSlot === 0) return;
+
+            isUndoUsed = true;
+            document.getElementById('btnUndo').disabled = true;
+
+            currentNextSlot--;
+            const lastItem = placedCards[currentNextSlot];
+            placedCards[currentNextSlot] = null;
+
+            // Kembalikan status kartu di bank
+            const poolCard = document.getElementById(`pool-card-${lastItem.id}`);
+            if (poolCard) poolCard.classList.remove('card-disabled');
+
+            // Reset slot UI
+            const targetSlot = document.getElementById(`slot-${currentNextSlot}`);
+            targetSlot.querySelector('.slot-content').innerHTML = `<span style="font-size:0.7rem; color:#0284c7;">[ Kosong ]</span>`;
+        }
+
+        // BANTUAN 2: PETUNJUK 1 URUTAN KARTU
+        function useHintHelp() {
+            if (isHintUsed || currentNextSlot >= 30) return;
+
+            isHintUsed = true;
+            document.getElementById('btnHint').disabled = true;
+
+            const targetCorrectId = currentNextSlot + 1;
+            const correctItem = memoryDatabase.find(item => item.id === targetCorrectId);
+
+            if (correctItem) {
+                selectCardFromPool(correctItem);
+            }
         }
 
         function finishGame() {
@@ -601,14 +866,9 @@
             let correctCount = 0;
 
             for (let i = 0; i < 30; i++) {
-                const slotBox = document.getElementById(`slot-${i}`);
                 const placedItem = placedCards[i];
-
                 if (placedItem && placedItem.id === (i + 1)) {
-                    slotBox.classList.add('correct');
                     correctCount++;
-                } else {
-                    slotBox.classList.add('wrong');
                 }
             }
 
@@ -616,17 +876,41 @@
 
             let msg = "";
             if (correctCount === 30) {
-                msg = "🌟 PERFECT! Daya ingat visual, pahlawan, dan pengetahuan umummu sungguh luar biasa!";
+                msg = "🌟 PERFECT! Ingatanmu seindah pemandangan pantai tropis! Semua kartu tepat!";
             } else if (correctCount >= 20) {
-                msg = "👏 HEBAT SEKALI! Kamu berhasil mengurutkan sebagian besar dari 30 kartu!";
+                msg = "👏 LUAR BIASA! Daya ingatmu sangat hebat dan fokus seperti kapten kapal!";
             } else if (correctCount >= 10) {
-                msg = "👍 BAGUS! Terus latih memori fokusmu untuk hasil yang lebih maksimal!";
+                msg = "👍 BAGUS! Terus berlatih agar ingatanmu semakin tajam di gulungan ombak!";
             } else {
-                msg = "💪 TETAP SEMANGAT! Cobalah berkonsentrasi pada kelompok angka 1-10, 11-20, dan 21-30!";
+                msg = "💪 TETAP SEMANGAT! Cobalah berkonsentrasi kembali dan kelompokkan kartu dengan tenang!";
             }
 
             document.getElementById('modalMessage').innerText = msg;
             document.getElementById('resultModal').style.display = 'flex';
+        }
+
+        // AKSI KLIK: LIHAT JAWABAN
+        function reviewAnswers() {
+            document.getElementById('resultModal').style.display = 'none';
+
+            for (let i = 0; i < 30; i++) {
+                const slotBox = document.getElementById(`slot-${i}`);
+                const placedItem = placedCards[i];
+
+                if (placedItem && placedItem.id === (i + 1)) {
+                    // BENAR: TEMA PANTAI & EMOJI KERANG 🐚
+                    slotBox.className = 'slot-box beach-correct';
+                    slotBox.querySelector('.slot-content').innerHTML += `<div style="font-size:0.75rem; margin-top:2px;">🐚 <b>BENAR</b></div>`;
+                } else {
+                    // SALAH: TEMA PANTAI & EMOJI JANGKAR ⚓
+                    slotBox.className = 'slot-box beach-wrong';
+                    const correctItem = memoryDatabase[i];
+                    slotBox.querySelector('.slot-content').innerHTML = `
+                        <div style="font-size:0.65rem; color:#7f1d1d;">⚓ <b>SALAH</b></div>
+                        <div style="font-size:0.6rem;">Harusnya: #${correctItem.id} ${correctItem.topic}</div>
+                    `;
+                }
+            }
         }
 
         function resetGame() {
@@ -635,8 +919,6 @@
             document.getElementById('startScreen').style.display = 'flex';
             document.getElementById('tickerWrap').style.display = 'none';
             document.getElementById('dashboardBox').style.display = 'none';
-            document.getElementById('phase-display').innerText = 'Menghafal Urutan';
-            document.getElementById('phase-display').style.color = '#38bdf8';
         }
     </script>
 </body>
