@@ -756,33 +756,6 @@
             currentNextSlot++;
         }
 
-        function useUndoHelp() {
-            if (isUndoUsed || currentNextSlot === 0) return;
-            isUndoUsed = true;
-            document.getElementById('btnUndo').disabled = true;
-
-            currentNextSlot--;
-            const lastItem = placedCards[currentNextSlot];
-            placedCards[currentNextSlot] = null;
-
-            const poolCard = document.getElementById(`pool-card-${lastItem.id}`);
-            if (poolCard) poolCard.classList.remove('card-disabled');
-
-            const targetSlot = document.getElementById(`slot-${currentNextSlot}`);
-            targetSlot.querySelector('.slot-content').innerHTML = `<span style="font-size:0.7rem; color:#0284c7;">[ Kosong ]</span>`;
-        }
-
-        function useHintHelp() {
-            if (isHintUsed || currentNextSlot >= 30) return;
-            isHintUsed = true;
-            document.getElementById('btnHint').disabled = true;
-
-            const targetCorrectId = currentNextSlot + 1;
-            const correctItem = memoryDatabase.find(item => item.id === targetCorrectId);
-
-            if (correctItem) { selectCardFromPool(correctItem); }
-        }
-
         function finishGame() {
             clearInterval(timerInterval);
 
