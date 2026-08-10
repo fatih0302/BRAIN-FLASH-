@@ -56,7 +56,6 @@
 
         @keyframes floatCloud { 0% { transform: translateX(-100px); } 100% { transform: translateX(calc(100vw + 200px)); } }
 
-        /* --- DEKORASI KOTAK --- */
         .decoration-item { font-size: 1.3rem; margin: 3px; }
         
         .grid-container .decoration-item,
@@ -78,14 +77,14 @@
 
         .header-section {
             text-align: center;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         h1 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: #0369a1;
             text-shadow: 2px 2px 0px #ffffff, 0 0 10px rgba(255,255,255,0.8);
             letter-spacing: 1px;
@@ -93,25 +92,6 @@
         }
 
         @keyframes bounceHeader { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
-
-        /* Tombol Musik BGM Floating */
-        .music-toggle-btn {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #0284c7;
-            color: #0369a1;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.72rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .music-toggle-btn:hover { background: #f0f9ff; transform: scale(1.05); }
 
         /* Running Clue Ticker */
         .ticker-wrap {
@@ -202,7 +182,7 @@
             width: 100%;
         }
 
-        /* Grid Layout Responsif */
+        /* Grid Layout */
         .grid-container, .slot-grid, .card-pool {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -217,7 +197,7 @@
 
         @media (max-width: 480px) {
             .grid-container, .slot-grid, .card-pool { grid-template-columns: repeat(2, 1fr) !important; gap: 6px !important; }
-            h1 { font-size: 1.2rem; }
+            h1 { font-size: 1.3rem; }
         }
 
         /* Kartu */
@@ -262,7 +242,6 @@
         .memo-card .card-title { font-size: 0.75rem; font-weight: bold; color: #0369a1; margin-bottom: 2px; z-index: 2; }
         .memo-card .card-text { font-size: 0.62rem; color: #334155; line-height: 1.15; z-index: 2; }
 
-        /* Recall Area & Help */
         .recall-section { display: none; width: 100%; }
 
         .help-cards-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
@@ -282,7 +261,6 @@
         }
 
         .btn-help:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(202, 138, 4, 0.3); }
-
         .btn-help:disabled { background: #cbd5e1; color: #64748b; border-color: #94a3b8; cursor: not-allowed; opacity: 0.6; }
 
         .pool-title {
@@ -301,7 +279,6 @@
             position: relative;
         }
 
-        /* Slot */
         .slot-box {
             background: rgba(255, 255, 255, 0.9);
             border: 2px solid #38bdf8;
@@ -335,7 +312,7 @@
 
         .btn-action:hover { background: linear-gradient(135deg, #0369a1, #075985); transform: translateY(-2px); }
 
-        /* --- ANIMASI OMBAK AIR TRANSISI --- */
+        /* --- TRANSISI OMBAK --- */
         .wave-transition {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -396,7 +373,7 @@
             100% { transform: translateY(-50px); opacity: 0; }
         }
 
-        /* Modal Result */
+        /* Modal Hasil */
         .modal {
             display: none;
             position: fixed;
@@ -423,7 +400,6 @@
         @keyframes modalBeachPop { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
         .modal-title { font-size: 1.3rem; margin-bottom: 6px; color: #0369a1; }
-
         .score-display { font-size: 1.8rem; font-weight: bold; color: #16a34a; margin: 8px 0; }
 
         .btn-review {
@@ -457,11 +433,6 @@
 </head>
 <body>
 
-    <!-- AUDIO BACKSOUND (BGM) -->
-    <audio id="bgmAudio" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
-    </audio>
-
     <!-- DEKORASI PANTAI BELAKANG -->
     <div class="beach-bg-element sun"></div>
     <div class="beach-bg-element cloud cloud-1">☁️</div>
@@ -480,17 +451,12 @@
             <span style="font-size: 1.8rem;">🐚</span>
         </div>
 
-        <!-- Tombol Audio Controller -->
-        <button class="music-toggle-btn" id="musicToggleBtn" onclick="toggleMusic()">
-            🔇 Musik BGM: Mati (Klik untuk Nyalakan)
-        </button>
-
         <!-- Ticker Motivasi -->
         <div class="ticker-wrap" id="tickerWrap" style="display: none;">
             <div class="ticker-title">🌊 TIPS PANTAI</div>
             <div class="ticker-scroll-area">
                 <div class="ticker-content" id="tickerContent">
-                    ✨ "Tenang seperti air laut, fokus hafalkan posisi 30 kartumu!" ✨
+                    ✨ "Suasana ombak menenangkan, fokus hafalkan posisi 30 kartumu!" ✨
                 </div>
             </div>
         </div>
@@ -513,12 +479,12 @@
         <div class="start-screen" id="startScreen">
             <h2 style="color: #0369a1; margin-bottom: 10px; font-size: 1.2rem;">🏝️ SELAMAT DATANG DI PANTAI BRAIN FLASH 🏝️</h2>
             <p style="color: #334155; font-size: 0.8rem; margin-bottom: 12px; line-height: 1.4;">
-                Hafalkan posisi <b>30 Kartu</b> (Trivia Unik, Simbol Visual, & Pahlawan Nasional) selama <b>2 menit</b>. Setelah itu, susun kembali urutannya di Fase Recall selama <b>3 menit</b>!
+                Hafalkan posisi <b>30 Kartu</b> selama <b>2 menit</b>. Di fase recall, tersedia <b>3 Kartu Undo</b> dan <b>3 Kartu Petunjuk</b> untuk membantumu!
             </p>
             
             <div class="rule-box">
                 ⚠️ <b>ATURAN PANTAI:</b><br>
-                Kerjakan game ini <b>murni mengandalkan daya ingat/memori otak</b> (tanpa bantuan catatan atau tangkapan layar)!
+                Mainkan secara jujur menggunakan memori otak asli! Musik latar ombak pantai akan aktif saat permainan dimulai.
             </div>
 
             <button class="btn-action" style="font-size: 0.95rem; padding: 10px 30px;" onclick="startGame()">START GAME 🐚</button>
@@ -530,17 +496,17 @@
         <!-- Screen Fase Recall -->
         <div class="recall-section" id="recallSection">
             
-            <!-- Bantuan Kartu (Sekarang masing-masing ada 3 kuota) -->
+            <!-- Bantuan Kartu (Masing-masing 3 buah) -->
             <div class="help-cards-container" id="helpCardsContainer">
                 <button class="btn-help" id="btnUndo" onclick="useUndoHelp()">
-                    <span>🔄</span> Kartu Undo (<span id="undoCount">3</span>x)
+                    <span>🔄</span> Undo (<span id="undoCount">3</span>)
                 </button>
                 <button class="btn-help" id="btnHint" onclick="useHintHelp()">
-                    <span>⭐</span> Kartu Petunjuk (<span id="hintCount">3</span>x)
+                    <span>⭐</span> Petunjuk (<span id="hintCount">3</span>)
                 </button>
             </div>
 
-            <div class="pool-title"id="poolTitleBank">
+            <div class="pool-title" id="poolTitleBank">
                 📦 Bank Kartu (Klik kartu untuk memasukkan ke slot):
                 <span class="decoration-item" style="top:-5px; right:5px;">🐚</span>
             </div>
@@ -641,38 +607,55 @@
         let placedCards = []; 
         let currentNextSlot = 0;
 
-        // KUOTA BANTUAN DIJADIKAN MASING-MASING 3
+        // Jatah bantuan diubah menjadi 3 buah
         let undoCount = 3;
         let hintCount = 3;
 
-        let isBgmPlaying = false;
+        // --- SISTEM AUDIO BACKGROUND PANTAI (Web Audio API White/Pink Noise + Filter Ombak) ---
+        let audioCtx = null;
+        let noiseNode = null;
+        let filterNode = null;
+        let gainNode = null;
+        let isAudioPlaying = false;
 
-        function toggleMusic() {
-            const audio = document.getElementById('bgmAudio');
-            const btn = document.getElementById('musicToggleBtn');
-            if (isBgmPlaying) {
-                audio.pause();
-                isBgmPlaying = false;
-                btn.innerHTML = "🔇 Musik BGM: Mati (Klik untuk Nyalakan)";
-            } else {
-                audio.play().then(() => {
-                    isBgmPlaying = true;
-                    btn.innerHTML = "🔊 Musik BGM: Nyala (Santai Pantai)";
-                }).catch(e => {
-                    alert("Browser memblokir pemutaran otomatis. Silakan interaksi sekali lagi.");
-                });
+        function startBeachSound() {
+            if (isAudioPlaying) return;
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Buat buffer untuk White Noise (suara deburan/angin)
+                const bufferSize = 2 * audioCtx.sampleRate;
+                const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const output = noiseBuffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    output[i] = Math.random() * 2 - 1;
+                }
+
+                noiseNode = audioCtx.createBufferSource();
+                noiseNode.buffer = noiseBuffer;
+                noiseNode.loop = true;
+
+                // Filter rendah untuk menciptakan efek desir ombak pantai yang lembut
+                filterNode = audioCtx.createBiquadFilter();
+                filterNode.type = 'lowpass';
+                filterNode.frequency.value = 600;
+
+                gainNode = audioCtx.createGain();
+                gainNode.gain.value = 0.15; // Volume background pas
+
+                noiseNode.connect(filterNode);
+                filterNode.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                noiseNode.start(0);
+                isAudioPlaying = true;
+            } catch (e) {
+                console.log("Audio autoplay dibatasi browser hingga interaksi pengguna.");
             }
         }
 
         function startGame() {
-            // Nyalakan musik otomatis jika belum aktif saat tombol start ditekan
-            if (!isBgmPlaying) {
-                const audio = document.getElementById('bgmAudio');
-                audio.play().then(() => {
-                    isBgmPlaying = true;
-                    document.getElementById('musicToggleBtn').innerHTML = "🔊 Musik BGM: Nyala (Santai Pantai)";
-                }).catch(e => {});
-            }
+            startBeachSound(); // Aktifkan suara pantai saat tombol Start ditekan
 
             document.getElementById('startScreen').style.display = 'none';
             document.getElementById('tickerWrap').style.display = 'flex';
@@ -737,7 +720,7 @@
             placedCards = new Array(30).fill(null);
             currentNextSlot = 0;
             
-            // Reset kuota jadi 3
+            // Reset jatah bantuan jadi 3
             undoCount = 3;
             hintCount = 3;
             document.getElementById('undoCount').innerText = undoCount;
@@ -874,7 +857,6 @@
             document.getElementById('cardPool').style.display = 'none';         
             document.getElementById('slotTitleMain').style.display = 'none'; 
             document.getElementById('verifyBtnContainer').style.display = 'none'; 
-            document.getElementById('musicToggleBtn').style.display = 'none';
 
             document.getElementById('resultTitleHeader').style.display = 'inline-block';
             document.getElementById('postReviewPlayAgainContainer').style.display = 'block';
@@ -915,8 +897,7 @@
             placedCards = [];
             currentNextSlot = 0;
             document.getElementById('slotGrid').innerHTML = '';
-            
-         }
+        }
     </script>
 </body>
-    </html>
+</html>
