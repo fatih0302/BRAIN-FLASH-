@@ -29,28 +29,6 @@
             overflow-x: hidden;
         }
 
-        /* --- TOMBOL MUSIK DI POJOK ATAS --- */
-        .music-control-btn {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #0284c7;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: #0369a1;
-            cursor: pointer;
-            z-index: 999;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.2s;
-        }
-        .music-control-btn:hover { background: #fff; transform: scale(1.05); }
-
         /* --- DEKORASI PANTAI BELAKANG --- */
         .beach-bg-element {
             position: fixed;
@@ -100,15 +78,14 @@
 
         .header-section {
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-top: 15px;
         }
 
         h1 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: #0369a1;
             text-shadow: 2px 2px 0px #ffffff, 0 0 10px rgba(255,255,255,0.8);
             letter-spacing: 1px;
@@ -116,6 +93,25 @@
         }
 
         @keyframes bounceHeader { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+
+        /* Tombol Musik BGM Floating */
+        .music-toggle-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #0284c7;
+            color: #0369a1;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .music-toggle-btn:hover { background: #f0f9ff; transform: scale(1.05); }
 
         /* Running Clue Ticker */
         .ticker-wrap {
@@ -221,7 +217,7 @@
 
         @media (max-width: 480px) {
             .grid-container, .slot-grid, .card-pool { grid-template-columns: repeat(2, 1fr) !important; gap: 6px !important; }
-            h1 { font-size: 1.3rem; }
+            h1 { font-size: 1.2rem; }
         }
 
         /* Kartu */
@@ -339,7 +335,7 @@
 
         .btn-action:hover { background: linear-gradient(135deg, #0369a1, #075985); transform: translateY(-2px); }
 
-        /* --- TRANSISI OMBAK --- */
+        /* --- ANIMASI OMBAK AIR TRANSISI --- */
         .wave-transition {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -461,15 +457,9 @@
 </head>
 <body>
 
-    <!-- TOMBOL KONTROL AUDIO BACKSOUND -->
-    <button class="music-control-btn" id="musicBtn" onclick="toggleMusic()">
-        <span id="musicIcon">🔊</span> <span id="musicText">Musik: On</span>
-    </button>
-
-    <!-- AUDIO BACKSOUND LOFI (Bebas Hak Cipta - Freetouse / Lofi Loop) -->
-    <audio id="bgMusic" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
-        Browser Anda tidak mendukung elemen audio.
+    <!-- AUDIO BACKSOUND (BGM) -->
+    <audio id="bgmAudio" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
     </audio>
 
     <!-- DEKORASI PANTAI BELAKANG -->
@@ -489,6 +479,11 @@
             <h1>BRAIN FLASH - MEMORIZE AND RECALL</h1>
             <span style="font-size: 1.8rem;">🐚</span>
         </div>
+
+        <!-- Tombol Audio Controller -->
+        <button class="music-toggle-btn" id="musicToggleBtn" onclick="toggleMusic()">
+            🔇 Musik BGM: Mati (Klik untuk Nyalakan)
+        </button>
 
         <!-- Ticker Motivasi -->
         <div class="ticker-wrap" id="tickerWrap" style="display: none;">
@@ -518,7 +513,7 @@
         <div class="start-screen" id="startScreen">
             <h2 style="color: #0369a1; margin-bottom: 10px; font-size: 1.2rem;">🏝️ SELAMAT DATANG DI PANTAI BRAIN FLASH 🏝️</h2>
             <p style="color: #334155; font-size: 0.8rem; margin-bottom: 12px; line-height: 1.4;">
-                Hafalkan posisi <b>30 Kartu</b> selama <b>2 menit</b>. Setelah itu, susun kembali urutannya di Fase Recall selama <b>3 menit</b>! Tersedia 3x Bantuan Undo & Hint.
+                Hafalkan posisi <b>30 Kartu</b> (Trivia Unik, Simbol Visual, & Pahlawan Nasional) selama <b>2 menit</b>. Setelah itu, susun kembali urutannya di Fase Recall selama <b>3 menit</b>!
             </p>
             
             <div class="rule-box">
@@ -535,7 +530,7 @@
         <!-- Screen Fase Recall -->
         <div class="recall-section" id="recallSection">
             
-            <!-- Bantuan Kartu (Kini masing-masing 3x) -->
+            <!-- Bantuan Kartu (Sekarang masing-masing ada 3 kuota) -->
             <div class="help-cards-container" id="helpCardsContainer">
                 <button class="btn-help" id="btnUndo" onclick="useUndoHelp()">
                     <span>🔄</span> Kartu Undo (<span id="undoCount">3</span>x)
@@ -545,7 +540,7 @@
                 </button>
             </div>
 
-            <div class="pool-title" id="poolTitleBank">
+            <div class="pool-title"id="poolTitleBank">
                 📦 Bank Kartu (Klik kartu untuk memasukkan ke slot):
                 <span class="decoration-item" style="top:-5px; right:5px;">🐚</span>
             </div>
@@ -636,7 +631,7 @@
             { id: 30, type: "hero", icon: "🕌", topic: "KH. Hasyim Asy'ari", fact: "Pahlawan Pergerakan Islam & Pendiri NU" }
         ];
 
-        const beachDecorations = ["🐚", "🌟", "🦀", "⚓", "⛱️", "🏐", "🐢", "🏝️"];
+        const beachDecorations = ["🐚", "🌟", "🦀", "⚓", "⛱️", "🏐", "🐢"];
 
         const MEMO_TIME = 120;  
         const RECALL_TIME = 180; 
@@ -646,41 +641,38 @@
         let placedCards = []; 
         let currentNextSlot = 0;
 
-        // Jatah bantuan diubah menjadi 3 kali
-        let undoRemaining = 3;
-        let hintRemaining = 3;
+        // KUOTA BANTUAN DIJADIKAN MASING-MASING 3
+        let undoCount = 3;
+        let hintCount = 3;
 
-        let isMusicPlaying = false;
+        let isBgmPlaying = false;
 
         function toggleMusic() {
-            const music = document.getElementById('bgMusic');
-            const icon = document.getElementById('musicIcon');
-            const text = document.getElementById('musicText');
-
-            if (isMusicPlaying) {
-                music.pause();
-                isMusicPlaying = false;
-                icon.innerText = "🔇";
-                text.innerText = "Musik: Off";
+            const audio = document.getElementById('bgmAudio');
+            const btn = document.getElementById('musicToggleBtn');
+            if (isBgmPlaying) {
+                audio.pause();
+                isBgmPlaying = false;
+                btn.innerHTML = "🔇 Musik BGM: Mati (Klik untuk Nyalakan)";
             } else {
-                music.play().then(() => {
-                    isMusicPlaying = true;
-                    icon.innerText = "🔊";
-                    text.innerText = "Musik: On";
+                audio.play().then(() => {
+                    isBgmPlaying = true;
+                    btn.innerHTML = "🔊 Musik BGM: Nyala (Santai Pantai)";
                 }).catch(e => {
-                    console.log("Audio play blocked/failed:", e);
+                    alert("Browser memblokir pemutaran otomatis. Silakan interaksi sekali lagi.");
                 });
             }
         }
 
         function startGame() {
-            // Coba putar musik otomatis saat game dimulai (jika diizinkan browser)
-            const music = document.getElementById('bgMusic');
-            music.play().then(() => {
-                isMusicPlaying = true;
-                document.getElementById('musicIcon').innerText = "🔊";
-                document.getElementById('musicText').innerText = "Musik: On";
-            }).catch(e => {});
+            // Nyalakan musik otomatis jika belum aktif saat tombol start ditekan
+            if (!isBgmPlaying) {
+                const audio = document.getElementById('bgmAudio');
+                audio.play().then(() => {
+                    isBgmPlaying = true;
+                    document.getElementById('musicToggleBtn').innerHTML = "🔊 Musik BGM: Nyala (Santai Pantai)";
+                }).catch(e => {});
+            }
 
             document.getElementById('startScreen').style.display = 'none';
             document.getElementById('tickerWrap').style.display = 'flex';
@@ -745,11 +737,11 @@
             placedCards = new Array(30).fill(null);
             currentNextSlot = 0;
             
-            // Reset jatah bantuan menjadi 3
-            undoRemaining = 3;
-            hintRemaining = 3;
-            document.getElementById('undoCount').innerText = undoRemaining;
-            document.getElementById('hintCount').innerText = hintRemaining;
+            // Reset kuota jadi 3
+            undoCount = 3;
+            hintCount = 3;
+            document.getElementById('undoCount').innerText = undoCount;
+            document.getElementById('hintCount').innerText = hintCount;
             document.getElementById('btnUndo').disabled = false;
             document.getElementById('btnHint').disabled = false;
 
@@ -823,12 +815,10 @@
         }
 
         function useUndoHelp() {
-            if (undoRemaining <= 0 || currentNextSlot === 0) return;
-            undoRemaining--;
-            document.getElementById('undoCount').innerText = undoRemaining;
-            if (undoRemaining === 0) {
-                document.getElementById('btnUndo').disabled = true;
-            }
+            if (undoCount <= 0 || currentNextSlot === 0) return;
+            undoCount--;
+            document.getElementById('undoCount').innerText = undoCount;
+            if (undoCount === 0) document.getElementById('btnUndo').disabled = true;
 
             currentNextSlot--;
             const lastItem = placedCards[currentNextSlot];
@@ -842,12 +832,10 @@
         }
 
         function useHintHelp() {
-            if (hintRemaining <= 0 || currentNextSlot >= 30) return;
-            hintRemaining--;
-            document.getElementById('hintCount').innerText = hintRemaining;
-            if (hintRemaining === 0) {
-                document.getElementById('btnHint').disabled = true;
-            }
+            if (hintCount <= 0 || currentNextSlot >= 30) return;
+            hintCount--;
+            document.getElementById('hintCount').innerText = hintCount;
+            if (hintCount === 0) document.getElementById('btnHint').disabled = true;
 
             const targetCorrectId = currentNextSlot + 1;
             const correctItem = memoryDatabase.find(item => item.id === targetCorrectId);
@@ -886,6 +874,7 @@
             document.getElementById('cardPool').style.display = 'none';         
             document.getElementById('slotTitleMain').style.display = 'none'; 
             document.getElementById('verifyBtnContainer').style.display = 'none'; 
+            document.getElementById('musicToggleBtn').style.display = 'none';
 
             document.getElementById('resultTitleHeader').style.display = 'inline-block';
             document.getElementById('postReviewPlayAgainContainer').style.display = 'block';
@@ -926,8 +915,8 @@
             placedCards = [];
             currentNextSlot = 0;
             document.getElementById('slotGrid').innerHTML = '';
-
-        }
+            
+         }
     </script>
 </body>
-</html>
+    </html>
