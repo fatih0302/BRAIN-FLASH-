@@ -29,6 +29,28 @@
             overflow-x: hidden;
         }
 
+        /* --- TOMBOL MUSIK DI POJOK ATAS --- */
+        .music-control-btn {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #0284c7;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #0369a1;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        .music-control-btn:hover { background: #fff; transform: scale(1.05); }
+
         /* --- DEKORASI PANTAI BELAKANG --- */
         .beach-bg-element {
             position: fixed;
@@ -82,6 +104,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            margin-top: 15px;
         }
 
         h1 {
@@ -404,6 +427,7 @@
         @keyframes modalBeachPop { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
         .modal-title { font-size: 1.3rem; margin-bottom: 6px; color: #0369a1; }
+
         .score-display { font-size: 1.8rem; font-weight: bold; color: #16a34a; margin: 8px 0; }
 
         .btn-review {
@@ -437,6 +461,17 @@
 </head>
 <body>
 
+    <!-- TOMBOL KONTROL AUDIO BACKSOUND -->
+    <button class="music-control-btn" id="musicBtn" onclick="toggleMusic()">
+        <span id="musicIcon">🔊</span> <span id="musicText">Musik: On</span>
+    </button>
+
+    <!-- AUDIO BACKSOUND LOFI (Bebas Hak Cipta - Freetouse / Lofi Loop) -->
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
     <!-- DEKORASI PANTAI BELAKANG -->
     <div class="beach-bg-element sun"></div>
     <div class="beach-bg-element cloud cloud-1">☁️</div>
@@ -450,9 +485,9 @@
 
     <div class="main-wrapper">
         <div class="header-section">
-            <span style="font-size: 1.8rem; animation: swayPalm 2s infinite alternate;">🏖️</span>
+            <span style="font-size: 1.8rem;">🏖️</span>
             <h1>BRAIN FLASH - MEMORIZE AND RECALL</h1>
-            <span style="font-size: 1.8rem; animation: swayPalm 2s infinite alternate;">🐚</span>
+            <span style="font-size: 1.8rem;">🐚</span>
         </div>
 
         <!-- Ticker Motivasi -->
@@ -460,7 +495,7 @@
             <div class="ticker-title">🌊 TIPS PANTAI</div>
             <div class="ticker-scroll-area">
                 <div class="ticker-content" id="tickerContent">
-                    ✨ "Dengarkan deburan ombak dan fokus hafalkan posisi 30 kartumu!" ✨
+                    ✨ "Tenang seperti air laut, fokus hafalkan posisi 30 kartumu!" ✨
                 </div>
             </div>
         </div>
@@ -483,7 +518,7 @@
         <div class="start-screen" id="startScreen">
             <h2 style="color: #0369a1; margin-bottom: 10px; font-size: 1.2rem;">🏝️ SELAMAT DATANG DI PANTAI BRAIN FLASH 🏝️</h2>
             <p style="color: #334155; font-size: 0.8rem; margin-bottom: 12px; line-height: 1.4;">
-                Hafalkan posisi <b>30 Kartu</b> (Trivia Unik, Simbol Visual, & Pahlawan Nasional) selama <b>2 menit</b>. Setelah itu, susun kembali urutannya di Fase Recall selama <b>3 menit</b>!
+                Hafalkan posisi <b>30 Kartu</b> selama <b>2 menit</b>. Setelah itu, susun kembali urutannya di Fase Recall selama <b>3 menit</b>! Tersedia 3x Bantuan Undo & Hint.
             </p>
             
             <div class="rule-box">
@@ -503,10 +538,10 @@
             <!-- Bantuan Kartu (Kini masing-masing 3x) -->
             <div class="help-cards-container" id="helpCardsContainer">
                 <button class="btn-help" id="btnUndo" onclick="useUndoHelp()">
-                    <span>🔄</span> Kartu Undo (<span id="undoCount">3</span>/3)
+                    <span>🔄</span> Kartu Undo (<span id="undoCount">3</span>x)
                 </button>
                 <button class="btn-help" id="btnHint" onclick="useHintHelp()">
-                    <span>⭐</span> Kartu Petunjuk (<span id="hintCount">3</span>/3)
+                    <span>⭐</span> Kartu Petunjuk (<span id="hintCount">3</span>x)
                 </button>
             </div>
 
@@ -564,6 +599,7 @@
 
     <script>
         const memoryDatabase = [
+            // --- 10 Kartu Trivia Unik Dunia (1 - 10) ---
             { id: 1, type: "text", topic: "Mata Uang Termahal", fact: "Dinar Kuwait (KWD) adalah mata uang tertinggi di dunia." },
             { id: 2, type: "text", topic: "Negara Tanpa Sungai", fact: "Arab Saudi tidak memiliki alir sungai permanen alami." },
             { id: 3, type: "text", topic: "Mata Uang Batu Unik", fact: "Pulau Yap memakai batu raksasa Rai sebagai uang." },
@@ -575,6 +611,7 @@
             { id: 9, type: "text", topic: "Mata Uang Plastik", fact: "Dolar Australia menggunakan bahan polimer tahan air." },
             { id: 10, type: "text", topic: "Tempat Kering Bumi", fact: "Gurun Atacama (Chili) hampir tak pernah diguyur hujan." },
 
+            // --- 10 Kartu Simbol & Gambar (11 - 20) ---
             { id: 11, type: "symbol", icon: "⚛️", topic: "Simbol Fisika Atom", fact: "Struktur Model Atom Bohr" },
             { id: 12, type: "symbol", icon: "🧬", topic: "Simbol Biologi DNA", fact: "Heliks Ganda Genetika" },
             { id: 13, type: "symbol", icon: "☣️", topic: "Simbol Biohazard", fact: "Bahaya Bahan Biologis" },
@@ -586,6 +623,7 @@
             { id: 19, type: "symbol", icon: "🌱", topic: "Simbol Kimia Hijau", fact: "Keberlanjutan Lingkungan" },
             { id: 20, type: "symbol", icon: "🛰️", topic: "Satelit Antariksa", fact: "Komunikasi Observasi Bumi" },
 
+            // --- 10 Kartu Pahlawan Indonesia (21 - 30) ---
             { id: 21, type: "hero", icon: "🇮🇩", topic: "Ir. Soekarno", fact: "Pahlawan Proklamator & Presiden Pertama RI" },
             { id: 22, type: "hero", icon: "🇮🇩", topic: "Drs. Mohammad Hatta", fact: "Pahlawan Proklamator & Bapak Koperasi Indonesia" },
             { id: 23, type: "hero", icon: "⚔️", topic: "Jenderal Soedirman", fact: "Pahlawan Perang Gerilya & Panglima Besar TNI" },
@@ -598,7 +636,7 @@
             { id: 30, type: "hero", icon: "🕌", topic: "KH. Hasyim Asy'ari", fact: "Pahlawan Pergerakan Islam & Pendiri NU" }
         ];
 
-        const beachDecorations = ["🐚", "🌟", "🦀", "⚓", "⛱️", "🏐", "🐢"];
+        const beachDecorations = ["🐚", "🌟", "🦀", "⚓", "⛱️", "🏐", "🐢", "🏝️"];
 
         const MEMO_TIME = 120;  
         const RECALL_TIME = 180; 
@@ -608,65 +646,41 @@
         let placedCards = []; 
         let currentNextSlot = 0;
 
-        // Jatah bantuan masing-masing 3 kali
+        // Jatah bantuan diubah menjadi 3 kali
         let undoRemaining = 3;
         let hintRemaining = 3;
 
-        let audioCtx = null;
-        let waveNoiseNode = null;
+        let isMusicPlaying = false;
 
-        // --- SISTEM GENERATOR AUDIO BACKSOUND PANTAI (WAVE AMBIENCE) ---
-        function startBeachAudio() {
-            try {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const icon = document.getElementById('musicIcon');
+            const text = document.getElementById('musicText');
 
-                // Buat White Noise buffer untuk suara deburan ombak
-                const bufferSize = audioCtx.sampleRate * 2;
-                const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                const output = noiseBuffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    output[i] = Math.random() * 2 - 1;
-                }
-
-                waveNoiseNode = audioCtx.createBufferSource();
-                waveNoiseNode.buffer = noiseBuffer;
-                waveNoiseNode.loop = true;
-
-                // Gunakan Filter LowPass untuk mengubah suara bising menjadi deburan air yang lembut
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(400, audioCtx.currentTime);
-
-                const gainNode = audioCtx.createGain();
-                gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime); // Volume lembut
-
-                waveNoiseNode.connect(filter);
-                filter.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-
-                waveNoiseNode.start(0);
-            } catch (e) {
-                console.log("Audio autoplay dibatasi browser, klik tombol start untuk mengaktifkan.");
-            }
-        }
-
-        function stopBeachAudio() {
-            if (waveNoiseNode) {
-                try {
-                    waveNoiseNode.stop();
-                    waveNoiseNode.disconnect();
-                } catch(e) {}
-                waveNoiseNode = null;
+            if (isMusicPlaying) {
+                music.pause();
+                isMusicPlaying = false;
+                icon.innerText = "🔇";
+                text.innerText = "Musik: Off";
+            } else {
+                music.play().then(() => {
+                    isMusicPlaying = true;
+                    icon.innerText = "🔊";
+                    text.innerText = "Musik: On";
+                }).catch(e => {
+                    console.log("Audio play blocked/failed:", e);
+                });
             }
         }
 
         function startGame() {
-            startBeachAudio(); // Nyalakan backsound pantai
+            // Coba putar musik otomatis saat game dimulai (jika diizinkan browser)
+            const music = document.getElementById('bgMusic');
+            music.play().then(() => {
+                isMusicPlaying = true;
+                document.getElementById('musicIcon').innerText = "🔊";
+                document.getElementById('musicText').innerText = "Musik: On";
+            }).catch(e => {});
 
             document.getElementById('startScreen').style.display = 'none';
             document.getElementById('tickerWrap').style.display = 'flex';
@@ -731,9 +745,13 @@
             placedCards = new Array(30).fill(null);
             currentNextSlot = 0;
             
+            // Reset jatah bantuan menjadi 3
             undoRemaining = 3;
             hintRemaining = 3;
-            updateHelpUI();
+            document.getElementById('undoCount').innerText = undoRemaining;
+            document.getElementById('hintCount').innerText = hintRemaining;
+            document.getElementById('btnUndo').disabled = false;
+            document.getElementById('btnHint').disabled = false;
 
             const shuffled = [...memoryDatabase].sort(() => Math.random() - 0.5);
             const pool = document.getElementById('cardPool');
@@ -782,17 +800,6 @@
             }, 1000);
         }
 
-        function updateHelpUI() {
-            document.getElementById('undoCount').innerText = undoRemaining;
-            document.getElementById('hintCount').innerText = hintRemaining;
-
-            const btnUndo = document.getElementById('btnUndo');
-            const btnHint = document.getElementById('btnHint');
-
-            if (undoRemaining <= 0) btnUndo.disabled = true;
-            if (hintRemaining <= 0) btnHint.disabled = true;
-        }
-
         function selectCardFromPool(item) {
             if (currentNextSlot >= 30) return;
 
@@ -818,7 +825,10 @@
         function useUndoHelp() {
             if (undoRemaining <= 0 || currentNextSlot === 0) return;
             undoRemaining--;
-            updateHelpUI();
+            document.getElementById('undoCount').innerText = undoRemaining;
+            if (undoRemaining === 0) {
+                document.getElementById('btnUndo').disabled = true;
+            }
 
             currentNextSlot--;
             const lastItem = placedCards[currentNextSlot];
@@ -834,7 +844,10 @@
         function useHintHelp() {
             if (hintRemaining <= 0 || currentNextSlot >= 30) return;
             hintRemaining--;
-            updateHelpUI();
+            document.getElementById('hintCount').innerText = hintRemaining;
+            if (hintRemaining === 0) {
+                document.getElementById('btnHint').disabled = true;
+            }
 
             const targetCorrectId = currentNextSlot + 1;
             const correctItem = memoryDatabase.find(item => item.id === targetCorrectId);
@@ -844,7 +857,6 @@
 
         function finishGame() {
             clearInterval(timerInterval);
-            stopBeachAudio(); // Hentikan backsound saat selesai
 
             let correctCount = 0;
             for (let i = 0; i < 30; i++) {
@@ -914,7 +926,8 @@
             placedCards = [];
             currentNextSlot = 0;
             document.getElementById('slotGrid').innerHTML = '';
-        } 
+
+        }
     </script>
 </body>
-    </html>
+</html>
